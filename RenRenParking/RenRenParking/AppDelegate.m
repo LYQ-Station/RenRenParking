@@ -3,7 +3,7 @@
 //  RenRenParking
 //
 //  Created by LiYongQiang on 14/10/22.
-//  Copyright (c) 2014年 Vincent. All rights reserved.
+//  Copyright (c) 2014年 CoderFly. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -16,7 +16,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    UIViewController *c = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    c.view.backgroundColor = [UIColor whiteColor];
+    
+    _window.rootViewController = c;
+    [_window makeKeyAndVisible];
+    
     return YES;
 }
 
