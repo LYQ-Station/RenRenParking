@@ -12,6 +12,12 @@
 #define IS_IOS7             ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 #define LESS_THAN_IOS6      ([[[UIDevice currentDevice] systemVersion] floatValue] < 6.0)
 
+#pragma mark - UI elements
+
+#define COLOR_BTN_BG_GREEN  ([UIColor colorWithRed:0.14f green:0.71f blue:0.76f alpha:1.0f])
+
+#define FONT_NORMAL         ([UIFont systemFontOfSize:15.0])
+
 #pragma mark - map
 
 #define BAIDU_MAP_KEY       @"fxQ5FtFisHAqeCkhDWNIrDGA"

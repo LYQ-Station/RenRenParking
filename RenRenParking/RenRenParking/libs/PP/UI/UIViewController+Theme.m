@@ -23,11 +23,16 @@
     title_lab.font = [UIFont boldSystemFontOfSize:20.0f];
     item.titleView = title_lab;
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.95f green:0.95f blue:0.95f alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.0f];
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
     {
         [self setEdgesForExtendedLayout:0];
+    }
+    
+    if (self.navigationController)
+    {
+        [self.navigationController.navigationBar setupTheme];
     }
 }
 

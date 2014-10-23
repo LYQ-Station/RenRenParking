@@ -12,11 +12,16 @@
 
 - (void)setupTheme
 {
-//    [self setBarStyle:UIBarStyleBlackTranslucent];
-    
     if ([self respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
     {
-        [self setBackgroundImage:[UIImage imageNamed:@"nav-bar-bg"] forBarMetrics:UIBarMetricsDefault];
+        if (IS_IOS7)
+        {
+            [self setBackgroundImage:[UIImage imageNamed:@"nav-bar-full-bg"] forBarPosition:UIBarPositionTop barMetrics:UIBarMetricsDefault];
+        }
+        else
+        {
+            [self setBackgroundImage:[UIImage imageNamed:@"nav-bar-bg"] forBarMetrics:UIBarMetricsDefault];
+        }
     }
     
     if ([self respondsToSelector:@selector(setShadowImage:)])

@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "RPIndexViewController.h"
+#import "RPLoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -19,10 +21,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    UIViewController *c = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-    c.view.backgroundColor = [UIColor whiteColor];
-    
-    _window.rootViewController = c;
+    _window.rootViewController = [RPLoginViewController navController:nil];
     [_window makeKeyAndVisible];
     
     return YES;

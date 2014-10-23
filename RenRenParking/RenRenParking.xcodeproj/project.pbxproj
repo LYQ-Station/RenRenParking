@@ -59,6 +59,14 @@
 		4867712819F7DB620081C81C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4867712719F7DB620081C81C /* Images.xcassets */; };
 		4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4867712919F7DB620081C81C /* LaunchScreen.xib */; };
 		4867713719F7DB630081C81C /* RenRenParkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867713619F7DB630081C81C /* RenRenParkingTests.m */; };
+		48B4656F19F92E8E008F2D97 /* RPIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */; };
+		48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */; };
+		48B4657519F93A8E008F2D97 /* nav-bar-full-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657319F93A8E008F2D97 /* nav-bar-full-bg@2x.png */; };
+		48B4657919F941C4008F2D97 /* RPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B4657819F941C4008F2D97 /* RPLoginViewController.m */; };
+		48B4657C19F941D6008F2D97 /* RPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B4657B19F941D6008F2D97 /* RPRegisterViewController.m */; };
+		48B4657F19F94624008F2D97 /* login-login-fields-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */; };
+		48B4658119F94634008F2D97 /* border-btn-bg-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */; };
+		48B4658319F94674008F2D97 /* RPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48B4658219F94674008F2D97 /* RPLoginViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,6 +235,17 @@
 		4867713019F7DB630081C81C /* RenRenParkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenRenParkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4867713519F7DB630081C81C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4867713619F7DB630081C81C /* RenRenParkingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RenRenParkingTests.m; sourceTree = "<group>"; };
+		48B4656D19F92E8E008F2D97 /* RPIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPIndexViewController.h; sourceTree = "<group>"; };
+		48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPIndexViewController.m; sourceTree = "<group>"; };
+		48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-bg@2x.png"; sourceTree = "<group>"; };
+		48B4657319F93A8E008F2D97 /* nav-bar-full-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-full-bg@2x.png"; sourceTree = "<group>"; };
+		48B4657719F941C4008F2D97 /* RPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPLoginViewController.h; sourceTree = "<group>"; };
+		48B4657819F941C4008F2D97 /* RPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPLoginViewController.m; sourceTree = "<group>"; };
+		48B4657A19F941D6008F2D97 /* RPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPRegisterViewController.h; sourceTree = "<group>"; };
+		48B4657B19F941D6008F2D97 /* RPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPRegisterViewController.m; sourceTree = "<group>"; };
+		48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-login-fields-bg@2x.png"; sourceTree = "<group>"; };
+		48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "border-btn-bg-green@2x.png"; sourceTree = "<group>"; };
+		48B4658219F94674008F2D97 /* RPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPLoginViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +291,8 @@
 		481CB45D19F7F08D008DA7C8 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				48B4657619F941B1008F2D97 /* login */,
+				48B4656C19F92E75008F2D97 /* index */,
 				481CB51619F7F10A008DA7C8 /* settings */,
 			);
 			path = modules;
@@ -492,6 +513,8 @@
 		481CB51319F7F0EC008DA7C8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				48B4657D19F94624008F2D97 /* login */,
+				48B4657019F93A8E008F2D97 /* common */,
 				481CB51419F7F0EC008DA7C8 /* map-user-point@2x.png */,
 			);
 			path = images;
@@ -566,6 +589,53 @@
 				4867713519F7DB630081C81C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		48B4656C19F92E75008F2D97 /* index */ = {
+			isa = PBXGroup;
+			children = (
+				48B4656D19F92E8E008F2D97 /* RPIndexViewController.h */,
+				48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */,
+			);
+			path = index;
+			sourceTree = "<group>";
+		};
+		48B4657019F93A8E008F2D97 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */,
+				48B4657119F93A8E008F2D97 /* navbar */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		48B4657119F93A8E008F2D97 /* navbar */ = {
+			isa = PBXGroup;
+			children = (
+				48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */,
+				48B4657319F93A8E008F2D97 /* nav-bar-full-bg@2x.png */,
+			);
+			path = navbar;
+			sourceTree = "<group>";
+		};
+		48B4657619F941B1008F2D97 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				48B4657719F941C4008F2D97 /* RPLoginViewController.h */,
+				48B4657819F941C4008F2D97 /* RPLoginViewController.m */,
+				48B4658219F94674008F2D97 /* RPLoginViewController.xib */,
+				48B4657A19F941D6008F2D97 /* RPRegisterViewController.h */,
+				48B4657B19F941D6008F2D97 /* RPRegisterViewController.m */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		48B4657D19F94624008F2D97 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */,
+			);
+			path = login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -648,10 +718,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B4658119F94634008F2D97 /* border-btn-bg-green@2x.png in Resources */,
 				481CB51519F7F0EC008DA7C8 /* map-user-point@2x.png in Resources */,
 				481CB4F719F7F09A008DA7C8 /* mapapi.bundle in Resources */,
+				48B4657F19F94624008F2D97 /* login-login-fields-bg@2x.png in Resources */,
+				48B4657519F93A8E008F2D97 /* nav-bar-full-bg@2x.png in Resources */,
 				481CB4FE19F7F09A008DA7C8 /* MBProgressHUD.bundle in Resources */,
+				48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */,
 				4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */,
+				48B4658319F94674008F2D97 /* RPLoginViewController.xib in Resources */,
 				4867712819F7DB620081C81C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -690,11 +765,14 @@
 				481CB50C19F7F09A008DA7C8 /* PPIntroView.m in Sources */,
 				481CB50219F7F09A008DA7C8 /* PPMapParkingAnnotationView.m in Sources */,
 				481CB50019F7F09A008DA7C8 /* PPMapAnnoation.m in Sources */,
+				48B4657919F941C4008F2D97 /* RPLoginViewController.m in Sources */,
 				481CB51119F7F09A008DA7C8 /* UIViewController+Theme.m in Sources */,
+				48B4657C19F941D6008F2D97 /* RPRegisterViewController.m in Sources */,
 				481CB4FA19F7F09A008DA7C8 /* FMDatabasePool.m in Sources */,
 				481CB50619F7F09A008DA7C8 /* PPBaseModel.m in Sources */,
 				481CB4F419F7F09A008DA7C8 /* AFXMLRequestOperation.m in Sources */,
 				481CB4FB19F7F09A008DA7C8 /* FMDatabaseQueue.m in Sources */,
+				48B4656F19F92E8E008F2D97 /* RPIndexViewController.m in Sources */,
 				481CB50419F7F09A008DA7C8 /* PPMapView.m in Sources */,
 				481CB4F019F7F09A008DA7C8 /* AFJSONRequestOperation.m in Sources */,
 				481CB4F519F7F09A008DA7C8 /* UIImageView+AFNetworking.m in Sources */,
