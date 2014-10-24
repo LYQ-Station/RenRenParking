@@ -23,4 +23,6 @@ typedef enum
 
 - (id) initWithBarButtonThemeItem:(UIBarButtonThemeItem)item target:(id)target action:(SEL)action;
 
+- (id)initWithTitle:(NSString *)title target:(id)target action:(SEL)action;
+
 @end

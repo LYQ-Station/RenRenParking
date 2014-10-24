@@ -16,6 +16,9 @@
 
 #define COLOR_BTN_BG_GREEN  ([UIColor colorWithRed:0.14f green:0.71f blue:0.76f alpha:1.0f])
 
+#define COLOR_TEXT_GREEN    ([UIColor colorWithRed:0.14f green:0.71f blue:0.76f alpha:1.0f])
+#define COLOR_TEXT_GRAY     ([UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f])
+
 #define FONT_NORMAL         ([UIFont systemFontOfSize:15.0])
 
 #pragma mark - map

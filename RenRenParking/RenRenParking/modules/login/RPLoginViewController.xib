@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RPLoginViewController">
             <connections>
+                <outlet property="btnFindPwd" destination="LRP-sE-Zfw" id="5FT-5g-hlK"/>
+                <outlet property="btnRegister" destination="nrg-n1-4kl" id="flC-kO-hsc"/>
                 <outlet property="btnSubmit" destination="pC2-dc-xrK" id="IPN-QP-bwZ"/>
                 <outlet property="ivInputFields" destination="c6k-tc-meK" id="blB-QB-QgQ"/>
                 <outlet property="tfMobile" destination="hZw-Az-L9s" id="m41-bx-P0a"/>
@@ -36,21 +38,24 @@
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pC2-dc-xrK">
-                    <rect key="frame" x="11" y="163" width="298" height="52"/>
+                    <rect key="frame" x="11" y="156" width="298" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="登录">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LRP-sE-Zfw">
-                    <rect key="frame" x="8" y="237" width="110" height="30"/>
+                    <rect key="frame" x="8" y="228" width="110" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="忘记密码">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="btnFindPwdClick:" destination="-1" eventType="touchUpInside" id="vC4-dt-yT7"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nrg-n1-4kl">
-                    <rect key="frame" x="217" y="237" width="92" height="30"/>
+                    <rect key="frame" x="217" y="228" width="92" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="新用户">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

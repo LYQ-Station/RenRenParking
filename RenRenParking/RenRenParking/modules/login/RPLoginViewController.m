@@ -7,6 +7,7 @@
 //
 
 #import "RPLoginViewController.h"
+#import "RPFindPwdViewController.h"
 
 @interface RPLoginViewController ()
 
@@ -14,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *tfMobile;
 @property (weak, nonatomic) IBOutlet UITextField *tfPassword;
 @property (weak, nonatomic) IBOutlet UIButton *btnSubmit;
+@property (weak, nonatomic) IBOutlet UIButton *btnFindPwd;
+@property (weak, nonatomic) IBOutlet UIButton *btnRegister;
 
 @end
 
@@ -32,10 +35,19 @@
 {
     [super viewDidLoad];
     
-    [self setupTheme];
+    [self setupLogoTheme];
     
     _btnSubmit.backgroundColor = COLOR_BTN_BG_GREEN;
     _btnSubmit.titleLabel.font = FONT_NORMAL;
+    
+    _btnFindPwd.titleLabel.font = FONT_NORMAL;
+    [_btnFindPwd setTitleColor:COLOR_TEXT_GRAY forState:UIControlStateNormal];
+    [_btnFindPwd setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    
+    _btnRegister.titleLabel.font = FONT_NORMAL;
+    [_btnRegister setTitleColor:COLOR_TEXT_GRAY forState:UIControlStateNormal];
+    [_btnRegister setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    [_btnRegister setBackgroundImage:[[UIImage imageNamed:@"border-btn-bg-green"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,14 +55,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_tfMobile resignFirstResponder];
+    [_tfPassword resignFirstResponder];
 }
-*/
+
+#pragma mark -
+
+- (IBAction)btnFindPwdClick:(id)sender
+{
+    RPFindPwdViewController *c = [[RPFindPwdViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:c animated:YES];
+}
 
 @end

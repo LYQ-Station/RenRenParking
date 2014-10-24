@@ -19,9 +19,29 @@
     title_lab.backgroundColor = [UIColor clearColor];
     title_lab.text = self.title;
     title_lab.textAlignment = NSTextAlignmentCenter;
-    title_lab.textColor = [UIColor colorWithRed:0.08f green:0.08f blue:0.08f alpha:1.0f];
-    title_lab.font = [UIFont boldSystemFontOfSize:20.0f];
+    title_lab.textColor = [UIColor whiteColor];
+    title_lab.font = [UIFont boldSystemFontOfSize:17.0f];
     item.titleView = title_lab;
+    
+    self.view.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.0f];
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+    {
+        [self setEdgesForExtendedLayout:0];
+    }
+    
+    if (self.navigationController)
+    {
+        [self.navigationController.navigationBar setupTheme];
+    }
+}
+
+- (void)setupLogoTheme
+{
+    UINavigationItem *item = self.navigationItem;
+    
+    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"navbar-logo"]];
+    item.titleView = iv;
     
     self.view.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.0f];
     

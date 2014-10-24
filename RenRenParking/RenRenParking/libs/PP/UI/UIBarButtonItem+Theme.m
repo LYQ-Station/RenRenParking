@@ -58,4 +58,23 @@
     return self;
 }
 
+- (id)initWithTitle:(NSString *)title target:(id)target action:(SEL)action
+{
+    CGFloat fs = 0.0;
+    CGSize s = [title sizeWithFont:FONT_NORMAL minFontSize:10.0 actualFontSize:&fs forWidth:100 lineBreakMode:NSLineBreakByWordWrapping];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    btn.bounds = CGRectMake(0.0f, 0.0f, s.width+20.0, s.height);
+    btn.titleLabel.font = FONT_NORMAL;
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    btn.enabled = YES;
+    
+    self = [self initWithCustomView:btn];
+    
+    return self;
+}
+
 @end

@@ -12,6 +12,8 @@
 
 - (void)setupTheme;
 
+- (void)setupLogoTheme;
+
 - (void)resetTitle:(NSString *)title;
 
 @end
