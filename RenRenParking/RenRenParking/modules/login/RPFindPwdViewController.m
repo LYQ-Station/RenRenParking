@@ -7,8 +7,14 @@
 //
 
 #import "RPFindPwdViewController.h"
+#import "RPNewPasswordViewController.h"
 
 @interface RPFindPwdViewController ()
+
+@property (weak, nonatomic) IBOutlet UITextField *tfMobile;
+@property (weak, nonatomic) IBOutlet UITextField *tfPassword;
+@property (weak, nonatomic) IBOutlet UIButton *btnNextStep;
+@property (weak, nonatomic) IBOutlet UIButton *btnVcode;
 
 @end
 
@@ -30,6 +36,12 @@
     [super viewDidLoad];
     
     [self setupTheme];
+    
+    _btnNextStep.backgroundColor = COLOR_BTN_BG_DARK_GRAY;
+    _btnNextStep.titleLabel.font = FONT_NORMAL;
+    
+    _btnVcode.backgroundColor = [UIColor colorWithRed:0.18f green:0.20f blue:0.25f alpha:1.0f];
+    _btnVcode.titleLabel.font = FONT_NORMAL;
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,6 +55,17 @@
 - (void)btnBackClick
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)btnVcodeClick:(id)sender
+{
+    
+}
+
+- (IBAction)btnNextStepClick:(id)sender
+{
+    RPNewPasswordViewController *c = [[RPNewPasswordViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:c animated:YES];
 }
 
 @end

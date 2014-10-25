@@ -8,6 +8,7 @@
 
 #import "RPLoginViewController.h"
 #import "RPFindPwdViewController.h"
+#import "RPRegisterViewController.h"
 
 @interface RPLoginViewController ()
 
@@ -66,6 +67,14 @@
 - (IBAction)btnFindPwdClick:(id)sender
 {
     RPFindPwdViewController *c = [[RPFindPwdViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:c animated:YES];
+}
+
+- (IBAction)btnRegisterClick:(id)sender
+{
+    RPRegisterViewController *c = [[RPRegisterViewController alloc] initWithNibName:nil bundle:nil];
+    c.title = NSLocalizedString(@"注册新用户", nil);
+    [c setupTheme];
     [self.navigationController pushViewController:c animated:YES];
 }
 

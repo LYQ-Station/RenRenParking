@@ -1,25 +1,21 @@
 //
-//  RPRegisterViewController.m
+//  RPNewPasswordViewController.m
 //  RenRenParking
 //
-//  Created by LiYongQiang on 14/10/23.
+//  Created by LiYongQiang on 14/10/24.
 //  Copyright (c) 2014年 CoderFly. All rights reserved.
 //
 
-#import "RPRegisterViewController.h"
+#import "RPNewPasswordViewController.h"
 
-@interface RPRegisterViewController ()
+@interface RPNewPasswordViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextField *tfMobile;
-@property (weak, nonatomic) IBOutlet UITextField *tfVcode;
-@property (weak, nonatomic) IBOutlet UITextField *tfCarNumber;
-@property (weak, nonatomic) IBOutlet UITextField *tfPassword;
+@property (weak, nonatomic) IBOutlet UITextField *tfNewPassword;
 @property (weak, nonatomic) IBOutlet UIButton *btnSubmit;
-@property (weak, nonatomic) IBOutlet UIButton *btnVcode;
 
 @end
 
-@implementation RPRegisterViewController
+@implementation RPNewPasswordViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,8 +32,7 @@
 {
     [super viewDidLoad];
     
-    _btnVcode.backgroundColor = [UIColor colorWithRed:0.18f green:0.20f blue:0.25f alpha:1.0f];
-    _btnVcode.titleLabel.font = FONT_NORMAL;
+    [self setupTheme];
     
     _btnSubmit.backgroundColor = COLOR_BTN_BG_DARK_GRAY;
     _btnSubmit.titleLabel.font = FONT_NORMAL;

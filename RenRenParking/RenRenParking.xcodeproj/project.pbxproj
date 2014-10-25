@@ -59,6 +59,8 @@
 		4867712819F7DB620081C81C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4867712719F7DB620081C81C /* Images.xcassets */; };
 		4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4867712919F7DB620081C81C /* LaunchScreen.xib */; };
 		4867713719F7DB630081C81C /* RenRenParkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867713619F7DB630081C81C /* RenRenParkingTests.m */; };
+		48A394AD19FA83BA0078DF7D /* RPNewPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */; };
+		48A394AE19FA83BA0078DF7D /* RPNewPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */; };
 		48B4656F19F92E8E008F2D97 /* RPIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */; };
 		48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */; };
 		48B4657519F93A8E008F2D97 /* nav-bar-full-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657319F93A8E008F2D97 /* nav-bar-full-bg@2x.png */; };
@@ -67,6 +69,9 @@
 		48B4657F19F94624008F2D97 /* login-login-fields-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */; };
 		48B4658119F94634008F2D97 /* border-btn-bg-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */; };
 		48B4658319F94674008F2D97 /* RPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48B4658219F94674008F2D97 /* RPLoginViewController.xib */; };
+		48D5363E19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D5363D19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png */; };
+		48D5364019FB6918003335CD /* RPRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48D5363F19FB6918003335CD /* RPRegisterViewController.xib */; };
+		48D5364219FB6D81003335CD /* login-text-field-car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D5364119FB6D81003335CD /* login-text-field-car@2x.png */; };
 		8BD1C9BC19FA424F00D9476D /* navbar-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1C9BB19FA424F00D9476D /* navbar-logo@2x.png */; };
 		8BD1C9BF19FA475F00D9476D /* login-text-field-mobile-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1C9BD19FA475F00D9476D /* login-text-field-mobile-bg@2x.png */; };
 		8BD1C9C019FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1C9BE19FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png */; };
@@ -240,6 +245,9 @@
 		4867713019F7DB630081C81C /* RenRenParkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenRenParkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4867713519F7DB630081C81C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4867713619F7DB630081C81C /* RenRenParkingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RenRenParkingTests.m; sourceTree = "<group>"; };
+		48A394AA19FA83BA0078DF7D /* RPNewPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPNewPasswordViewController.h; sourceTree = "<group>"; };
+		48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPNewPasswordViewController.m; sourceTree = "<group>"; };
+		48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPNewPasswordViewController.xib; sourceTree = "<group>"; };
 		48B4656D19F92E8E008F2D97 /* RPIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPIndexViewController.h; sourceTree = "<group>"; };
 		48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPIndexViewController.m; sourceTree = "<group>"; };
 		48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-bg@2x.png"; sourceTree = "<group>"; };
@@ -251,6 +259,9 @@
 		48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-login-fields-bg@2x.png"; sourceTree = "<group>"; };
 		48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "border-btn-bg-green@2x.png"; sourceTree = "<group>"; };
 		48B4658219F94674008F2D97 /* RPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPLoginViewController.xib; sourceTree = "<group>"; };
+		48D5363D19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-pwd2-bg@2x.png.png"; sourceTree = "<group>"; };
+		48D5363F19FB6918003335CD /* RPRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPRegisterViewController.xib; sourceTree = "<group>"; };
+		48D5364119FB6D81003335CD /* login-text-field-car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-car@2x.png"; sourceTree = "<group>"; };
 		8BD1C9BB19FA424F00D9476D /* navbar-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbar-logo@2x.png"; sourceTree = "<group>"; };
 		8BD1C9BD19FA475F00D9476D /* login-text-field-mobile-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-mobile-bg@2x.png"; sourceTree = "<group>"; };
 		8BD1C9BE19FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-pwd-bg@2x.png.png"; sourceTree = "<group>"; };
@@ -638,9 +649,13 @@
 				48B4658219F94674008F2D97 /* RPLoginViewController.xib */,
 				48B4657A19F941D6008F2D97 /* RPRegisterViewController.h */,
 				48B4657B19F941D6008F2D97 /* RPRegisterViewController.m */,
+				48D5363F19FB6918003335CD /* RPRegisterViewController.xib */,
 				8BD1C9C119FA47AE00D9476D /* RPFindPwdViewController.h */,
 				8BD1C9C219FA47AE00D9476D /* RPFindPwdViewController.m */,
 				8BD1C9C319FA47AE00D9476D /* RPFindPwdViewController.xib */,
+				48A394AA19FA83BA0078DF7D /* RPNewPasswordViewController.h */,
+				48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */,
+				48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -648,6 +663,8 @@
 		48B4657D19F94624008F2D97 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				48D5364119FB6D81003335CD /* login-text-field-car@2x.png */,
+				48D5363D19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png */,
 				8BD1C9BD19FA475F00D9476D /* login-text-field-mobile-bg@2x.png */,
 				8BD1C9BE19FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png */,
 				48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */,
@@ -741,8 +758,12 @@
 				481CB4F719F7F09A008DA7C8 /* mapapi.bundle in Resources */,
 				8BD1C9BF19FA475F00D9476D /* login-text-field-mobile-bg@2x.png in Resources */,
 				8BD1C9BC19FA424F00D9476D /* navbar-logo@2x.png in Resources */,
+				48A394AE19FA83BA0078DF7D /* RPNewPasswordViewController.xib in Resources */,
+				48D5363E19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png in Resources */,
 				8BD1C9C019FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png in Resources */,
 				48B4657F19F94624008F2D97 /* login-login-fields-bg@2x.png in Resources */,
+				48D5364019FB6918003335CD /* RPRegisterViewController.xib in Resources */,
+				48D5364219FB6D81003335CD /* login-text-field-car@2x.png in Resources */,
 				48B4657519F93A8E008F2D97 /* nav-bar-full-bg@2x.png in Resources */,
 				481CB4FE19F7F09A008DA7C8 /* MBProgressHUD.bundle in Resources */,
 				48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */,
@@ -770,6 +791,7 @@
 				481CB4EF19F7F09A008DA7C8 /* AFImageRequestOperation.m in Sources */,
 				481CB50119F7F09A008DA7C8 /* PPMapNavigators.m in Sources */,
 				481CB4F819F7F09A008DA7C8 /* FMDatabase.m in Sources */,
+				48A394AD19FA83BA0078DF7D /* RPNewPasswordViewController.m in Sources */,
 				481CB50A19F7F09A008DA7C8 /* PPUser.m in Sources */,
 				481CB4F219F7F09A008DA7C8 /* AFPropertyListRequestOperation.m in Sources */,
 				481CB50819F7F09A008DA7C8 /* PPConfigsModel.m in Sources */,
