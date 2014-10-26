@@ -7,6 +7,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RPFeedbackViewController">
             <connections>
+                <outlet property="btnSubmit" destination="5eJ-FY-qGi" id="IHA-hr-b2s"/>
+                <outlet property="btnTag0" destination="xxx-h7-q1k" id="hya-fQ-fFr"/>
+                <outlet property="btnTag1" destination="O6F-Kf-5Ua" id="Vgm-Bc-QO5"/>
+                <outlet property="btnTag2" destination="KRf-Cu-dQU" id="BDf-o6-hpf"/>
+                <outlet property="btnTag3" destination="XsM-BD-ZnJ" id="mby-Ad-WRA"/>
+                <outlet property="tfContact" destination="Kn2-MF-17N" id="MHa-jV-vc5"/>
+                <outlet property="tvContent" destination="GXH-3c-inA" id="xpb-qQ-pEw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="test-feedback.png" translatesAutoresizingMaskIntoConstraints="NO" id="H4d-oR-jFO">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H4d-oR-jFO">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="feedback" translatesAutoresizingMaskIntoConstraints="NO" id="GXH-3c-inA">
@@ -77,9 +84,6 @@
             <point key="canvasLocation" x="816" y="571"/>
         </view>
     </objects>
-    <resources>
-        <image name="test-feedback.png" width="320" height="508"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

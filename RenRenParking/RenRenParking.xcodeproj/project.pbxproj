@@ -93,6 +93,8 @@
 		48D7751919FC8F09001DBEAB /* RPFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D7751719FC8F09001DBEAB /* RPFeedbackViewController.m */; };
 		48D7751A19FC8F09001DBEAB /* RPFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48D7751819FC8F09001DBEAB /* RPFeedbackViewController.xib */; };
 		48D7751C19FC8F5A001DBEAB /* test-feedback@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D7751B19FC8F5A001DBEAB /* test-feedback@2x.png */; };
+		48D7752019FCB672001DBEAB /* btn-bg-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D7751F19FCB672001DBEAB /* btn-bg-gray@2x.png */; };
+		48D7752219FCB67F001DBEAB /* border-btn-bg-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D7752119FCB67F001DBEAB /* border-btn-bg-gray@2x.png */; };
 		8BD1C9BC19FA424F00D9476D /* navbar-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1C9BB19FA424F00D9476D /* navbar-logo@2x.png */; };
 		8BD1C9BF19FA475F00D9476D /* login-text-field-mobile-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1C9BD19FA475F00D9476D /* login-text-field-mobile-bg@2x.png */; };
 		8BD1C9C019FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1C9BE19FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png */; };
@@ -309,6 +311,8 @@
 		48D7751719FC8F09001DBEAB /* RPFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPFeedbackViewController.m; sourceTree = "<group>"; };
 		48D7751819FC8F09001DBEAB /* RPFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPFeedbackViewController.xib; sourceTree = "<group>"; };
 		48D7751B19FC8F5A001DBEAB /* test-feedback@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test-feedback@2x.png"; sourceTree = "<group>"; };
+		48D7751F19FCB672001DBEAB /* btn-bg-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-bg-gray@2x.png"; sourceTree = "<group>"; };
+		48D7752119FCB67F001DBEAB /* border-btn-bg-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "border-btn-bg-gray@2x.png"; sourceTree = "<group>"; };
 		8BD1C9BB19FA424F00D9476D /* navbar-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbar-logo@2x.png"; sourceTree = "<group>"; };
 		8BD1C9BD19FA475F00D9476D /* login-text-field-mobile-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-mobile-bg@2x.png"; sourceTree = "<group>"; };
 		8BD1C9BE19FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-pwd-bg@2x.png.png"; sourceTree = "<group>"; };
@@ -682,6 +686,8 @@
 		48B4657019F93A8E008F2D97 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				48D7752119FCB67F001DBEAB /* border-btn-bg-gray@2x.png */,
+				48D7751F19FCB672001DBEAB /* btn-bg-gray@2x.png */,
 				48D774F419FB9FF2001DBEAB /* table-cell-bg0@2x.png */,
 				8BD1C9BB19FA424F00D9476D /* navbar-logo@2x.png */,
 				48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */,
@@ -862,6 +868,7 @@
 				48D5363E19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png in Resources */,
 				8BD1C9C019FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png in Resources */,
 				48D7750C19FC87E1001DBEAB /* settings-cell-icon0@2x.png in Resources */,
+				48D7752019FCB672001DBEAB /* btn-bg-gray@2x.png in Resources */,
 				48D7751419FC8D40001DBEAB /* uprofile-cell-icon0@2x.png in Resources */,
 				48D774F019FB9EBA001DBEAB /* index-cell-icon0@2x.png in Resources */,
 				48D7751A19FC8F09001DBEAB /* RPFeedbackViewController.xib in Resources */,
@@ -883,6 +890,7 @@
 				48D7750519FC814C001DBEAB /* test-idx-order-cell-bg@2x.png in Resources */,
 				4867712819F7DB620081C81C /* Images.xcassets in Resources */,
 				48D7751C19FC8F5A001DBEAB /* test-feedback@2x.png in Resources */,
+				48D7752219FCB67F001DBEAB /* border-btn-bg-gray@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
