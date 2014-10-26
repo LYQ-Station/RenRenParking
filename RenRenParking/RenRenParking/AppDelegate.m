@@ -21,7 +21,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    _window.rootViewController = [RPLoginViewController navController:nil];
+    _window.rootViewController = [RPIndexViewController navController];
     [_window makeKeyAndVisible];
     
     return YES;

@@ -98,9 +98,19 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*手机号将作为您的登录账号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhx-Kd-Q2F">
+                    <rect key="frame" x="25" y="64" width="161" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="0iA-j0-2zL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="qhx-Kd-Q2F" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="25" id="00u-cy-RDY"/>
                 <constraint firstItem="zYp-aV-5Jv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="54" id="0fP-BW-ecl"/>
                 <constraint firstItem="CUE-e4-IZ2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="54" id="1W4-5i-PJQ"/>
                 <constraint firstAttribute="trailing" secondItem="CUE-e4-IZ2" secondAttribute="trailing" constant="19" id="25X-m3-hrS"/>
@@ -125,6 +135,7 @@
                 <constraint firstItem="CUE-e4-IZ2" firstAttribute="top" secondItem="st4-bD-8sT" secondAttribute="bottom" constant="36" id="hEr-wu-2Ph"/>
                 <constraint firstAttribute="trailing" secondItem="Rph-T0-HP5" secondAttribute="trailing" constant="19" id="n1T-kh-3X1"/>
                 <constraint firstItem="zRB-4P-L8k" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="oAU-hy-ThM"/>
+                <constraint firstItem="qhx-Kd-Q2F" firstAttribute="top" secondItem="zRB-4P-L8k" secondAttribute="bottom" constant="1" id="q4M-3r-R3p"/>
                 <constraint firstItem="zYp-aV-5Jv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="qp5-cs-uHu"/>
                 <constraint firstItem="Rph-T0-HP5" firstAttribute="top" secondItem="faI-9T-wcu" secondAttribute="bottom" constant="36" id="rCE-iN-5V2"/>
                 <constraint firstAttribute="trailing" secondItem="faI-9T-wcu" secondAttribute="trailing" constant="7" id="rS3-OW-cJ3"/>
