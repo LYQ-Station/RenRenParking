@@ -54,8 +54,12 @@
 		481CB51219F7F09A008DA7C8 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 481CB4EC19F7F09A008DA7C8 /* Base64.m */; };
 		481CB51519F7F0EC008DA7C8 /* map-user-point@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 481CB51419F7F0EC008DA7C8 /* map-user-point@2x.png */; };
 		481CB51919F7F141008DA7C8 /* RPAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 481CB51819F7F141008DA7C8 /* RPAboutViewController.m */; };
+		485F8E4019FE62760019FCA2 /* RPMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 485F8E3F19FE62760019FCA2 /* RPMapViewController.m */; };
+		485F8E4219FE65E90019FCA2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 485F8E4119FE65E90019FCA2 /* AppDelegate.mm */; };
+		485F8EC419FE74820019FCA2 /* map-addr-bar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 485F8EC219FE74820019FCA2 /* map-addr-bar-bg@2x.png */; };
+		485F8EC519FE74820019FCA2 /* map-bottom-bar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 485F8EC319FE74820019FCA2 /* map-bottom-bar-bg@2x.png */; };
+		485F8EC719FE7DB30019FCA2 /* map-btn-location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 485F8EC619FE7DB30019FCA2 /* map-btn-location@2x.png */; };
 		4867711D19F7DB620081C81C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867711C19F7DB620081C81C /* main.m */; };
-		4867712019F7DB620081C81C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867711F19F7DB620081C81C /* AppDelegate.m */; };
 		4867712819F7DB620081C81C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4867712719F7DB620081C81C /* Images.xcassets */; };
 		4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4867712919F7DB620081C81C /* LaunchScreen.xib */; };
 		4867713719F7DB630081C81C /* RenRenParkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867713619F7DB630081C81C /* RenRenParkingTests.m */; };
@@ -258,11 +262,16 @@
 		481CB51819F7F141008DA7C8 /* RPAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAboutViewController.m; sourceTree = "<group>"; };
 		481CB51A19F7F329008DA7C8 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		481CB51B19F7F39B008DA7C8 /* PPConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPConfigs.h; sourceTree = "<group>"; };
+		485F8E3E19FE62760019FCA2 /* RPMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPMapViewController.h; sourceTree = "<group>"; };
+		485F8E3F19FE62760019FCA2 /* RPMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPMapViewController.m; sourceTree = "<group>"; };
+		485F8E4119FE65E90019FCA2 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		485F8EC219FE74820019FCA2 /* map-addr-bar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-addr-bar-bg@2x.png"; sourceTree = "<group>"; };
+		485F8EC319FE74820019FCA2 /* map-bottom-bar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-bottom-bar-bg@2x.png"; sourceTree = "<group>"; };
+		485F8EC619FE7DB30019FCA2 /* map-btn-location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-btn-location@2x.png"; sourceTree = "<group>"; };
 		4867711719F7DB620081C81C /* RenRenParking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenRenParking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4867711B19F7DB620081C81C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4867711C19F7DB620081C81C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4867711E19F7DB620081C81C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4867711F19F7DB620081C81C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4867712719F7DB620081C81C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4867712A19F7DB620081C81C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4867713019F7DB630081C81C /* RenRenParkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenRenParkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -587,6 +596,7 @@
 		481CB51319F7F0EC008DA7C8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				485F8EC119FE74820019FCA2 /* map */,
 				48D774EB19FB9EBA001DBEAB /* index */,
 				48B4657D19F94624008F2D97 /* login */,
 				48B4657019F93A8E008F2D97 /* common */,
@@ -609,6 +619,16 @@
 				48D7751819FC8F09001DBEAB /* RPFeedbackViewController.xib */,
 			);
 			path = settings;
+			sourceTree = "<group>";
+		};
+		485F8EC119FE74820019FCA2 /* map */ = {
+			isa = PBXGroup;
+			children = (
+				485F8EC619FE7DB30019FCA2 /* map-btn-location@2x.png */,
+				485F8EC219FE74820019FCA2 /* map-addr-bar-bg@2x.png */,
+				485F8EC319FE74820019FCA2 /* map-bottom-bar-bg@2x.png */,
+			);
+			path = map;
 			sourceTree = "<group>";
 		};
 		4867710E19F7DB620081C81C = {
@@ -638,7 +658,7 @@
 				481CB45E19F7F08D008DA7C8 /* resource */,
 				481CB51B19F7F39B008DA7C8 /* PPConfigs.h */,
 				4867711E19F7DB620081C81C /* AppDelegate.h */,
-				4867711F19F7DB620081C81C /* AppDelegate.m */,
+				485F8E4119FE65E90019FCA2 /* AppDelegate.mm */,
 				4867712719F7DB620081C81C /* Images.xcassets */,
 				4867712919F7DB620081C81C /* LaunchScreen.xib */,
 				4867711A19F7DB620081C81C /* Supporting Files */,
@@ -679,6 +699,8 @@
 				48D774F619FBA204001DBEAB /* order-list */,
 				48B4656D19F92E8E008F2D97 /* RPIndexViewController.h */,
 				48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */,
+				485F8E3E19FE62760019FCA2 /* RPMapViewController.h */,
+				485F8E3F19FE62760019FCA2 /* RPMapViewController.m */,
 			);
 			path = index;
 			sourceTree = "<group>";
@@ -862,6 +884,7 @@
 				481CB4F719F7F09A008DA7C8 /* mapapi.bundle in Resources */,
 				8BD1C9BF19FA475F00D9476D /* login-text-field-mobile-bg@2x.png in Resources */,
 				8BD1C9BC19FA424F00D9476D /* navbar-logo@2x.png in Resources */,
+				485F8EC719FE7DB30019FCA2 /* map-btn-location@2x.png in Resources */,
 				48A394AE19FA83BA0078DF7D /* RPNewPasswordViewController.xib in Resources */,
 				48D7750219FBA702001DBEAB /* idx-order-cell-bg@2x.png in Resources */,
 				48D7750D19FC87E1001DBEAB /* settings-cell-icon1@2x.png in Resources */,
@@ -874,6 +897,7 @@
 				48D7751A19FC8F09001DBEAB /* RPFeedbackViewController.xib in Resources */,
 				48D774F319FB9EBA001DBEAB /* index-cell-icon3@2x.png in Resources */,
 				48B4657F19F94624008F2D97 /* login-login-fields-bg@2x.png in Resources */,
+				485F8EC519FE74820019FCA2 /* map-bottom-bar-bg@2x.png in Resources */,
 				48D7751519FC8D40001DBEAB /* uprofile-cell-icon1@2x.png in Resources */,
 				48D5364019FB6918003335CD /* RPRegisterViewController.xib in Resources */,
 				48D5364219FB6D81003335CD /* login-text-field-car@2x.png in Resources */,
@@ -890,6 +914,7 @@
 				48D7750519FC814C001DBEAB /* test-idx-order-cell-bg@2x.png in Resources */,
 				4867712819F7DB620081C81C /* Images.xcassets in Resources */,
 				48D7751C19FC8F5A001DBEAB /* test-feedback@2x.png in Resources */,
+				485F8EC419FE74820019FCA2 /* map-addr-bar-bg@2x.png in Resources */,
 				48D7752219FCB67F001DBEAB /* border-btn-bg-gray@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -911,14 +936,15 @@
 				481CB51919F7F141008DA7C8 /* RPAboutViewController.m in Sources */,
 				481CB4EF19F7F09A008DA7C8 /* AFImageRequestOperation.m in Sources */,
 				481CB50119F7F09A008DA7C8 /* PPMapNavigators.m in Sources */,
+				485F8E4219FE65E90019FCA2 /* AppDelegate.mm in Sources */,
 				481CB4F819F7F09A008DA7C8 /* FMDatabase.m in Sources */,
 				48A394AD19FA83BA0078DF7D /* RPNewPasswordViewController.m in Sources */,
 				481CB50A19F7F09A008DA7C8 /* PPUser.m in Sources */,
 				481CB4F219F7F09A008DA7C8 /* AFPropertyListRequestOperation.m in Sources */,
 				481CB50819F7F09A008DA7C8 /* PPConfigsModel.m in Sources */,
 				8BD1C9C419FA47AE00D9476D /* RPFindPwdViewController.m in Sources */,
-				4867712019F7DB620081C81C /* AppDelegate.m in Sources */,
 				481CB50719F7F09A008DA7C8 /* PPBaseService.m in Sources */,
+				485F8E4019FE62760019FCA2 /* RPMapViewController.m in Sources */,
 				48D7751919FC8F09001DBEAB /* RPFeedbackViewController.m in Sources */,
 				481CB4F919F7F09A008DA7C8 /* FMDatabaseAdditions.m in Sources */,
 				481CB4F319F7F09A008DA7C8 /* AFURLConnectionOperation.m in Sources */,
@@ -1071,7 +1097,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = RenRenParking/Prefix.pch;
 				INFOPLIST_FILE = RenRenParking/Info.plist;
@@ -1083,8 +1109,9 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "165b7367-c153-42cb-800f-b56073d89dc3";
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -1095,7 +1122,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = RenRenParking/Prefix.pch;
 				INFOPLIST_FILE = RenRenParking/Info.plist;
@@ -1106,8 +1133,9 @@
 					"$(PROJECT_DIR)/RenRenParking/libs/BaiduMap",
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "165b7367-c153-42cb-800f-b56073d89dc3";
 				VALID_ARCHS = armv7;
 			};
 			name = Release;

@@ -26,7 +26,7 @@
 
 #pragma mark - map
 
-#define BAIDU_MAP_KEY       @"fxQ5FtFisHAqeCkhDWNIrDGA"
+#define BAIDU_MAP_KEY       @"NvozkPbOg6LxFaSOiADTsOkN"
 
 #define MAKE_COOR_S(lat,lng)  (CLLocationCoordinate2DMake([lat floatValue]*0.00001, [lng floatValue]*0.00001))
 

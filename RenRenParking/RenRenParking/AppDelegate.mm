@@ -9,8 +9,11 @@
 #import "AppDelegate.h"
 #import "RPIndexViewController.h"
 #import "RPLoginViewController.h"
+#import "PPMapView.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) BMKMapManager* mapManager;
 
 @end
 
@@ -18,6 +21,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    self.mapManager = [[BMKMapManager alloc] init];
+    BOOL ret = [_mapManager start:BAIDU_MAP_KEY generalDelegate:nil];
+    if (!ret)
+    {
+        NSLog(@"BaiduMap manager start failed!");
+    }
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     

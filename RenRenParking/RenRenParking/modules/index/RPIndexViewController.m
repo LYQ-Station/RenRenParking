@@ -11,9 +11,12 @@
 #import "RPOderListTableViewController.h"
 #import "RPFeedbackViewController.h"
 #import "RPSettingsTableViewController.h"
+#import "RPMapViewController.h"
+#import "PPMapView.h"
 
 @interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) PPMapView *mapView;
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
@@ -112,6 +115,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    UINavigationController *mc = [RPMapViewController navController];
+    [self.navigationController presentViewController:mc animated:NO completion:nil];
+    return;
+    
     if (0 == indexPath.row)
     {
         RPUserProfileTableViewController *c = [[RPUserProfileTableViewController alloc] initWithStyle:UITableViewStylePlain];
