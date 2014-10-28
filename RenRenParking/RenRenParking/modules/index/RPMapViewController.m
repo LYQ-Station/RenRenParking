@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UILabel *lbAddress;
 @property (nonatomic, strong) UIButton *btnLocation;
 @property (nonatomic, strong) UIImageView *viewBottomBar;
+@property (nonatomic, strong) UIImageView *viewCenterPin;
 @property (nonatomic, assign) PPMapView *mapView;
 
 @end
@@ -29,6 +30,14 @@
     return nc;
 }
 
+- (void)loadView
+{
+    CGRect win_s = [UIScreen mainScreen].bounds;
+    
+    self.view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, win_s.size.width, win_s.size.height-20.0f-44.0f)];
+    self.view.backgroundColor = [UIColor whiteColor];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,6 +48,11 @@
     _mapView.mapView.userInteractionEnabled = YES;
     _mapView.delegate = self;
     [self.view addSubview:_mapView];
+    
+        //
+    self.viewCenterPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map-center-pin"]];
+    _viewCenterPin.center = CGPointMake(self.view.bounds.size.width*0.5, self.view.bounds.size.height*0.5);
+    [self.view addSubview:_viewCenterPin];
     
         //top bar
     self.viewTopBar = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -359,7 +373,7 @@
     [btn setTitle:NSLocalizedString(@"取消\n订单", nil) forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
-    [btn addTarget:self action:@selector(btnGoServiceStationClick:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(btnCancelOderClick) forControlEvents:UIControlEventTouchUpInside];
     [_viewBottomBar addSubview:btn];
     
     [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[btn_go(82)]|"
@@ -373,9 +387,16 @@
                                                                              views:@{@"btn_go":btn}]];
     
         //
-    UIImageView *avator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"test-driver"]];
-    avator.frame = CGRectMake(17, 5, 80, 80);
-    [_viewBottomBar addSubview:avator];
+//    UIImageView *avator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"test-driver"]];
+//    avator.frame = CGRectMake(17, 5, 80, 80);
+//    [_viewBottomBar addSubview:avator];
+    
+    UIImage *im = [UIImage imageNamed:@"test-driver"];
+    UIButton *btn_avator = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn_avator.frame = CGRectMake(17, 5, 80, 80);
+    [btn_avator setImage:im forState:UIControlStateNormal];
+    [btn_avator addTarget:self action:@selector(btnAvatorClick) forControlEvents:UIControlEventTouchUpInside];
+    [_viewBottomBar addSubview:btn_avator];
     
         //
     UILabel *lb = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -433,6 +454,28 @@
                                                                            options:0
                                                                            metrics:nil
                                                                              views:@{@"lb_time_t":lb,@"lb_time":lb_time}]];
+}
+
+- (void)btnAvatorClick
+{
+    NSURL *url = [NSURL URLWithString:@"tel://10000"];
+    if (![[UIApplication sharedApplication] canOpenURL:url])
+    {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil
+                                                     message:NSLocalizedString(@"此设备不支持电话功能", nil)
+                                                    delegate:nil
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:NSLocalizedString(@"返回", nil), nil];
+        [av show];
+        return;
+    }
+    
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+- (void)btnCancelOderClick
+{
+    [self showInnerInfo];
 }
 
 @end

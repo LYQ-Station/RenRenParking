@@ -73,6 +73,7 @@
 		48B4657F19F94624008F2D97 /* login-login-fields-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */; };
 		48B4658119F94634008F2D97 /* border-btn-bg-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */; };
 		48B4658319F94674008F2D97 /* RPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48B4658219F94674008F2D97 /* RPLoginViewController.xib */; };
+		48BA3EBF19FFD87700B21A36 /* map-center-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48BA3EBE19FFD87700B21A36 /* map-center-pin@2x.png */; };
 		48D5363E19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D5363D19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png */; };
 		48D5364019FB6918003335CD /* RPRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48D5363F19FB6918003335CD /* RPRegisterViewController.xib */; };
 		48D5364219FB6D81003335CD /* login-text-field-car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D5364119FB6D81003335CD /* login-text-field-car@2x.png */; };
@@ -293,6 +294,7 @@
 		48B4657E19F94624008F2D97 /* login-login-fields-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-login-fields-bg@2x.png"; sourceTree = "<group>"; };
 		48B4658019F94634008F2D97 /* border-btn-bg-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "border-btn-bg-green@2x.png"; sourceTree = "<group>"; };
 		48B4658219F94674008F2D97 /* RPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPLoginViewController.xib; sourceTree = "<group>"; };
+		48BA3EBE19FFD87700B21A36 /* map-center-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-center-pin@2x.png"; sourceTree = "<group>"; };
 		48D5363D19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-pwd2-bg@2x.png.png"; sourceTree = "<group>"; };
 		48D5363F19FB6918003335CD /* RPRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPRegisterViewController.xib; sourceTree = "<group>"; };
 		48D5364119FB6D81003335CD /* login-text-field-car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-text-field-car@2x.png"; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 		485F8EC119FE74820019FCA2 /* map */ = {
 			isa = PBXGroup;
 			children = (
+				48BA3EBE19FFD87700B21A36 /* map-center-pin@2x.png */,
 				8B74331319FF8CDE00BEA70F /* map-bottom-bar-bg2@2x.png */,
 				485F8EC619FE7DB30019FCA2 /* map-btn-location@2x.png */,
 				485F8EC219FE74820019FCA2 /* map-addr-bar-bg@2x.png */,
@@ -899,6 +902,7 @@
 				8BD1C9C019FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png in Resources */,
 				48D7750C19FC87E1001DBEAB /* settings-cell-icon0@2x.png in Resources */,
 				48D7752019FCB672001DBEAB /* btn-bg-gray@2x.png in Resources */,
+				48BA3EBF19FFD87700B21A36 /* map-center-pin@2x.png in Resources */,
 				48D7751419FC8D40001DBEAB /* uprofile-cell-icon0@2x.png in Resources */,
 				48D774F019FB9EBA001DBEAB /* index-cell-icon0@2x.png in Resources */,
 				48D7751A19FC8F09001DBEAB /* RPFeedbackViewController.xib in Resources */,
