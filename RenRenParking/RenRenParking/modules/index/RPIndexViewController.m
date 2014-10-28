@@ -76,6 +76,7 @@
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"idx-cell"];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
     }
     
     if (0 == indexPath.row)

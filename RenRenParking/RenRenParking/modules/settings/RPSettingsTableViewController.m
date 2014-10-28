@@ -94,6 +94,7 @@
     if (!cell)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settings-cell"];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
     }
      
     if (0 == indexPath.row)
