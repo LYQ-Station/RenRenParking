@@ -9,11 +9,11 @@
 #import "RPMapViewController.h"
 #import "PPMapView.h"
 
-@interface RPMapViewController ()
+@interface RPMapViewController () <PPMapViewDelegate>
 
 @property (nonatomic, strong) UIImageView *viewTopBar;
 @property (nonatomic, strong) UILabel *lbAddress;
-@property (nonatomic, strong) UIButton *btnLocation;
+@property (nonatomic, strong) UIButton *btnScope;
 @property (nonatomic, strong) UIImageView *viewBottomBar;
 @property (nonatomic, strong) UIImageView *viewCenterPin;
 @property (nonatomic, assign) PPMapView *mapView;
@@ -91,20 +91,21 @@
                                                                           views:@{@"lb_addr":_lbAddress}]];
     
         //location button
-    self.btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    _btnLocation.translatesAutoresizingMaskIntoConstraints = NO;
-    [_btnLocation setImage:[UIImage imageNamed:@"map-btn-location"] forState:UIControlStateNormal];
-    [_viewTopBar addSubview:_btnLocation];
+    self.btnScope = [UIButton buttonWithType:UIButtonTypeCustom];
+    _btnScope.translatesAutoresizingMaskIntoConstraints = NO;
+    [_btnScope setImage:[UIImage imageNamed:@"map-btn-location"] forState:UIControlStateNormal];
+    [_btnScope addTarget:self action:@selector(btnScopeClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_viewTopBar addSubview:_btnScope];
     
     [_viewTopBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[btn_loc(42)]|"
                                                                         options:0
                                                                         metrics:nil
-                                                                          views:@{@"btn_loc":_btnLocation}]];
+                                                                          views:@{@"btn_loc":_btnScope}]];
     
     [_viewTopBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[btn_loc(42.0)]"
                                                                         options:0
                                                                         metrics:nil
-                                                                          views:@{@"btn_loc":_btnLocation}]];
+                                                                          views:@{@"btn_loc":_btnScope}]];
     
     
         //bottom bar
@@ -125,6 +126,8 @@
 //                                                                        views:@{@"bot_bar":_viewBottomBar}]];
     
     [self showOuterInfo];
+    
+    [_mapView startUpdatingLocation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -137,6 +140,9 @@
 
 - (void)ppMapView:(PPMapView *)mapView didUpdateToLocation:(CLLocation *)newLocation
 {
+    [[_btnScope viewWithTag:101] removeFromSuperview];
+    _btnScope.enabled = YES;
+    [_btnScope setImage:[UIImage imageNamed:@"map-btn-location"] forState:UIControlStateNormal];
     
 }
 
@@ -148,6 +154,32 @@
 - (void)ppMapView:(PPMapView *)mapView didDeselectAnnotation:(PPMapAnnoation *)annotation
 {
     
+}
+
+- (void)ppMapViewRegionDidChange:(PPMapView *)mapView
+{
+    [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+}
+
+- (void)ppMapView:(PPMapView *)mapView onGetReverseGeoCodeAddress:(NSString *)address
+{
+    _lbAddress.text = address;
+}
+
+#pragma mark -
+
+- (void)btnScopeClick:(UIButton *)sender
+{
+    [sender setImage:nil forState:UIControlStateNormal];
+    sender.enabled = NO;
+    
+    UIActivityIndicatorView *av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    av.tag = 101;
+    av.center = CGPointMake(21, 21);
+    [sender addSubview:av];
+    [av startAnimating];
+    
+    [_mapView performSelector:@selector(startUpdatingLocation) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -

@@ -360,6 +360,14 @@ static PPMapView *__instance = nil;
     return v;
 }
 
+- (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(ppMapViewRegionDidChange:)])
+    {
+        [_delegate performSelector:@selector(ppMapViewRegionDidChange:) withObject:self];
+    }
+}
+
 #pragma mark - route search delegate
 
 - (void)onGetDrivingRouteResult:(BMKRouteSearch *)searcher result:(BMKDrivingRouteResult *)result errorCode:(BMKSearchErrorCode)error
@@ -511,6 +519,8 @@ static PPMapView *__instance = nil;
                            result:(BMKReverseGeoCodeResult *)result
                         errorCode:(BMKSearchErrorCode)error
 {
+    searcher.delegate = nil;
+    
     if (BMK_SEARCH_NO_ERROR != error)
     {
         if (!_city)
@@ -522,6 +532,11 @@ static PPMapView *__instance = nil;
     }
     
     _city = result.addressDetail.city;
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(ppMapView:onGetReverseGeoCodeAddress:)])
+    {
+        [_delegate performSelector:@selector(ppMapView:onGetReverseGeoCodeAddress:) withObject:self withObject:result.address];
+    }
 }
 
 @end

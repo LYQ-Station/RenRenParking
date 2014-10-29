@@ -43,6 +43,8 @@ typedef enum {
 
 - (void)zoomOut;
 
+- (void)doGeoSearch:(CLLocationCoordinate2D)location;
+
 @end
 
 @protocol PPMapViewDelegate <NSObject>
@@ -53,5 +55,9 @@ typedef enum {
 - (void)ppMapView:(PPMapView *)mapView didSelectAnnotation:(PPMapAnnoation *)annotation;
 
 - (void)ppMapView:(PPMapView *)mapView didDeselectAnnotation:(PPMapAnnoation *)annotation;
+
+- (void)ppMapViewRegionDidChange:(PPMapView *)mapView;
+
+- (void)ppMapView:(PPMapView *)mapView onGetReverseGeoCodeAddress:(NSString *)address;
 
 @end
