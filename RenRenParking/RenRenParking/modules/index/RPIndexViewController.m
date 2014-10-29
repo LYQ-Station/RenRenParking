@@ -14,6 +14,8 @@
 #import "RPMapViewController.h"
 #import "PPMapView.h"
 
+#import "RPFetchCarViewController.h"
+
 @interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) PPMapView *mapView;
@@ -116,10 +118,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    UINavigationController *mc = [RPMapViewController navController];
-    [self.navigationController presentViewController:mc animated:NO completion:nil];
+    UINavigationController *mc = [RPFetchCarViewController navController];
+    [self presentViewController:mc animated:NO completion:nil];
     return;
+    
+    
+//    UINavigationController *mc = [RPMapViewController navController];
+//    [self presentViewController:mc animated:NO completion:nil];
+//    return;
     
     if (0 == indexPath.row)
     {

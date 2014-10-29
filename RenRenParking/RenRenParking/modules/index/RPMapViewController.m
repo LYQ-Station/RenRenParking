@@ -42,6 +42,8 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectZero]];
+    
     [self setupLogoTheme];
     
     _mapView = [PPMapView mapViewWithFrame:self.view.bounds];
@@ -303,7 +305,7 @@
                                                                              views:@{@"lb_charge_t":lb,@"lb_time_t":lb2,@"btn_go":btn}]];
     
         //
-    NSMutableAttributedString *charge_str = [[NSMutableAttributedString alloc] initWithString:@"¥"
+    NSMutableAttributedString *charge_str = [[NSMutableAttributedString alloc] initWithString:@"¥ "
                                                                                   attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                                NSFontAttributeName:[UIFont systemFontOfSize:14.0]}];
     
@@ -311,7 +313,7 @@
                                                                       attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                    NSFontAttributeName:[UIFont systemFontOfSize:25.0]}]];
     
-    [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@"元"
+    [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 元"
                                                                       attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                    NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
     
@@ -327,7 +329,7 @@
                                                                                  attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                               NSFontAttributeName:[UIFont systemFontOfSize:25.0]}];
     
-    [time_str appendAttributedString:[[NSAttributedString alloc] initWithString:@"分钟"
+    [time_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 分钟"
                                                                      attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                   NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
     
@@ -458,7 +460,7 @@
                                                                                  attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                               NSFontAttributeName:[UIFont systemFontOfSize:25.0]}];
     
-    [time_str appendAttributedString:[[NSAttributedString alloc] initWithString:@"分钟"
+    [time_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 分钟"
                                                                      attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                   NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
     
@@ -507,7 +509,264 @@
 
 - (void)btnCancelOderClick
 {
-    [self showInnerInfo];
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = NSLocalizedString(@"你的订单已取消。", nil);
+    [self.view addSubview:hud];
+    [hud show:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [hud hide:YES];
+        
+        [self showInnerInfo];
+    });
+}
+
+#pragma mark -
+
+- (void)showFetchCarInfo
+{
+    [_viewBottomBar removeFromSuperview];
+    self.viewBottomBar = nil;
+    
+    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _viewBottomBar.userInteractionEnabled = YES;
+    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 0, 0, 0)];
+    [self.view addSubview:_viewBottomBar];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"bot_bar":_viewBottomBar}]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bot_bar(81.0)]|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"bot_bar":_viewBottomBar}]];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.translatesAutoresizingMaskIntoConstraints = NO;
+    [btn setTitle:NSLocalizedString(@"在这取车", nil) forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    btn.backgroundColor = COLOR_BTN_BG_GREEN;
+    [btn addTarget:self action:@selector(btnFetchCarClick) forControlEvents:UIControlEventTouchUpInside];
+    [_viewBottomBar addSubview:btn];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[btn_go]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_go":btn}]];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-6-[btn_go]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_go":btn}]];
+    
+    [_viewBottomBar addConstraint:[NSLayoutConstraint constraintWithItem:btn
+                                                               attribute:NSLayoutAttributeWidth
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:_viewBottomBar
+                                                               attribute:NSLayoutAttributeWidth
+                                                              multiplier:0.3
+                                                                constant:0]];
+    
+        //
+    UIButton *btn_back = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn_back.translatesAutoresizingMaskIntoConstraints = NO;
+    [btn_back setImage:[UIImage imageNamed:@"fetch-btn-back-bg"] forState:UIControlStateNormal];
+    [_viewBottomBar addSubview:btn_back];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[btn_back(31)]"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_back":btn_back}]];
+    
+    [_viewBottomBar addConstraint:[NSLayoutConstraint constraintWithItem:btn_back
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:_viewBottomBar
+                                                               attribute:NSLayoutAttributeCenterY
+                                                              multiplier:1
+                                                                constant:0]];
+    
+        //
+    UILabel *lb2 = [[UILabel alloc] initWithFrame:CGRectZero];
+    lb2.translatesAutoresizingMaskIntoConstraints = NO;
+    lb2.font = FONT_NORMAL;
+    lb2.textAlignment = NSTextAlignmentCenter;
+    lb2.textColor = [UIColor whiteColor];
+    lb2.text = NSLocalizedString(@"等待", nil);
+    lb2.backgroundColor = [UIColor clearColor];
+    [_viewBottomBar addSubview:lb2];
+    
+        //
+    NSMutableAttributedString *time_str = [[NSMutableAttributedString alloc] initWithString:@"15"
+                                                                                 attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                              NSFontAttributeName:[UIFont systemFontOfSize:25.0]}];
+    
+    [time_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 分钟"
+                                                                     attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                  NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
+    
+    UILabel *lb_time = [[UILabel alloc] initWithFrame:CGRectZero];
+    lb_time.translatesAutoresizingMaskIntoConstraints = NO;
+    lb_time.textAlignment = NSTextAlignmentCenter;
+    lb_time.attributedText = time_str;
+    lb_time.backgroundColor = [UIColor clearColor];
+    [_viewBottomBar addSubview:lb_time];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-6-[btn_back(30)]-0-[lb_time_t]-0-[btn_go]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_back":btn_back,@"lb_time_t":lb2,@"btn_go":btn}]];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-6-[btn_back(30)]-0-[lb_time]-0-[btn_go]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_back":btn_back,@"lb_time":lb_time,@"btn_go":btn}]];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-16-[lb_time_t]-3-[lb_time]"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"lb_time_t":lb2,@"lb_time":lb_time}]];
+}
+
+- (void)btnCancelFetchCarClick
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)btnFetchCarClick
+{
+    [self showPaymentInfo];
+}
+
+#pragma mark -
+
+- (void)showPaymentInfo
+{
+    [_viewBottomBar removeFromSuperview];
+    self.viewBottomBar = nil;
+    
+    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _viewBottomBar.userInteractionEnabled = YES;
+    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 125.0, 0, 10.0)];
+    [self.view addSubview:_viewBottomBar];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"bot_bar":_viewBottomBar}]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bot_bar(88.0)]|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"bot_bar":_viewBottomBar}]];
+    
+        //
+    NSMutableAttributedString *charge_str = [[NSMutableAttributedString alloc] initWithString:@"¥ "
+                                                                                   attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                                NSFontAttributeName:[UIFont systemFontOfSize:14.0]}];
+    
+    [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@"89"
+                                                                       attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                    NSFontAttributeName:[UIFont systemFontOfSize:25.0]}]];
+    
+    [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 元"
+                                                                       attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                    NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.translatesAutoresizingMaskIntoConstraints = NO;
+    btn.titleLabel.numberOfLines = 2;
+    btn.backgroundColor = [UIColor colorWithRed:0.33 green:0.36 blue:0.49 alpha:1.0];
+    [btn setAttributedTitle:charge_str forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    [btn addTarget:self action:@selector(btnPayClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_viewBottomBar addSubview:btn];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[btn_go(82)]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_go":btn}]];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-12-[btn_go]|"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"btn_go":btn}]];
+    
+    UIImage *im = [UIImage imageNamed:@"test-driver"];
+    UIButton *btn_avator = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn_avator.frame = CGRectMake(17, 5, 80, 80);
+    [btn_avator setImage:im forState:UIControlStateNormal];
+    [btn_avator addTarget:self action:@selector(btnAvatorClick) forControlEvents:UIControlEventTouchUpInside];
+    [_viewBottomBar addSubview:btn_avator];
+    
+        //
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectZero];
+    lb.translatesAutoresizingMaskIntoConstraints = NO;
+    lb.textAlignment = NSTextAlignmentCenter;
+    lb.textColor = [UIColor whiteColor];
+    lb.font = FONT_NORMAL;
+    lb.text = NSLocalizedString(@"等待", nil);
+    lb.backgroundColor = [UIColor clearColor];
+    [_viewBottomBar addSubview:lb];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[lb_time_t(111)]"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"lb_time_t":lb}]];
+    
+    [_viewBottomBar addConstraint:[NSLayoutConstraint constraintWithItem:lb
+                                                               attribute:NSLayoutAttributeCenterX
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:_viewBottomBar
+                                                               attribute:NSLayoutAttributeCenterX
+                                                              multiplier:1
+                                                                constant:0]];
+    
+        //
+    NSMutableAttributedString *time_str = [[NSMutableAttributedString alloc] initWithString:@"15"
+                                                                                 attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                              NSFontAttributeName:[UIFont systemFontOfSize:25.0]}];
+    
+    [time_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 分钟"
+                                                                     attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                  NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
+    
+    UILabel *lb_time = [[UILabel alloc] initWithFrame:CGRectZero];
+    lb_time.translatesAutoresizingMaskIntoConstraints = NO;
+    lb_time.textAlignment = NSTextAlignmentCenter;
+    lb_time.attributedText = time_str;
+    lb_time.backgroundColor = [UIColor clearColor];
+    [_viewBottomBar addSubview:lb_time];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[lb_time(111)]"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"lb_time":lb_time}]];
+    
+    [_viewBottomBar addConstraint:[NSLayoutConstraint constraintWithItem:lb_time
+                                                               attribute:NSLayoutAttributeCenterX
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:_viewBottomBar
+                                                               attribute:NSLayoutAttributeCenterX
+                                                              multiplier:1
+                                                                constant:0]];
+    
+    [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-21-[lb_time_t]-3-[lb_time]"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:@{@"lb_time_t":lb,@"lb_time":lb_time}]];
+}
+
+- (void)btnPayClick:(UIButton *)sender
+{
+    
 }
 
 @end

@@ -23,7 +23,7 @@
     title_lab.font = [UIFont boldSystemFontOfSize:17.0f];
     item.titleView = title_lab;
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.0f];
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
     {
@@ -43,7 +43,7 @@
     UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"navbar-logo"]];
     item.titleView = iv;
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.0f];
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
     {

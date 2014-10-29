@@ -12,4 +12,8 @@
 
 + (UINavigationController *)navController;
 
+- (void)showFetchCarInfo;
+
+- (void)showPaymentInfo;
+
 @end
