@@ -16,7 +16,7 @@
 
 #import "RPFetchCarViewController.h"
 
-@interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate>
 
 @property (nonatomic, strong) PPMapView *mapView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -46,6 +46,9 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = COLOR_MAIN_BG_GRAY;
     [self.view addSubview:_tableView];
+    
+    UINavigationController *mc = [RPFetchCarViewController navController:self];
+    [self presentViewController:mc animated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,10 +121,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UINavigationController *mc = [RPFetchCarViewController navController];
-    [self presentViewController:mc animated:NO completion:nil];
-    return;
-    
+//    UINavigationController *mc = [RPFetchCarViewController navController];
+//    [self presentViewController:mc animated:NO completion:nil];
+//    return;
+//    
     
 //    UINavigationController *mc = [RPMapViewController navController];
 //    [self presentViewController:mc animated:NO completion:nil];
@@ -147,6 +150,19 @@
         RPSettingsTableViewController *c = [[RPSettingsTableViewController alloc] initWithStyle:UITableViewStylePlain];
         [self.navigationController pushViewController:c animated:YES];
     }
+}
+
+#pragma mark -
+
+- (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller
+{
+    [controller dismissViewControllerAnimated:NO completion:^{
+        UINavigationController *mc = [RPMapViewController navController];
+        [self presentViewController:mc animated:NO completion:nil];
+        
+        RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+        [c showOuterInfo];
+    }];
 }
 
 @end

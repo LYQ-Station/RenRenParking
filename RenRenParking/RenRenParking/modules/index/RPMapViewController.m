@@ -9,7 +9,7 @@
 #import "RPMapViewController.h"
 #import "PPMapView.h"
 
-@interface RPMapViewController () <PPMapViewDelegate>
+@interface RPMapViewController () <PPMapViewDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIImageView *viewTopBar;
 @property (nonatomic, strong) UILabel *lbAddress;
@@ -25,6 +25,15 @@
 + (UINavigationController *)navController
 {
     RPMapViewController *c = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
+    
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
+    return nc;
+}
+
++ (UINavigationController *)navController:(id)delegate
+{
+    RPMapViewController *c = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
+    c.delegate = delegate;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
     return nc;
@@ -126,8 +135,6 @@
 //                                                                      options:0
 //                                                                      metrics:nil
 //                                                                        views:@{@"bot_bar":_viewBottomBar}]];
-    
-    [self showOuterInfo];
     
     [_mapView startUpdatingLocation];
 }
@@ -576,6 +583,7 @@
     UIButton *btn_back = [UIButton buttonWithType:UIButtonTypeCustom];
     btn_back.translatesAutoresizingMaskIntoConstraints = NO;
     [btn_back setImage:[UIImage imageNamed:@"fetch-btn-back-bg"] forState:UIControlStateNormal];
+    [btn_back addTarget:self action:@selector(btnCancelFetchCarClick) forControlEvents:UIControlEventTouchUpInside];
     [_viewBottomBar addSubview:btn_back];
     
     [_viewBottomBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[btn_back(31)]"
@@ -684,8 +692,23 @@
     btn.titleLabel.numberOfLines = 2;
     btn.backgroundColor = [UIColor colorWithRed:0.33 green:0.36 blue:0.49 alpha:1.0];
     [btn setAttributedTitle:charge_str forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    
+    {
+        charge_str = [[NSMutableAttributedString alloc] initWithString:@"¥ "
+                                                            attributes:@{NSForegroundColorAttributeName:COLOR_TEXT_GREEN,
+                                                                         NSFontAttributeName:[UIFont systemFontOfSize:14.0]}];
+        
+        [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@"89"
+                                                                           attributes:@{NSForegroundColorAttributeName:COLOR_TEXT_GREEN,
+                                                                                        NSFontAttributeName:[UIFont systemFontOfSize:25.0]}]];
+        
+        [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@" 元"
+                                                                           attributes:@{NSForegroundColorAttributeName:COLOR_TEXT_GREEN,
+                                                                                        NSFontAttributeName:[UIFont systemFontOfSize:14.0]}]];
+        
+        [btn setAttributedTitle:charge_str forState:UIControlStateHighlighted];
+    }
+    
     [btn addTarget:self action:@selector(btnPayClick:) forControlEvents:UIControlEventTouchUpInside];
     [_viewBottomBar addSubview:btn];
     
@@ -766,7 +789,39 @@
 
 - (void)btnPayClick:(UIButton *)sender
 {
-    
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"支付", nil)
+                                                 message:NSLocalizedString(@"是否支付本次泊车的费用？", nil)
+                                                delegate:self
+                                       cancelButtonTitle:NSLocalizedString(@"取消", nil)
+                                       otherButtonTitles:NSLocalizedString(@"确认", nil), nil];
+    av.tag = 101;
+    [av show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (101 == alertView.tag)
+    {
+        if (0 == buttonIndex)
+        {
+            return;
+        }
+        
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = NSLocalizedString(@"支付成功！", nil);
+        [self.view addSubview:hud];
+        [hud show:YES];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [hud hide:YES];
+            
+            if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidPaymentSuccess:)])
+            {
+                [_delegate performSelector:@selector(mapViewControllerDidPaymentSuccess:) withObject:self];
+            }
+        });
+    }
 }
 
 @end

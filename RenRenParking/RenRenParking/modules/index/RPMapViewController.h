@@ -10,10 +10,27 @@
 
 @interface RPMapViewController : UIViewController
 
+@property (nonatomic, assign) id delegate;
+
 + (UINavigationController *)navController;
+
++ (UINavigationController *)navController:(id)delegate;
+
+- (void)showOuterInfo;
 
 - (void)showFetchCarInfo;
 
 - (void)showPaymentInfo;
+
+@end
+
+@protocol RPMapViewControllerDelegate <NSObject>
+
+@optional
+- (void)mapViewControllerDidOrderSubmit:(RPMapViewController *)controller;
+
+- (void)mapViewControllerDidDriverReceiveCar:(RPMapViewController *)controller;
+
+- (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller;
 
 @end

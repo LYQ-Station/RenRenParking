@@ -12,4 +12,6 @@
 
 + (UINavigationController *)navController;
 
++ (UINavigationController *)navController:(id)delegate;
+
 @end
