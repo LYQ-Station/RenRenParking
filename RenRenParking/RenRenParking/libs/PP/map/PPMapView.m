@@ -360,6 +360,14 @@ static PPMapView *__instance = nil;
     return v;
 }
 
+- (void)mapView:(BMKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(ppMapvViewRegionWillChange:)])
+    {
+        [_delegate performSelector:@selector(ppMapvViewRegionWillChange:) withObject:self];
+    }
+}
+
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     if (_delegate && [_delegate respondsToSelector:@selector(ppMapViewRegionDidChange:)])

@@ -56,6 +56,8 @@ typedef enum {
 
 - (void)ppMapView:(PPMapView *)mapView didDeselectAnnotation:(PPMapAnnoation *)annotation;
 
+- (void)ppMapvViewRegionWillChange:(PPMapView *)mapView;
+
 - (void)ppMapViewRegionDidChange:(PPMapView *)mapView;
 
 - (void)ppMapView:(PPMapView *)mapView onGetReverseGeoCodeAddress:(NSString *)address;

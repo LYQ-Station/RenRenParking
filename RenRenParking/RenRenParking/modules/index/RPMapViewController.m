@@ -55,6 +55,9 @@
     
     [self setupLogoTheme];
     
+    UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapNavgatorBar:)];
+    [self.navigationController.navigationBar addGestureRecognizer:g];
+    
     _mapView = [PPMapView mapViewWithFrame:self.view.bounds];
     _mapView.mapView.userInteractionEnabled = YES;
     _mapView.delegate = self;
@@ -139,6 +142,15 @@
     [_mapView startUpdatingLocation];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    NSLog(@"%f %f", self.view.frame.origin.y, self.view.bounds.size.height);
+    
+    _mapView.frame = self.view.frame;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -165,8 +177,25 @@
     
 }
 
+- (void)ppMapvViewRegionWillChange:(PPMapView *)mapView
+{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.viewBottomBar.center = CGPointMake(self.viewBottomBar.center.x, self.viewBottomBar.center.y+self.viewBottomBar.frame.size.height);
+                     }];
+}
+
 - (void)ppMapViewRegionDidChange:(PPMapView *)mapView
 {
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.viewBottomBar.center = CGPointMake(self.viewBottomBar.center.x, self.viewBottomBar.center.y);
+                     }];
+    
     [mapView doGeoSearch:mapView.mapView.centerCoordinate];
 }
 
@@ -189,6 +218,13 @@
     [av startAnimating];
     
     [_mapView performSelector:@selector(startUpdatingLocation) withObject:nil afterDelay:1.0];
+}
+
+- (void)onTapNavgatorBar:(UITapGestureRecognizer *)gesture
+{
+    self.navigationController.navigationBar.alpha = 0.0;
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -
@@ -380,6 +416,11 @@
         [hud hide:YES];
         
         [self showDriverInfo];
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidOrderSubmit:)])
+        {
+            [_delegate performSelector:@selector(mapViewControllerDidOrderSubmit:) withObject:self];
+        }
     });
 }
 
@@ -526,6 +567,11 @@
         [hud hide:YES];
         
         [self showInnerInfo];
+        
+        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidOrderCancel:)])
+        {
+            [_delegate performSelector:@selector(mapViewControllerDidOrderCancel:) withObject:self];
+        }
     });
 }
 

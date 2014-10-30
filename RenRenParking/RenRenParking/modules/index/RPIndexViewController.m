@@ -40,6 +40,9 @@
     
     [self setupLogoTheme];
     
+    UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapNavgatorBar:)];
+    [self.navigationController.navigationBar addGestureRecognizer:g];
+    
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -47,8 +50,11 @@
     _tableView.backgroundColor = COLOR_MAIN_BG_GRAY;
     [self.view addSubview:_tableView];
     
-    UINavigationController *mc = [RPFetchCarViewController navController:self];
+    UINavigationController *mc = [RPMapViewController navController:self];
     [self presentViewController:mc animated:NO completion:nil];
+    
+//    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+//    [c showOuterInfo];
 }
 
 - (void)didReceiveMemoryWarning
@@ -153,6 +159,32 @@
 }
 
 #pragma mark -
+
+- (void)onTapNavgatorBar:(UITapGestureRecognizer *)gesture
+{
+    UINavigationController *mc = [RPMapViewController navController:self];
+    [self presentViewController:mc animated:YES completion:nil];
+    
+    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+    [c showOuterInfo];
+}
+
+#pragma mark -
+
+- (void)mapViewControllerDidOrderSubmit:(RPMapViewController *)controller
+{
+    
+}
+
+- (void)mapViewControllerDidOrderCancel:(RPMapViewController *)controller
+{
+    
+}
+
+- (void)mapViewControllerDidDriverReceiveCar:(RPMapViewController *)controller
+{
+    
+}
 
 - (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller
 {

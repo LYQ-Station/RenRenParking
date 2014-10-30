@@ -29,6 +29,8 @@
 @optional
 - (void)mapViewControllerDidOrderSubmit:(RPMapViewController *)controller;
 
+- (void)mapViewControllerDidOrderCancel:(RPMapViewController *)controller;
+
 - (void)mapViewControllerDidDriverReceiveCar:(RPMapViewController *)controller;
 
 - (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller;
