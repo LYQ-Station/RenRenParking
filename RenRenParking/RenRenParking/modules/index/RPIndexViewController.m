@@ -53,8 +53,8 @@
     UINavigationController *mc = [RPMapViewController navController:self];
     [self presentViewController:mc animated:NO completion:nil];
     
-//    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-//    [c showOuterInfo];
+    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+    [c showOuterInfo];
 }
 
 - (void)didReceiveMemoryWarning

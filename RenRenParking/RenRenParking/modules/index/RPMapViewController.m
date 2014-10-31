@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UIImageView *viewCenterPin;
 @property (nonatomic, assign) PPMapView *mapView;
 
+@property (nonatomic, assign) BOOL isOnTap;
+
 @end
 
 @implementation RPMapViewController
@@ -39,14 +41,6 @@
     return nc;
 }
 
-- (void)loadView
-{
-    CGRect win_s = [UIScreen mainScreen].bounds;
-    
-    self.view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, win_s.size.width, win_s.size.height-20.0f-44.0f)];
-    self.view.backgroundColor = [UIColor whiteColor];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,6 +52,7 @@
     UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapNavgatorBar:)];
     [self.navigationController.navigationBar addGestureRecognizer:g];
     
+        //
     _mapView = [PPMapView mapViewWithFrame:self.view.bounds];
     _mapView.mapView.userInteractionEnabled = YES;
     _mapView.delegate = self;
@@ -80,7 +75,7 @@
                                                                       metrics:nil
                                                                         views:@{@"top_bar":_viewTopBar}]];
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[top_bar(42.0)]"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[top_bar(42.0)]"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:@{@"top_bar":_viewTopBar}]];
@@ -91,7 +86,7 @@
     _lbAddress.font = FONT_NORMAL;
     _lbAddress.textAlignment = NSTextAlignmentCenter;
     _lbAddress.backgroundColor = [UIColor clearColor];
-    _lbAddress.text = @"深圳市南山区科技园源兴科技大厦";
+    _lbAddress.text = NSLocalizedString(@"定位中...", nil);
     [_viewTopBar addSubview:_lbAddress];
     
     [_viewTopBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[lb_addr]-42-|"
@@ -142,15 +137,6 @@
     [_mapView startUpdatingLocation];
 }
 
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    
-    NSLog(@"%f %f", self.view.frame.origin.y, self.view.bounds.size.height);
-    
-    _mapView.frame = self.view.frame;
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -165,6 +151,13 @@
     _btnScope.enabled = YES;
     [_btnScope setImage:[UIImage imageNamed:@"map-btn-location"] forState:UIControlStateNormal];
     
+    _mapView.delegate = nil;
+    [_mapView updateUserLocation:newLocation.coordinate];
+    [mapView doGeoSearch:newLocation.coordinate];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _mapView.delegate = self;
+    });
 }
 
 - (void)ppMapView:(PPMapView *)mapView didSelectAnnotation:(PPMapAnnoation *)annotation
@@ -181,9 +174,33 @@
 {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-    [UIView animateWithDuration:0.25
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstAttribute == NSLayoutAttributeBottom && lc.secondItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+        }
+        
+        if (lc.firstAttribute == NSLayoutAttributeBottom && lc.firstItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+            break;
+        }
+    }
+    
+    NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.view
+                                                         attribute:NSLayoutAttributeTop
+                                                        multiplier:1
+                                                          constant:self.view.frame.size.height];
+    
+    [self.view addConstraint:c];
+    
+    [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
                      animations:^{
-                         self.viewBottomBar.center = CGPointMake(self.viewBottomBar.center.x, self.viewBottomBar.center.y+self.viewBottomBar.frame.size.height);
+                         [self.view layoutIfNeeded];
                      }];
 }
 
@@ -191,9 +208,28 @@
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    [UIView animateWithDuration:0.25
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstAttribute == NSLayoutAttributeTop && lc.firstItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+            break;
+        }
+    }
+    
+    [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
                      animations:^{
-                         self.viewBottomBar.center = CGPointMake(self.viewBottomBar.center.x, self.viewBottomBar.center.y);
+                         NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
+                                                                              attribute:NSLayoutAttributeBottom
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self.view
+                                                                              attribute:NSLayoutAttributeBottom
+                                                                             multiplier:1
+                                                                               constant:0];
+                         
+                         [self.view addConstraint:c];
+                         
+                         [self.view layoutIfNeeded];
                      }];
     
     [mapView doGeoSearch:mapView.mapView.centerCoordinate];

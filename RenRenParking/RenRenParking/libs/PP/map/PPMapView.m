@@ -441,7 +441,7 @@ static PPMapView *__instance = nil;
     CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.55355, 114.09940);
     coor = BMKCoorDictionaryDecode(BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS));
     
-    [self updateUserLocation:coor];
+//    [self updateUserLocation:coor];
     
     if (_delegate && [_delegate respondsToSelector:@selector(ppMapView:didUpdateToLocation:)])
     {
@@ -456,17 +456,16 @@ static PPMapView *__instance = nil;
     CLLocationCoordinate2D coor = [locations[0] coordinate];
     coor = BMKCoorDictionaryDecode(BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS));
     
-//    _currentCoordinate = [locations[0] coordinate];
     _currentCoordinate = coor;
     
-    [self doGeoSearch:coor];
+//    [self doGeoSearch:coor];
     
     if (PPMapViewscopeModeFollow != _scopeMode)
     {
         return;
     }
     
-    [self updateUserLocation:coor];
+//    [self updateUserLocation:coor];
     
     if (_delegate && [_delegate respondsToSelector:@selector(ppMapView:didUpdateToLocation:)])
     {
@@ -483,10 +482,9 @@ static PPMapView *__instance = nil;
     CLLocationCoordinate2D coor = newLocation.coordinate;
     coor = BMKCoorDictionaryDecode(BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS));
     
-//    _currentCoordinate = newLocation.coordinate;
     _currentCoordinate = coor;
     
-    [self doGeoSearch:coor];
+//    [self doGeoSearch:coor];
     
     if (PPMapViewscopeModeFollow != _scopeMode)
     {
