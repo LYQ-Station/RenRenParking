@@ -16,6 +16,7 @@
 @property (nonatomic, strong) PPMapAnnoation *userAnnotation;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) BMKRouteSearch *routeSearch;
+@property (nonatomic, strong) BMKGeoCodeSearch *geoCodeSearch;
 
 @property (nonatomic, assign) PPMapAnnoation *selectedParkingAnnoation;
 
@@ -120,6 +121,7 @@ static PPMapView *__instance = nil;
 {
     _mapView.delegate = nil;
     _routeSearch.delegate = nil;
+    _geoCodeSearch.delegate = nil;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -460,11 +462,12 @@ static PPMapView *__instance = nil;
     
 //    [self doGeoSearch:coor];
     
-    if (PPMapViewscopeModeFollow != _scopeMode)
-    {
-        return;
-    }
+//    if (PPMapViewscopeModeFollow != _scopeMode)
+//    {
+//        return;
+//    }
     
+    [manager stopUpdatingLocation];
 //    [self updateUserLocation:coor];
     
     if (_delegate && [_delegate respondsToSelector:@selector(ppMapView:didUpdateToLocation:)])
@@ -486,12 +489,13 @@ static PPMapView *__instance = nil;
     
 //    [self doGeoSearch:coor];
     
-    if (PPMapViewscopeModeFollow != _scopeMode)
-    {
-        return;
-    }
+//    if (PPMapViewscopeModeFollow != _scopeMode)
+//    {
+//        return;
+//    }
     
-    [self updateUserLocation:coor];
+    [manager stopUpdatingLocation];
+//    [self updateUserLocation:coor];
     
     if (_delegate && [_delegate respondsToSelector:@selector(ppMapView:didUpdateToLocation:)])
     {
@@ -516,16 +520,19 @@ static PPMapView *__instance = nil;
     BMKReverseGeoCodeOption *o = [[BMKReverseGeoCodeOption alloc] init];
     o.reverseGeoPoint = location;
     
-    BMKGeoCodeSearch *s = [[BMKGeoCodeSearch alloc] init];
-    s.delegate = self;
-    [s reverseGeoCode:o];
+    if (!_geoCodeSearch)
+    {
+        self.geoCodeSearch = [[BMKGeoCodeSearch alloc] init];
+    }
+    _geoCodeSearch.delegate = self;
+    [_geoCodeSearch reverseGeoCode:o];
 }
 
 - (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher
                            result:(BMKReverseGeoCodeResult *)result
                         errorCode:(BMKSearchErrorCode)error
 {
-    searcher.delegate = nil;
+    _geoCodeSearch.delegate = nil;
     
     if (BMK_SEARCH_NO_ERROR != error)
     {

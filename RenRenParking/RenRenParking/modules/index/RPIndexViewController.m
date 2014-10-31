@@ -18,7 +18,6 @@
 
 @interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate>
 
-@property (nonatomic, strong) PPMapView *mapView;
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
@@ -127,14 +126,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UINavigationController *mc = [RPFetchCarViewController navController];
-//    [self presentViewController:mc animated:NO completion:nil];
-//    return;
-//    
-    
-//    UINavigationController *mc = [RPMapViewController navController];
-//    [self presentViewController:mc animated:NO completion:nil];
-//    return;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (0 == indexPath.row)
     {
@@ -183,7 +175,10 @@
 
 - (void)mapViewControllerDidDriverReceiveCar:(RPMapViewController *)controller
 {
+    [controller dismissViewControllerAnimated:NO completion:nil];
     
+    UINavigationController *mc = [RPFetchCarViewController navController:self];
+    [self presentViewController:mc animated:NO completion:nil];
 }
 
 - (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller

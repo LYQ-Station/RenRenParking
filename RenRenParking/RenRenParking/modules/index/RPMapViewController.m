@@ -18,8 +18,6 @@
 @property (nonatomic, strong) UIImageView *viewCenterPin;
 @property (nonatomic, assign) PPMapView *mapView;
 
-@property (nonatomic, assign) BOOL isOnTap;
-
 @end
 
 @implementation RPMapViewController
@@ -39,6 +37,11 @@
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
     return nc;
+}
+
+- (void)dealloc
+{
+    _mapView.delegate = nil;
 }
 
 - (void)viewDidLoad
@@ -572,6 +575,15 @@
                                                                            options:0
                                                                            metrics:nil
                                                                              views:@{@"lb_time_t":lb,@"lb_time":lb_time}]];
+    
+    
+        //TODO: receive car ---------------------
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidDriverReceiveCar:)])
+        {
+            [_delegate performSelector:@selector(mapViewControllerDidDriverReceiveCar:) withObject:self];
+        }
+    });
 }
 
 - (void)btnAvatorClick
