@@ -231,7 +231,32 @@ static PPMapView *__instance = nil;
     [_mapView addAnnotations:arr];
 }
 
-#pragma mark - zoom 
+- (void)showAroundServicePlace:(NSArray *)list
+{
+    NSArray *a = [NSArray arrayWithArray:_mapView.overlays];
+    [_mapView removeOverlays:a];
+    
+    for (NSDictionary *d in list)
+    {
+        NSArray *arr = d[@"coordinates"];
+        
+        CLLocationCoordinate2D *cs = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * arr.count);
+        CLLocationCoordinate2D *cs_p = cs;
+        
+        for (NSValue *v in arr)
+        {
+            *cs_p = [v MKCoordinateValue];
+            cs_p++;
+        }
+        
+        BMKPolygon *polygon = [BMKPolygon polygonWithCoordinates:cs count:arr.count];
+        [_mapView addOverlay:polygon];
+        
+        free(cs);
+    }
+}
+
+#pragma mark - zoom
 
 - (void)zoomIn
 {
@@ -348,6 +373,7 @@ static PPMapView *__instance = nil;
     center = [_mapView convertPoint:p toCoordinateFromView:self];
     [_mapView setCenterCoordinate:center animated:YES];
     
+    
 //    region = [_tempMapView regionThatFits:BMKCoordinateRegionMake(center, BMKCoordinateSpanMake(ABS(n_start.pt.latitude - n_end.pt.latitude), ABS(n_start.pt.longitude - n_end.pt.longitude)))];
 //    region = [_mapView regionThatFits:BMKCoordinateRegionMake(center, BMKCoordinateSpanMake(ABS(n_start.pt.latitude - n_end.pt.latitude), ABS(n_start.pt.longitude - n_end.pt.longitude)))];
 //    [_mapView setRegion:region animated:YES];
@@ -355,11 +381,22 @@ static PPMapView *__instance = nil;
 
 - (BMKOverlayView *) mapView:(BMKMapView *)mapView viewForOverlay:(id< BMKOverlay >)overlay
 {
-    BMKPolylineView *v = [[BMKPolylineView alloc] initWithPolyline:overlay];
-    v.fillColor = [UIColor colorWithRed:0.34f green:0.69f blue:0.92f alpha:1.0f];
-    v.strokeColor = [UIColor colorWithRed:0.34f green:0.69f blue:0.92f alpha:1.0f];
-    v.lineWidth = 4.0f;
-    return v;
+    if ([overlay isKindOfClass:[BMKPolyline class]])
+    {
+        BMKPolylineView *v = [[BMKPolylineView alloc] initWithPolyline:overlay];
+        v.fillColor = [UIColor colorWithRed:0.34f green:0.69f blue:0.92f alpha:1.0f];
+        v.strokeColor = [UIColor colorWithRed:0.34f green:0.69f blue:0.92f alpha:1.0f];
+        v.lineWidth = 4.0f;
+        return v;
+    }
+    else if ([overlay isKindOfClass:[BMKPolygon class]])
+    {
+        BMKPolygonView *v = [[BMKPolygonView alloc] initWithPolygon:overlay];
+        v.fillColor = [UIColor colorWithRed:0.34f green:0.69f blue:0.92f alpha:0.4f];
+        return v;
+    }
+    
+    return nil;
 }
 
 - (void)mapView:(BMKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
@@ -550,6 +587,97 @@ static PPMapView *__instance = nil;
     {
         [_delegate performSelector:@selector(ppMapView:onGetReverseGeoCodeAddress:) withObject:self withObject:result.address];
     }
+}
+
+#pragma mark -
+
+- (BOOL)isInPolygon:(CLLocationCoordinate2D *)coordinates forCoordinate:(CLLocationCoordinate2D)coordinate count:(NSInteger)count
+{
+    CGPoint p;
+    CLLocationCoordinate2D coor;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    for (int i=0;i<count;i++)
+    {
+        coor = *coordinates;
+        
+        p = [_mapView convertCoordinate:coor toPointToView:_mapView];
+        
+        if (0 == i)
+        {
+            [path moveToPoint:p];
+        }
+        else
+        {
+            [path addLineToPoint:p];
+        }
+        
+        coordinates++;
+    }
+    
+    p = [_mapView convertCoordinate:coordinate toPointToView:_mapView];
+    return [path containsPoint:p];
+}
+
+- (BOOL)isCoordinateInPolygon:(CLLocationCoordinate2D)coordinate
+{
+    CGPoint p;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    NSArray *arr = _mapView.overlays;
+    BMKPolygon *polygon;
+    
+    for (id overlay in arr)
+    {
+        if (![overlay isKindOfClass:[BMKPolygon class]])
+        {
+            continue;
+        }
+        
+        polygon = (BMKPolygon *)overlay;
+        
+        for (int i=0;i<polygon.pointCount;i++)
+        {
+            p = [_mapView convertCoordinate:BMKCoordinateForMapPoint(polygon.points[i]) toPointToView:_mapView];
+            
+            if (0 == i)
+            {
+                [path moveToPoint:p];
+            }
+            else
+            {
+                [path addLineToPoint:p];
+            }
+        }
+    }
+    
+    p = [_mapView convertCoordinate:coordinate toPointToView:_mapView];
+    return [path containsPoint:p];
+    
+    
+//    int i=0;
+//    
+//    while (coordinates)
+//    {
+//        coor = *coordinates;
+//        
+//        p = [_mapView convertCoordinate:coor toPointToView:_mapView];
+//        
+//        if (0 == i)
+//        {
+//            [path moveToPoint:p];
+//            i++;
+//        }
+//        else
+//        {
+//            [path addLineToPoint:p];
+//        }
+//        
+//        coordinates++;
+//    }
+//    
+//    p = [_mapView convertCoordinate:coordinate toPointToView:_mapView];
+//    return [path containsPoint:p];
 }
 
 @end

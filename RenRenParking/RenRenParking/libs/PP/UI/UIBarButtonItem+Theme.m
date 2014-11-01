@@ -65,7 +65,7 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    btn.bounds = CGRectMake(0.0f, 0.0f, s.width+20.0, s.height);
+    btn.bounds = CGRectMake(0.0f, 0.0f, s.width+10.0, s.height);
     btn.titleLabel.font = FONT_NORMAL;
     [btn setTitle:title forState:UIControlStateNormal];
     [btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateNormal];

@@ -92,22 +92,22 @@
     if (0 == indexPath.row)
     {
         cell.imageView.image = [UIImage imageNamed:@"index-cell-icon0"];
-        cell.textLabel.text = @"我的资料";
+        cell.textLabel.text = NSLocalizedString(@"我的资料", nil);
     }
     else if (1 == indexPath.row)
     {
         cell.imageView.image = [UIImage imageNamed:@"index-cell-icon1"];
-        cell.textLabel.text = @"历史订单";
+        cell.textLabel.text = NSLocalizedString(@"历史订单", nil);
     }
     else if (2 == indexPath.row)
     {
         cell.imageView.image = [UIImage imageNamed:@"index-cell-icon2"];
-        cell.textLabel.text = @"意见反馈";
+        cell.textLabel.text = NSLocalizedString(@"意见反馈", nil);
     }
     else if (3 == indexPath.row)
     {
         cell.imageView.image = [UIImage imageNamed:@"index-cell-icon3"];
-        cell.textLabel.text = @"设置";
+        cell.textLabel.text = NSLocalizedString(@"设置", nil);
     }
     
     return cell;

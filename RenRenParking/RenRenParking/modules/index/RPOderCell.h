@@ -10,6 +10,12 @@
 
 @interface RPOderCell : UITableViewCell
 
+@property (nonatomic, copy) NSString *labelDateText;
+@property (nonatomic, copy) NSString *labelStatusText;
+@property (nonatomic, copy) NSString *labelTimeText;
+@property (nonatomic, copy) NSString *labelPlaceText;
+@property (nonatomic, copy) NSString *labelChargeText;
+
 + (CGFloat)height;
 
 + (RPOderCell *)cell;

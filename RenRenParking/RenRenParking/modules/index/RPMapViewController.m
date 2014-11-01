@@ -18,6 +18,11 @@
 @property (nonatomic, strong) UIImageView *viewCenterPin;
 @property (nonatomic, assign) PPMapView *mapView;
 
+@property (nonatomic, assign) BOOL isAutoUpdateLocation;
+@property (nonatomic, assign) int currentStatus;
+@property (nonatomic, weak) NSDictionary *selectedServicePlace;
+@property (nonatomic, strong) NSMutableArray *servicesPlaceArray;
+
 @end
 
 @implementation RPMapViewController
@@ -47,6 +52,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _currentStatus = RPMapViewControllerStatusNone;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectZero]];
     
@@ -150,6 +157,8 @@
 
 - (void)ppMapView:(PPMapView *)mapView didUpdateToLocation:(CLLocation *)newLocation
 {
+    _isAutoUpdateLocation = YES;
+    
     [[_btnScope viewWithTag:101] removeFromSuperview];
     _btnScope.enabled = YES;
     [_btnScope setImage:[UIImage imageNamed:@"map-btn-location"] forState:UIControlStateNormal];
@@ -157,6 +166,8 @@
     _mapView.delegate = nil;
     [_mapView updateUserLocation:newLocation.coordinate];
     [mapView doGeoSearch:newLocation.coordinate];
+    
+    [self loadServicePlace:newLocation.coordinate];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _mapView.delegate = self;
@@ -233,9 +244,24 @@
                          [self.view addConstraint:c];
                          
                          [self.view layoutIfNeeded];
+                     }
+                     completion:^(BOOL finished) {
+                         
+                         if (finished)
+                         {
+                             [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+                             
+                             self.selectedServicePlace = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
+                             if (!_selectedServicePlace)
+                             {
+                                 [self showOuterInfo];
+                             }
+                             else
+                             {
+                                 [self showInnerInfo];
+                             }
+                         }
                      }];
-    
-    [mapView doGeoSearch:mapView.mapView.centerCoordinate];
 }
 
 - (void)ppMapView:(PPMapView *)mapView onGetReverseGeoCodeAddress:(NSString *)address
@@ -266,10 +292,17 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark -
+#pragma mark - 服务区外
 
 - (void)showOuterInfo
 {
+    if (_currentStatus == RPMapViewControllerStatusOuterInfo)
+    {
+        return;
+    }
+    
+    _currentStatus = RPMapViewControllerStatusOuterInfo;
+    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     
@@ -313,10 +346,17 @@
     [self showInnerInfo];
 }
 
-#pragma mark -
+#pragma mark - 服务区内
 
 - (void)showInnerInfo
 {
+    if (_currentStatus == RPMapViewControllerStatusInnerInfo)
+    {
+        return;
+    }
+    
+    _currentStatus = RPMapViewControllerStatusInnerInfo;
+    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     
@@ -463,10 +503,17 @@
     });
 }
 
-#pragma mark -
+#pragma mark - 等待接车
 
 - (void)showDriverInfo
 {
+    if (_currentStatus == RPMapViewControllerStatusDriverInfo)
+    {
+        return;
+    }
+    
+    _currentStatus = RPMapViewControllerStatusDriverInfo;
+    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     
@@ -623,10 +670,17 @@
     });
 }
 
-#pragma mark -
+#pragma mark - 我要取车
 
 - (void)showFetchCarInfo
 {
+    if (_currentStatus == RPMapViewControllerStatusFetchCarInfo)
+    {
+        return;
+    }
+    
+    _currentStatus = RPMapViewControllerStatusFetchCarInfo;
+    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     
@@ -745,10 +799,17 @@
     [self showPaymentInfo];
 }
 
-#pragma mark -
+#pragma mark - 支付
 
 - (void)showPaymentInfo
 {
+    if (_currentStatus == RPMapViewControllerStatusPaymentInfo)
+    {
+        return;
+    }
+    
+    _currentStatus = RPMapViewControllerStatusPaymentInfo;
+    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     
@@ -892,6 +953,8 @@
     [av show];
 }
 
+#pragma mark -
+
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (101 == alertView.tag)
@@ -916,6 +979,70 @@
             }
         });
     }
+}
+
+#pragma mark -
+
+- (void)loadServicePlace:(CLLocationCoordinate2D)userCoordinate
+{
+    self.servicesPlaceArray = [NSMutableArray array];
+    
+    [_servicesPlaceArray addObject:@{@"id":@"1",
+                                     @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.590291,113.871609)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.586019,113.876819)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.58335,113.873909)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.585085,113.869669)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.584618,113.866686)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.586453,113.864207)]
+                                                      ]
+                                     }];
+    
+    [_servicesPlaceArray addObject:@{@"id":@"2",
+                                     @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.582516,113.86065)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.578711,113.865249)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.575608,113.861907)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.579145,113.85756)]
+                                                      ]
+                                     }];
+    
+    [_servicesPlaceArray addObject:@{@"id":@"3",
+                                     @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.583483,113.871609)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.579379,113.879838)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.576142,113.876927)],
+                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.580146,113.871753)]
+                                                      ]
+                                     }];
+    
+    [_mapView showAroundServicePlace:_servicesPlaceArray];
+}
+
+#pragma mark -
+
+- (NSDictionary *)servicePlaceForCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    for (NSDictionary *d in _servicesPlaceArray)
+    {
+        NSArray *arr = d[@"coordinates"];
+        
+        CLLocationCoordinate2D *cs = (CLLocationCoordinate2D *)malloc(sizeof(CLLocationCoordinate2D) * arr.count);
+        CLLocationCoordinate2D *cs_p = cs;
+        
+        for (NSValue *v in arr)
+        {
+            *cs_p = [v MKCoordinateValue];
+            cs_p++;
+        }
+        
+        if ([_mapView isInPolygon:cs forCoordinate:coordinate count:arr.count])
+        {
+            free(cs);
+            return d;
+        }
+        
+        free(cs);
+    }
+    
+    return nil;
 }
 
 @end

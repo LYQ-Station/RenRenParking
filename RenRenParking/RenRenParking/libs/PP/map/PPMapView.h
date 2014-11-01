@@ -39,11 +39,15 @@ typedef enum {
 
 - (void)showAroundParking:(NSArray *)list;
 
+- (void)showAroundServicePlace:(NSArray *)list;
+
 - (void)zoomIn;
 
 - (void)zoomOut;
 
 - (void)doGeoSearch:(CLLocationCoordinate2D)location;
+
+- (BOOL)isInPolygon:(CLLocationCoordinate2D *)coordinates forCoordinate:(CLLocationCoordinate2D)coordinate count:(NSInteger)count;
 
 @end
 

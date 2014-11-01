@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    RPMapViewControllerStatusNone,
+    RPMapViewControllerStatusOuterInfo,
+    RPMapViewControllerStatusInnerInfo,
+    RPMapViewControllerStatusDriverInfo,
+    RPMapViewControllerStatusFetchCarInfo,
+    RPMapViewControllerStatusPaymentInfo
+} RPMapViewControllerStatus;
+
 @interface RPMapViewController : UIViewController
 
 @property (nonatomic, assign) id delegate;

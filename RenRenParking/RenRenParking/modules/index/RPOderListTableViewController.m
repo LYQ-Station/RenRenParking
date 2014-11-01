@@ -71,7 +71,14 @@
     if (!cell)
     {
         cell = [RPOderCell cell];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
+    cell.labelDateText = @"2014年10月22日 17:33";
+    cell.labelStatusText = @"已完成";
+    cell.labelTimeText = @"1小时20分钟";
+    cell.labelPlaceText = @"南山欢乐颂购物中心";
+    cell.labelChargeText = @"20";
     
     return cell;
 }
