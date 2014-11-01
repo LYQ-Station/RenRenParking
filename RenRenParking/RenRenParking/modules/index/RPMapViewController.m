@@ -159,19 +159,16 @@
 {
     _isAutoUpdateLocation = YES;
     
+    [self loadServicePlace:newLocation.coordinate];
+    
     [[_btnScope viewWithTag:101] removeFromSuperview];
     _btnScope.enabled = YES;
     [_btnScope setImage:[UIImage imageNamed:@"map-btn-location"] forState:UIControlStateNormal];
     
-    _mapView.delegate = nil;
     [_mapView updateUserLocation:newLocation.coordinate];
     [mapView doGeoSearch:newLocation.coordinate];
     
-    [self loadServicePlace:newLocation.coordinate];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _mapView.delegate = self;
-    });
+    _isAutoUpdateLocation = NO;
 }
 
 - (void)ppMapView:(PPMapView *)mapView didSelectAnnotation:(PPMapAnnoation *)annotation
@@ -186,82 +183,108 @@
 
 - (void)ppMapvViewRegionWillChange:(PPMapView *)mapView
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
-    for (NSLayoutConstraint *lc in self.view.constraints)
+    if (!_isAutoUpdateLocation)
     {
-        if (lc.firstAttribute == NSLayoutAttributeBottom && lc.secondItem == _viewBottomBar)
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        
+        for (NSLayoutConstraint *lc in self.view.constraints)
         {
-            [self.view removeConstraint:lc];
+            if (lc.firstAttribute == NSLayoutAttributeBottom && lc.secondItem == _viewBottomBar)
+            {
+                [self.view removeConstraint:lc];
+            }
+            
+            if (lc.firstAttribute == NSLayoutAttributeBottom && lc.firstItem == _viewBottomBar)
+            {
+                [self.view removeConstraint:lc];
+                break;
+            }
         }
         
-        if (lc.firstAttribute == NSLayoutAttributeBottom && lc.firstItem == _viewBottomBar)
-        {
-            [self.view removeConstraint:lc];
-            break;
-        }
+        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
+                                                             attribute:NSLayoutAttributeTop
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeTop
+                                                            multiplier:1
+                                                              constant:self.view.frame.size.height];
+        
+        [self.view addConstraint:c];
+        
+        [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
+                         animations:^{
+                             [self.view layoutIfNeeded];
+                         }];
     }
-    
-    NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
-                                                         attribute:NSLayoutAttributeTop
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.view
-                                                         attribute:NSLayoutAttributeTop
-                                                        multiplier:1
-                                                          constant:self.view.frame.size.height];
-    
-    [self.view addConstraint:c];
-    
-    [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
-                     animations:^{
-                         [self.view layoutIfNeeded];
-                     }];
 }
 
 - (void)ppMapViewRegionDidChange:(PPMapView *)mapView
 {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
-    for (NSLayoutConstraint *lc in self.view.constraints)
+    if (!_isAutoUpdateLocation)
     {
-        if (lc.firstAttribute == NSLayoutAttributeTop && lc.firstItem == _viewBottomBar)
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        
+        for (NSLayoutConstraint *lc in self.view.constraints)
         {
-            [self.view removeConstraint:lc];
-            break;
+            if (lc.firstAttribute == NSLayoutAttributeTop && lc.firstItem == _viewBottomBar)
+            {
+                [self.view removeConstraint:lc];
+                break;
+            }
+        }
+        
+        [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
+                         animations:^{
+                             NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
+                                                                                  attribute:NSLayoutAttributeBottom
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:self.view
+                                                                                  attribute:NSLayoutAttributeBottom
+                                                                                 multiplier:1
+                                                                                   constant:0];
+                             
+                             [self.view addConstraint:c];
+                             
+                             [self.view layoutIfNeeded];
+                         }
+                         completion:^(BOOL finished) {
+                             
+                             if (finished)
+                             {
+                                 [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+                                 
+                                 self.selectedServicePlace = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
+                                 if (!_selectedServicePlace)
+                                 {
+                                     [self showOuterInfo];
+                                 }
+                                 else
+                                 {
+                                     [self showInnerInfo];
+                                 }
+                             }
+                         }];
+    }
+    else
+    {
+        [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+        
+        NSDictionary *d = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
+        
+        if (!d)
+        {
+            [self showOuterInfo];
+        }
+        else
+        {
+            if ([d[@"id"] intValue] != [d[@"id"] intValue])
+            {
+                [self showInnerInfo];
+            }
         }
     }
     
-    [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
-                     animations:^{
-                         NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
-                                                                              attribute:NSLayoutAttributeBottom
-                                                                              relatedBy:NSLayoutRelationEqual
-                                                                                 toItem:self.view
-                                                                              attribute:NSLayoutAttributeBottom
-                                                                             multiplier:1
-                                                                               constant:0];
-                         
-                         [self.view addConstraint:c];
-                         
-                         [self.view layoutIfNeeded];
-                     }
-                     completion:^(BOOL finished) {
-                         
-                         if (finished)
-                         {
-                             [mapView doGeoSearch:mapView.mapView.centerCoordinate];
-                             
-                             self.selectedServicePlace = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
-                             if (!_selectedServicePlace)
-                             {
-                                 [self showOuterInfo];
-                             }
-                             else
-                             {
-                                 [self showInnerInfo];
-                             }
-                         }
-                     }];
+    _isAutoUpdateLocation = NO;
 }
 
 - (void)ppMapView:(PPMapView *)mapView onGetReverseGeoCodeAddress:(NSString *)address
@@ -287,8 +310,6 @@
 
 - (void)onTapNavgatorBar:(UITapGestureRecognizer *)gesture
 {
-    self.navigationController.navigationBar.alpha = 0.0;
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -350,13 +371,6 @@
 
 - (void)showInnerInfo
 {
-    if (_currentStatus == RPMapViewControllerStatusInnerInfo)
-    {
-        return;
-    }
-    
-    _currentStatus = RPMapViewControllerStatusInnerInfo;
-    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     
@@ -431,7 +445,7 @@
                                                                                   attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                                NSFontAttributeName:[UIFont systemFontOfSize:14.0]}];
     
-    [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:@"99"
+    [charge_str appendAttributedString:[[NSAttributedString alloc] initWithString:_selectedServicePlace[@"charge"]
                                                                       attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                    NSFontAttributeName:[UIFont systemFontOfSize:25.0]}]];
     
@@ -447,7 +461,7 @@
     [_viewBottomBar addSubview:lb_charge];
     
         //
-    NSMutableAttributedString *time_str = [[NSMutableAttributedString alloc] initWithString:@"15"
+    NSMutableAttributedString *time_str = [[NSMutableAttributedString alloc] initWithString:_selectedServicePlace[@"wait_time"]
                                                                                  attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                               NSFontAttributeName:[UIFont systemFontOfSize:25.0]}];
     
@@ -988,6 +1002,8 @@
     self.servicesPlaceArray = [NSMutableArray array];
     
     [_servicesPlaceArray addObject:@{@"id":@"1",
+                                     @"wait_time":@"10",
+                                     @"charge":@"15",
                                      @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.590291,113.871609)],
                                                       [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.586019,113.876819)],
                                                       [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.58335,113.873909)],
@@ -998,6 +1014,8 @@
                                      }];
     
     [_servicesPlaceArray addObject:@{@"id":@"2",
+                                     @"wait_time":@"16",
+                                     @"charge":@"13",
                                      @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.582516,113.86065)],
                                                       [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.578711,113.865249)],
                                                       [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.575608,113.861907)],
@@ -1006,6 +1024,8 @@
                                      }];
     
     [_servicesPlaceArray addObject:@{@"id":@"3",
+                                     @"wait_time":@"20",
+                                     @"charge":@"18",
                                      @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.583483,113.871609)],
                                                       [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.579379,113.879838)],
                                                       [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.576142,113.876927)],
