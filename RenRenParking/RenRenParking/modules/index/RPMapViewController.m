@@ -371,6 +371,8 @@
 
 - (void)showInnerInfo
 {
+    _currentStatus = RPMapViewControllerStatusInnerInfo;
+    
     [_viewBottomBar removeFromSuperview];
     self.viewBottomBar = nil;
     

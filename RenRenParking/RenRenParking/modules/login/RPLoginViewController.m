@@ -54,7 +54,7 @@
     _btnSubmit.backgroundColor = COLOR_BTN_BG_GREEN;
     _btnSubmit.titleLabel.font = FONT_NORMAL;
     [_btnSubmit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_btnSubmit setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    [_btnSubmit setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     
     _btnFindPwd.titleLabel.font = FONT_NORMAL;
     [_btnFindPwd setTitleColor:COLOR_TEXT_GRAY forState:UIControlStateNormal];
@@ -104,7 +104,6 @@
 - (IBAction)btnRegisterClick:(id)sender
 {
     RPRegisterViewController *c = [[RPRegisterViewController alloc] initWithNibName:nil bundle:nil];
-    c.title = NSLocalizedString(@"注册新用户", nil);
     [c setupTheme];
     [self.navigationController pushViewController:c animated:YES];
 }
