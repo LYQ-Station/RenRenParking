@@ -1,25 +1,25 @@
 //
-//  RPAboutViewController.m
+//  RPManualViewController.m
 //  RenRenParking
 //
-//  Created by LiYongQiang on 14/10/22.
+//  Created by LiYongQiang on 14/11/2.
 //  Copyright (c) 2014年 CoderFly. All rights reserved.
 //
 
-#import "RPAboutViewController.h"
+#import "RPManualViewController.h"
 
-@interface RPAboutViewController ()
+@interface RPManualViewController ()
 
 @end
 
-@implementation RPAboutViewController
+@implementation RPManualViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.title = NSLocalizedString(@"关于我们", nil);
+        self.title = NSLocalizedString(@"使用帮助", nil);
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonThemeItem:UIBarButtonThemeItemBack target:self action:@selector(btnBackClick)];
     }
     return self;

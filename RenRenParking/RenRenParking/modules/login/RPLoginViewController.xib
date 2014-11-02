@@ -43,6 +43,9 @@
                     <state key="normal" title="登录">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="btnLoginClick:" destination="-1" eventType="touchUpInside" id="pab-GV-J1k"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LRP-sE-Zfw">
                     <rect key="frame" x="8" y="228" width="110" height="30"/>

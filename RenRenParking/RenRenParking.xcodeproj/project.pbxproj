@@ -54,6 +54,9 @@
 		481CB51219F7F09A008DA7C8 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 481CB4EC19F7F09A008DA7C8 /* Base64.m */; };
 		481CB51519F7F0EC008DA7C8 /* map-user-point@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 481CB51419F7F0EC008DA7C8 /* map-user-point@2x.png */; };
 		481CB51919F7F141008DA7C8 /* RPAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 481CB51819F7F141008DA7C8 /* RPAboutViewController.m */; };
+		4841B2CE1A05D849008C005B /* RPManualViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4841B2CC1A05D849008C005B /* RPManualViewController.m */; };
+		4841B2CF1A05D849008C005B /* RPManualViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4841B2CD1A05D849008C005B /* RPManualViewController.xib */; };
+		4841B2D11A05D871008C005B /* RPAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4841B2D01A05D871008C005B /* RPAboutViewController.xib */; };
 		485F8E4019FE62760019FCA2 /* RPMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 485F8E3F19FE62760019FCA2 /* RPMapViewController.m */; };
 		485F8E4219FE65E90019FCA2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 485F8E4119FE65E90019FCA2 /* AppDelegate.mm */; };
 		485F8EC419FE74820019FCA2 /* map-addr-bar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 485F8EC219FE74820019FCA2 /* map-addr-bar-bg@2x.png */; };
@@ -273,6 +276,10 @@
 		481CB51819F7F141008DA7C8 /* RPAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPAboutViewController.m; sourceTree = "<group>"; };
 		481CB51A19F7F329008DA7C8 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		481CB51B19F7F39B008DA7C8 /* PPConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPConfigs.h; sourceTree = "<group>"; };
+		4841B2CB1A05D849008C005B /* RPManualViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPManualViewController.h; sourceTree = "<group>"; };
+		4841B2CC1A05D849008C005B /* RPManualViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPManualViewController.m; sourceTree = "<group>"; };
+		4841B2CD1A05D849008C005B /* RPManualViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPManualViewController.xib; sourceTree = "<group>"; };
+		4841B2D01A05D871008C005B /* RPAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPAboutViewController.xib; sourceTree = "<group>"; };
 		485F8E3E19FE62760019FCA2 /* RPMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPMapViewController.h; sourceTree = "<group>"; };
 		485F8E3F19FE62760019FCA2 /* RPMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPMapViewController.m; sourceTree = "<group>"; };
 		485F8E4119FE65E90019FCA2 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -633,8 +640,12 @@
 			children = (
 				48D7750619FC84A7001DBEAB /* RPSettingsTableViewController.h */,
 				48D7750719FC84A7001DBEAB /* RPSettingsTableViewController.m */,
+				4841B2CB1A05D849008C005B /* RPManualViewController.h */,
+				4841B2CC1A05D849008C005B /* RPManualViewController.m */,
+				4841B2CD1A05D849008C005B /* RPManualViewController.xib */,
 				481CB51719F7F141008DA7C8 /* RPAboutViewController.h */,
 				481CB51819F7F141008DA7C8 /* RPAboutViewController.m */,
+				4841B2D01A05D871008C005B /* RPAboutViewController.xib */,
 				48D7750F19FC8BED001DBEAB /* RPUserProfileTableViewController.h */,
 				48D7751019FC8BED001DBEAB /* RPUserProfileTableViewController.m */,
 				48D7751619FC8F09001DBEAB /* RPFeedbackViewController.h */,
@@ -918,6 +929,7 @@
 				8BD1C9C519FA47AE00D9476D /* RPFindPwdViewController.xib in Resources */,
 				481CB51519F7F0EC008DA7C8 /* map-user-point@2x.png in Resources */,
 				481CB4F719F7F09A008DA7C8 /* mapapi.bundle in Resources */,
+				4841B2D11A05D871008C005B /* RPAboutViewController.xib in Resources */,
 				8BD1C9BF19FA475F00D9476D /* login-text-field-mobile-bg@2x.png in Resources */,
 				8BD1C9BC19FA424F00D9476D /* navbar-logo@2x.png in Resources */,
 				485F8EC719FE7DB30019FCA2 /* map-btn-location@2x.png in Resources */,
@@ -929,6 +941,7 @@
 				8BAFA4351A00C810000A033A /* fetch-placeholder@2x.png in Resources */,
 				8BD1C9C019FA475F00D9476D /* login-text-field-pwd-bg@2x.png.png in Resources */,
 				48D7750C19FC87E1001DBEAB /* settings-cell-icon0@2x.png in Resources */,
+				4841B2CF1A05D849008C005B /* RPManualViewController.xib in Resources */,
 				8BAFA42F1A00C2A5000A033A /* RPFetchCarViewController.xib in Resources */,
 				8BAFA4331A00C442000A033A /* map-bottom-bar-bg-green@2x.png in Resources */,
 				48D7752019FCB672001DBEAB /* btn-bg-gray@2x.png in Resources */,
@@ -1029,6 +1042,7 @@
 				4867711D19F7DB620081C81C /* main.m in Sources */,
 				481CB50919F7F09A008DA7C8 /* PPImageCache.m in Sources */,
 				481CB4ED19F7F09A008DA7C8 /* AFHTTPClient.m in Sources */,
+				4841B2CE1A05D849008C005B /* RPManualViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

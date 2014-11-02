@@ -14,6 +14,8 @@
 
 + (UINavigationController *)navController:(id)delegate;
 
++ (UINavigationController *)navControllerWithBlock:(void(^)(id user, BOOL isCancelled))block;
+
 @end
 
 @protocol RPLoginViewControllerDelegate <NSObject>

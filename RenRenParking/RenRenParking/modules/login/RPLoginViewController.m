@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnFindPwd;
 @property (weak, nonatomic) IBOutlet UIButton *btnRegister;
 
+@property (nonatomic, strong) void(^completeBlock)(id user, BOOL isCancelled);
+
 @end
 
 @implementation RPLoginViewController
@@ -32,14 +34,27 @@
     return nc;
 }
 
++ (UINavigationController *)navControllerWithBlock:(void(^)(id user, BOOL isCancelled))block
+{
+    RPLoginViewController *c = [[RPLoginViewController alloc] initWithNibName:nil bundle:nil];
+    c.completeBlock = block;
+    
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
+    return nc;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonThemeItem:UIBarButtonThemeItemBack target:self action:@selector(btnBackClick)];
     
     [self setupLogoTheme];
     
     _btnSubmit.backgroundColor = COLOR_BTN_BG_GREEN;
     _btnSubmit.titleLabel.font = FONT_NORMAL;
+    [_btnSubmit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_btnSubmit setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
     
     _btnFindPwd.titleLabel.font = FONT_NORMAL;
     [_btnFindPwd setTitleColor:COLOR_TEXT_GRAY forState:UIControlStateNormal];
@@ -63,6 +78,22 @@
 }
 
 #pragma mark -
+
+- (void)btnBackClick
+{
+    if (_completeBlock)
+    {
+        _completeBlock(nil, YES);
+    }
+}
+
+- (IBAction)btnLoginClick:(id)sender
+{
+    if (_completeBlock)
+    {
+        _completeBlock(nil, NO);
+    }
+}
 
 - (IBAction)btnFindPwdClick:(id)sender
 {

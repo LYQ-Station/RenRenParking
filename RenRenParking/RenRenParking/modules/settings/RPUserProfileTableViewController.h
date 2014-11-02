@@ -10,4 +10,7 @@
 
 @interface RPUserProfileTableViewController : UITableViewController
 
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *carNumber;
+
 @end

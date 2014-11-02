@@ -12,6 +12,7 @@
 #import "RPFeedbackViewController.h"
 #import "RPSettingsTableViewController.h"
 #import "RPMapViewController.h"
+#import "RPLoginViewController.h"
 #import "PPMapView.h"
 
 #import "RPFetchCarViewController.h"
@@ -130,8 +131,18 @@
     
     if (0 == indexPath.row)
     {
-        RPUserProfileTableViewController *c = [[RPUserProfileTableViewController alloc] initWithStyle:UITableViewStylePlain];
-        [self.navigationController pushViewController:c animated:YES];
+        UINavigationController *nc = [RPLoginViewController navControllerWithBlock:^(id user, BOOL isCancelled) {
+           if (isCancelled)
+           {
+               [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+               return ;
+           }
+            
+            RPUserProfileTableViewController *c = [[RPUserProfileTableViewController alloc] initWithStyle:UITableViewStylePlain];
+            [self.navigationController pushViewController:c animated:YES];
+        }];
+        
+        [self.navigationController presentViewController:nc animated:YES completion:nil];
     }
     else if (1 == indexPath.row)
     {

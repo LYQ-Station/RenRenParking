@@ -7,6 +7,8 @@
 //
 
 #import "RPSettingsTableViewController.h"
+#import "RPAboutViewController.h"
+#import "RPManualViewController.h"
 
 @interface RPSettingsTableViewController ()
 
@@ -81,6 +83,7 @@
         exit_btn.titleLabel.font = FONT_NORMAL;
         exit_btn.frame = CGRectMake(11, 31, 296, 52);
         [exit_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [exit_btn setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
         [exit_btn setTitle:NSLocalizedString(@"退出当前账号", nil) forState:UIControlStateNormal];
         
         [cell_b addSubview:exit_btn];
@@ -131,6 +134,20 @@
     
     UIImageView *iv = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"table-cell-bg0"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     cell.backgroundView = iv;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0 == indexPath.row)
+    {
+        RPAboutViewController *c = [[RPAboutViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:c animated:YES];
+    }
+    else if (2 == indexPath.row)
+    {
+        RPManualViewController *c = [[RPManualViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:c animated:YES];
+    }
 }
 
 
