@@ -27,14 +27,6 @@
 
 @implementation RPMapViewController
 
-+ (UINavigationController *)navController
-{
-    RPMapViewController *c = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
-    
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
-    return nc;
-}
-
 + (UINavigationController *)navController:(id)delegate
 {
     RPMapViewController *c = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
@@ -253,14 +245,29 @@
                              {
                                  [mapView doGeoSearch:mapView.mapView.centerCoordinate];
                                  
-                                 self.selectedServicePlace = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
-                                 if (!_selectedServicePlace)
+//                                 self.selectedServicePlace = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
+//                                 if (!_selectedServicePlace)
+//                                 {
+//                                     [self showOuterInfo];
+//                                 }
+//                                 else
+//                                 {
+//                                     [self showInnerInfo];
+//                                 }
+                                 
+                                 NSDictionary *d = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
+                                 
+                                 if (!d)
                                  {
                                      [self showOuterInfo];
                                  }
                                  else
                                  {
-                                     [self showInnerInfo];
+                                     if ([d[@"id"] intValue] != [_selectedServicePlace[@"id"] intValue])
+                                     {
+                                         self.selectedServicePlace = d;
+                                         [self showInnerInfo];
+                                     }
                                  }
                              }
                          }];
@@ -277,8 +284,9 @@
         }
         else
         {
-            if ([d[@"id"] intValue] != [d[@"id"] intValue])
+            if ([d[@"id"] intValue] != [_selectedServicePlace[@"id"] intValue])
             {
+                self.selectedServicePlace = d;
                 [self showInnerInfo];
             }
         }
@@ -364,7 +372,13 @@
 
 - (void)btnGoServiceStationClick:(UIButton *)sender
 {
-    [self showInnerInfo];
+    _isAutoUpdateLocation = YES;
+    
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.58028, 113.87549);
+    
+    [self loadServicePlace:coor];
+    [_mapView updateUserLocation:coor];
+//    [self showInnerInfo];
 }
 
 #pragma mark - 服务区内

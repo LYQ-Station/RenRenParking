@@ -19,6 +19,7 @@
 
 @interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate>
 
+@property (nonatomic, strong) RPMapViewController *mapViewController;
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
@@ -50,11 +51,21 @@
     _tableView.backgroundColor = COLOR_MAIN_BG_GRAY;
     [self.view addSubview:_tableView];
     
-    UINavigationController *mc = [RPMapViewController navController:self];
-    [self presentViewController:mc animated:NO completion:nil];
+    {
+        self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
+        _mapViewController.delegate = self;
+        [_mapViewController viewDidLoad];
+        [_mapViewController viewWillAppear:NO];
+        [self.view addSubview:_mapViewController.view];
+        [_mapViewController viewDidAppear:YES];
+        [_mapViewController showOuterInfo];
+    }
     
-    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-    [c showOuterInfo];
+//    UINavigationController *mc = [RPMapViewController navController:self];
+//    [self presentViewController:mc animated:NO completion:nil];
+//    
+//    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+//    [c showOuterInfo];
 }
 
 - (void)didReceiveMemoryWarning
@@ -167,11 +178,20 @@
 
 - (void)onTapNavgatorBar:(UITapGestureRecognizer *)gesture
 {
-    UINavigationController *mc = [RPMapViewController navController:self];
-    [self presentViewController:mc animated:YES completion:nil];
+//    UINavigationController *mc = [RPMapViewController navController:self];
+//    [self presentViewController:mc animated:YES completion:nil];
+//    
+//    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+//    [c showOuterInfo];
     
-    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-    [c showOuterInfo];
+    if (_mapViewController.view.superview)
+    {
+        [_mapViewController.view removeFromSuperview];
+    }
+    else
+    {
+        [self.view addSubview:_mapViewController.view];
+    }
 }
 
 #pragma mark -
@@ -197,11 +217,13 @@
 - (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller
 {
     [controller dismissViewControllerAnimated:NO completion:^{
-        UINavigationController *mc = [RPMapViewController navController];
-        [self presentViewController:mc animated:NO completion:nil];
+//        UINavigationController *mc = [RPMapViewController navController];
+//        [self presentViewController:mc animated:NO completion:nil];
+//        
+//        RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
+//        [c showOuterInfo];
         
-        RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-        [c showOuterInfo];
+        [_mapViewController showOuterInfo];
     }];
 }
 

@@ -21,8 +21,6 @@ typedef enum {
 
 @property (nonatomic, assign) id delegate;
 
-+ (UINavigationController *)navController;
-
 + (UINavigationController *)navController:(id)delegate;
 
 - (void)showOuterInfo;
