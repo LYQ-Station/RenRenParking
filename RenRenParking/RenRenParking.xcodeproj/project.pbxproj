@@ -68,6 +68,7 @@
 		4867713719F7DB630081C81C /* RenRenParkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867713619F7DB630081C81C /* RenRenParkingTests.m */; };
 		48A394AD19FA83BA0078DF7D /* RPNewPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */; };
 		48A394AE19FA83BA0078DF7D /* RPNewPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */; };
+		48B446421A08FC2800C62521 /* index-up-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B446411A08FC2800C62521 /* index-up-arrow@2x.png */; };
 		48B4656F19F92E8E008F2D97 /* RPIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */; };
 		48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */; };
 		48B4657519F93A8E008F2D97 /* nav-bar-full-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B4657319F93A8E008F2D97 /* nav-bar-full-bg@2x.png */; };
@@ -299,6 +300,7 @@
 		48A394AA19FA83BA0078DF7D /* RPNewPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPNewPasswordViewController.h; sourceTree = "<group>"; };
 		48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPNewPasswordViewController.m; sourceTree = "<group>"; };
 		48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPNewPasswordViewController.xib; sourceTree = "<group>"; };
+		48B446411A08FC2800C62521 /* index-up-arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "index-up-arrow@2x.png"; sourceTree = "<group>"; };
 		48B4656D19F92E8E008F2D97 /* RPIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPIndexViewController.h; sourceTree = "<group>"; };
 		48B4656E19F92E8E008F2D97 /* RPIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPIndexViewController.m; sourceTree = "<group>"; };
 		48B4657219F93A8E008F2D97 /* nav-bar-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-bg@2x.png"; sourceTree = "<group>"; };
@@ -815,6 +817,7 @@
 		48D774EB19FB9EBA001DBEAB /* index */ = {
 			isa = PBXGroup;
 			children = (
+				48B446411A08FC2800C62521 /* index-up-arrow@2x.png */,
 				48D0E60A1A03D7D700DDEA4B /* feedback-input-bg@2x.png */,
 				8BAFA4381A00CE1E000A033A /* fetch-btn-back-bg@2x.png */,
 				8BAFA4361A00C903000A033A /* fetch-phone@2x.png */,
@@ -977,6 +980,7 @@
 				48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */,
 				48D774F519FB9FF2001DBEAB /* table-cell-bg0@2x.png in Resources */,
 				8B74331619FF8F7800BEA70F /* test-driver@2x.png in Resources */,
+				48B446421A08FC2800C62521 /* index-up-arrow@2x.png in Resources */,
 				48D774F119FB9EBA001DBEAB /* index-cell-icon1@2x.png in Resources */,
 				4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */,
 				48D0E60B1A03D7D700DDEA4B /* feedback-input-bg@2x.png in Resources */,

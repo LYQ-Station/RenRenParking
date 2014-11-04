@@ -7,6 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UIKit/UIGestureRecognizerSubclass.h>
+
+@interface RPDragGestureRecognizer : UIGestureRecognizer
+
+@property (nonatomic, assign) CGFloat offsetY;
+
+@end
+
 
 @interface RPIndexViewController : UIViewController
 

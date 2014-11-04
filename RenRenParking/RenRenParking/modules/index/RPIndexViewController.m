@@ -17,6 +17,46 @@
 
 #import "RPFetchCarViewController.h"
 
+@interface RPDragGestureRecognizer ()
+
+@property (nonatomic, assign) CGFloat beginY;
+@property (nonatomic, readwrite) UIGestureRecognizerState state;
+@property (nonatomic, assign) id target;
+@property (nonatomic, assign) SEL selector;
+
+@end
+
+@implementation RPDragGestureRecognizer
+
+- (void)addTarget:(id)target action:(SEL)action
+{
+    self.target = target;
+    self.selector = action;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *t = [touches anyObject];
+    CGPoint p = [t locationInView:t.window];
+    _beginY = p.y;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *t = [touches anyObject];
+    CGPoint p = [t locationInView:t.window];
+    
+    _offsetY = p.y - _beginY;
+    
+    if (_target)
+    {
+        [_target performSelector:_selector withObject:self];
+    }
+}
+
+@end
+
+
 @interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate>
 
 @property (nonatomic, strong) RPMapViewController *mapViewController;
@@ -44,6 +84,7 @@
     UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapNavgatorBar:)];
     [self.navigationController.navigationBar addGestureRecognizer:g];
     
+        //
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -51,21 +92,37 @@
     _tableView.backgroundColor = COLOR_MAIN_BG_GRAY;
     [self.view addSubview:_tableView];
     
-    {
-        self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
-        _mapViewController.delegate = self;
-        [_mapViewController viewDidLoad];
-        [_mapViewController viewWillAppear:NO];
-        [self.view addSubview:_mapViewController.view];
-        [_mapViewController viewDidAppear:YES];
-        [_mapViewController showOuterInfo];
-    }
+        //map view controller
+    self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
+    _mapViewController.delegate = self;
+    [_mapViewController viewDidLoad];
+    [_mapViewController viewWillAppear:NO];
+    [self.view addSubview:_mapViewController.view];
+    [_mapViewController viewDidAppear:YES];
+    [_mapViewController showOuterInfo];
     
-//    UINavigationController *mc = [RPMapViewController navController:self];
-//    [self presentViewController:mc animated:NO completion:nil];
-//    
-//    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-//    [c showOuterInfo];
+        //bottom bar
+    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"index-up-arrow"]];
+    iv.translatesAutoresizingMaskIntoConstraints = NO;
+    iv.userInteractionEnabled = YES;
+    [self.view addSubview:iv];
+    
+    RPDragGestureRecognizer *dg = [[RPDragGestureRecognizer alloc] init];
+    [dg addTarget:self action:@selector(onDragHandelArrow:)];
+    [iv addGestureRecognizer:dg];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:iv
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[iv]-20-|"
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:@{@"iv":iv}]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -192,6 +249,11 @@
     {
         [self.view addSubview:_mapViewController.view];
     }
+}
+
+- (void)onDragHandelArrow:(RPDragGestureRecognizer *)gesture
+{
+    NSLog(@"yyyy");
 }
 
 #pragma mark -
