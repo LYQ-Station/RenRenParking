@@ -11,7 +11,17 @@
 
 @interface RPDragGestureRecognizer : UIGestureRecognizer
 
+@property (nonatomic, assign) id delegate;
 @property (nonatomic, assign) CGFloat offsetY;
+
+@end
+
+@protocol RPDragGestureRecognizerDelegate <NSObject>
+
+@optional
+- (void) dragGestureGRecognizerBegan:(RPDragGestureRecognizer *)gesture;
+- (void) dragGestureGRecognizerMoved:(RPDragGestureRecognizer *)gesture;
+- (void) dragGestureGRecognizerEnded:(RPDragGestureRecognizer *)gesture;
 
 @end
 

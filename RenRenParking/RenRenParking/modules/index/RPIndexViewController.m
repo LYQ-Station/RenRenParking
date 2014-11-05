@@ -21,24 +21,21 @@
 
 @property (nonatomic, assign) CGFloat beginY;
 @property (nonatomic, readwrite) UIGestureRecognizerState state;
-@property (nonatomic, assign) id target;
-@property (nonatomic, assign) SEL selector;
 
 @end
 
 @implementation RPDragGestureRecognizer
-
-- (void)addTarget:(id)target action:(SEL)action
-{
-    self.target = target;
-    self.selector = action;
-}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *t = [touches anyObject];
     CGPoint p = [t locationInView:t.window];
     _beginY = p.y;
+    
+    if (self.delegate)
+    {
+        [self.delegate performSelector:@selector(dragGestureGRecognizerBegan:) withObject:self];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -48,16 +45,32 @@
     
     _offsetY = p.y - _beginY;
     
-    if (_target)
+    if (self.delegate)
     {
-        [_target performSelector:_selector withObject:self];
+        [self.delegate performSelector:@selector(dragGestureGRecognizerMoved:) withObject:self];
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (self.delegate)
+    {
+        [self.delegate performSelector:@selector(dragGestureGRecognizerEnded:) withObject:self];
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (self.delegate)
+    {
+        [self.delegate performSelector:@selector(dragGestureGRecognizerEnded:) withObject:self];
     }
 }
 
 @end
 
 
-@interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate>
+@interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate, RPDragGestureRecognizerDelegate>
 
 @property (nonatomic, strong) RPMapViewController *mapViewController;
 @property (nonatomic, strong) UITableView *tableView;
@@ -92,24 +105,11 @@
     _tableView.backgroundColor = COLOR_MAIN_BG_GRAY;
     [self.view addSubview:_tableView];
     
-        //map view controller
-    self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
-    _mapViewController.delegate = self;
-    [_mapViewController viewDidLoad];
-    [_mapViewController viewWillAppear:NO];
-    [self.view addSubview:_mapViewController.view];
-    [_mapViewController viewDidAppear:YES];
-    [_mapViewController showOuterInfo];
-    
         //bottom bar
     UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"index-up-arrow"]];
     iv.translatesAutoresizingMaskIntoConstraints = NO;
     iv.userInteractionEnabled = YES;
     [self.view addSubview:iv];
-    
-    RPDragGestureRecognizer *dg = [[RPDragGestureRecognizer alloc] init];
-    [dg addTarget:self action:@selector(onDragHandelArrow:)];
-    [iv addGestureRecognizer:dg];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:iv
                                                           attribute:NSLayoutAttributeCenterX
@@ -123,6 +123,19 @@
                                                                       options:0
                                                                       metrics:nil
                                                                         views:@{@"iv":iv}]];
+    
+    RPDragGestureRecognizer *dg = [[RPDragGestureRecognizer alloc] init];
+    dg.delegate = self;
+    [iv addGestureRecognizer:dg];
+    
+        //map view controller
+    self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
+    _mapViewController.delegate = self;
+    [_mapViewController viewDidLoad];
+    [_mapViewController viewWillAppear:NO];
+    [self.view addSubview:_mapViewController.view];
+    [_mapViewController viewDidAppear:YES];
+    [_mapViewController showOuterInfo];
 }
 
 - (void)didReceiveMemoryWarning
@@ -241,19 +254,94 @@
 //    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
 //    [c showOuterInfo];
     
-    if (_mapViewController.view.superview)
+//    if (_mapViewController.view.superview)
+//    {
+//        [_mapViewController.view removeFromSuperview];
+//    }
+//    else
+//    {
+//        [self.view addSubview:_mapViewController.view];
+//    }
+    
+    [UIView animateWithDuration:0.35
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         CGPoint center = _mapViewController.view.center;
+                         
+                         if (center.y >= self.view.bounds.size.height)
+                         {
+                             center.y = self.view.center.y-64.0f;
+                         }
+                         else
+                         {
+                             center.y = self.view.bounds.size.height + _mapViewController.view.bounds.size.height/2;
+                         }
+                         
+                         _mapViewController.view.center = center;
+                     }
+                     completion:nil];
+}
+
+#pragma mark -
+
+- (void)dragGestureGRecognizerBegan:(RPDragGestureRecognizer *)gesture
+{
+    _mapViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    _mapViewController.view.layer.shadowOpacity = 0.4;
+    _mapViewController.view.layer.shadowOffset = CGSizeMake(0, -3);
+    _mapViewController.view.layer.shadowRadius = 3;
+    _mapViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:_mapViewController.view.bounds].CGPath;
+    
+    CGPoint center = _mapViewController.view.center;
+    center.y -= 45;
+    
+    [UIView animateWithDuration:0.15
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         _mapViewController.view.center = center;
+                     }
+                     completion:nil];
+}
+
+- (void)dragGestureGRecognizerMoved:(RPDragGestureRecognizer *)gesture
+{
+    static CGPoint center = CGPointZero;
+    
+    if (0 == center.x && 0 == center.y)
     {
-        [_mapViewController.view removeFromSuperview];
+        center = _mapViewController.view.center;
+    }
+    
+    _mapViewController.view.center = CGPointMake(center.x, center.y + gesture.offsetY);
+}
+
+- (void)dragGestureGRecognizerEnded:(RPDragGestureRecognizer *)gesture
+{
+    _mapViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    _mapViewController.view.layer.shadowOpacity = 0.0;
+    _mapViewController.view.layer.shadowOffset = CGSizeZero;
+    _mapViewController.view.layer.shadowRadius = 0;
+    
+    CGPoint center = _mapViewController.view.center;
+    
+    if (abs(gesture.offsetY) > self.view.bounds.size.height/2)
+    {
+        center.y = self.view.center.y-64.0f;
     }
     else
     {
-        [self.view addSubview:_mapViewController.view];
+        center.y = self.view.bounds.size.height + _mapViewController.view.bounds.size.height/2;
     }
-}
-
-- (void)onDragHandelArrow:(RPDragGestureRecognizer *)gesture
-{
-    NSLog(@"yyyy");
+    
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         _mapViewController.view.center = center;
+                     }
+                     completion:nil];
 }
 
 #pragma mark -
