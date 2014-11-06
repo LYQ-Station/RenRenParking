@@ -99,6 +99,7 @@
     
         //
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    _tableView.autoresizingMask = 0xff;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -308,13 +309,23 @@
 - (void)dragGestureGRecognizerMoved:(RPDragGestureRecognizer *)gesture
 {
     static CGPoint center = CGPointZero;
+    static CGPoint p = CGPointZero;
     
     if (0 == center.x && 0 == center.y)
     {
         center = _mapViewController.view.center;
     }
     
-    _mapViewController.view.center = CGPointMake(center.x, center.y + gesture.offsetY);
+    p.x = center.x;
+    p.y = center.y + gesture.offsetY;
+    
+    if (p.y <= self.view.center.y-64.0f)
+    {
+        gesture.state = UIGestureRecognizerStateCancelled;
+        return;
+    }
+    
+    _mapViewController.view.center = p;
 }
 
 - (void)dragGestureGRecognizerEnded:(RPDragGestureRecognizer *)gesture

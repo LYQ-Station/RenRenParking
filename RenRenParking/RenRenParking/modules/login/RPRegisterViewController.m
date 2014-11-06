@@ -38,9 +38,10 @@
 {
     [super viewDidLoad];
     
-    self.scrollView = (UIScrollView *)self.view;
-    CGSize s = [UIScreen mainScreen].bounds.size;
-    _scrollView.contentSize = CGSizeMake(s.width, s.height);
+//    self.scrollView = (UIScrollView *)self.view;
+//    CGSize s = [UIScreen mainScreen].bounds.size;
+//    _scrollView.frame = CGRectMake(0, 0, s.width, s.height);
+//    _scrollView.contentSize = CGSizeMake(s.width, s.height);
     
     _btnVcode.backgroundColor = [UIColor colorWithRed:0.18f green:0.20f blue:0.25f alpha:1.0f];
     _btnVcode.titleLabel.font = FONT_NORMAL;
