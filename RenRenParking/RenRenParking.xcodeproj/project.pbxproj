@@ -66,6 +66,10 @@
 		4867712819F7DB620081C81C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4867712719F7DB620081C81C /* Images.xcassets */; };
 		4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4867712919F7DB620081C81C /* LaunchScreen.xib */; };
 		4867713719F7DB630081C81C /* RenRenParkingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4867713619F7DB630081C81C /* RenRenParkingTests.m */; };
+		4888BBDA1A0B9F9100E1DEE7 /* PPMapSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4888BBD91A0B9F9100E1DEE7 /* PPMapSearchTableViewController.m */; };
+		4888BBDD1A0BB52900E1DEE7 /* XiXiang,ShenZhen.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 4888BBDC1A0BB52900E1DEE7 /* XiXiang,ShenZhen.gpx */; };
+		4888BBDF1A0BBB4600E1DEE7 /* idx-search-cell-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4888BBDE1A0BBB4600E1DEE7 /* idx-search-cell-icon@2x.png */; };
+		4888BBE11A0BBC2700E1DEE7 /* idx-search-back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4888BBE01A0BBC2700E1DEE7 /* idx-search-back@2x.png */; };
 		48A394AD19FA83BA0078DF7D /* RPNewPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */; };
 		48A394AE19FA83BA0078DF7D /* RPNewPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */; };
 		48B446421A08FC2800C62521 /* index-up-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B446411A08FC2800C62521 /* index-up-arrow@2x.png */; };
@@ -297,6 +301,11 @@
 		4867713019F7DB630081C81C /* RenRenParkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RenRenParkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4867713519F7DB630081C81C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4867713619F7DB630081C81C /* RenRenParkingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RenRenParkingTests.m; sourceTree = "<group>"; };
+		4888BBD81A0B9F9100E1DEE7 /* PPMapSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPMapSearchTableViewController.h; sourceTree = "<group>"; };
+		4888BBD91A0B9F9100E1DEE7 /* PPMapSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPMapSearchTableViewController.m; sourceTree = "<group>"; };
+		4888BBDC1A0BB52900E1DEE7 /* XiXiang,ShenZhen.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "XiXiang,ShenZhen.gpx"; sourceTree = "<group>"; };
+		4888BBDE1A0BBB4600E1DEE7 /* idx-search-cell-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idx-search-cell-icon@2x.png"; sourceTree = "<group>"; };
+		4888BBE01A0BBC2700E1DEE7 /* idx-search-back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idx-search-back@2x.png"; sourceTree = "<group>"; };
 		48A394AA19FA83BA0078DF7D /* RPNewPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPNewPasswordViewController.h; sourceTree = "<group>"; };
 		48A394AB19FA83BA0078DF7D /* RPNewPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPNewPasswordViewController.m; sourceTree = "<group>"; };
 		48A394AC19FA83BA0078DF7D /* RPNewPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPNewPasswordViewController.xib; sourceTree = "<group>"; };
@@ -418,6 +427,7 @@
 		481CB45E19F7F08D008DA7C8 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				4888BBDC1A0BB52900E1DEE7 /* XiXiang,ShenZhen.gpx */,
 				48D7750319FC814C001DBEAB /* test-images */,
 				481CB51319F7F0EC008DA7C8 /* images */,
 			);
@@ -746,6 +756,8 @@
 				8BAFA42B1A00C2A5000A033A /* RPFetchCarViewController.h */,
 				8BAFA42C1A00C2A5000A033A /* RPFetchCarViewController.m */,
 				8BAFA42D1A00C2A5000A033A /* RPFetchCarViewController.xib */,
+				4888BBD81A0B9F9100E1DEE7 /* PPMapSearchTableViewController.h */,
+				4888BBD91A0B9F9100E1DEE7 /* PPMapSearchTableViewController.m */,
 			);
 			path = index;
 			sourceTree = "<group>";
@@ -817,6 +829,8 @@
 		48D774EB19FB9EBA001DBEAB /* index */ = {
 			isa = PBXGroup;
 			children = (
+				4888BBE01A0BBC2700E1DEE7 /* idx-search-back@2x.png */,
+				4888BBDE1A0BBB4600E1DEE7 /* idx-search-cell-icon@2x.png */,
 				48B446411A08FC2800C62521 /* index-up-arrow@2x.png */,
 				48D0E60A1A03D7D700DDEA4B /* feedback-input-bg@2x.png */,
 				8BAFA4381A00CE1E000A033A /* fetch-btn-back-bg@2x.png */,
@@ -952,6 +966,7 @@
 				8B74331419FF8CDE00BEA70F /* map-bottom-bar-bg2@2x.png in Resources */,
 				48A394AE19FA83BA0078DF7D /* RPNewPasswordViewController.xib in Resources */,
 				48D7750219FBA702001DBEAB /* idx-order-cell-bg@2x.png in Resources */,
+				4888BBDD1A0BB52900E1DEE7 /* XiXiang,ShenZhen.gpx in Resources */,
 				48D7750D19FC87E1001DBEAB /* settings-cell-icon1@2x.png in Resources */,
 				48D5363E19FB4179003335CD /* login-text-field-pwd2-bg@2x.png.png in Resources */,
 				8BAFA4351A00C810000A033A /* fetch-placeholder@2x.png in Resources */,
@@ -962,6 +977,7 @@
 				8BAFA4331A00C442000A033A /* map-bottom-bar-bg-green@2x.png in Resources */,
 				48D7752019FCB672001DBEAB /* btn-bg-gray@2x.png in Resources */,
 				48BA3EBF19FFD87700B21A36 /* map-center-pin@2x.png in Resources */,
+				4888BBDF1A0BBB4600E1DEE7 /* idx-search-cell-icon@2x.png in Resources */,
 				8BAFA4391A00CE1E000A033A /* fetch-btn-back-bg@2x.png in Resources */,
 				48D7751419FC8D40001DBEAB /* uprofile-cell-icon0@2x.png in Resources */,
 				48D774F019FB9EBA001DBEAB /* index-cell-icon0@2x.png in Resources */,
@@ -980,6 +996,7 @@
 				48B4657419F93A8E008F2D97 /* nav-bar-bg@2x.png in Resources */,
 				48D774F519FB9FF2001DBEAB /* table-cell-bg0@2x.png in Resources */,
 				8B74331619FF8F7800BEA70F /* test-driver@2x.png in Resources */,
+				4888BBE11A0BBC2700E1DEE7 /* idx-search-back@2x.png in Resources */,
 				48B446421A08FC2800C62521 /* index-up-arrow@2x.png in Resources */,
 				48D774F119FB9EBA001DBEAB /* index-cell-icon1@2x.png in Resources */,
 				4867712B19F7DB620081C81C /* LaunchScreen.xib in Resources */,
@@ -1009,6 +1026,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4888BBDA1A0B9F9100E1DEE7 /* PPMapSearchTableViewController.m in Sources */,
 				481CB51919F7F141008DA7C8 /* RPAboutViewController.m in Sources */,
 				481CB4EF19F7F09A008DA7C8 /* AFImageRequestOperation.m in Sources */,
 				481CB50119F7F09A008DA7C8 /* PPMapNavigators.m in Sources */,

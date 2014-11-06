@@ -497,7 +497,7 @@ static PPMapView *__instance = nil;
     
     _currentCoordinate = coor;
     
-//    [self doGeoSearch:coor];
+    [self doGeoSearch:coor];
     
 //    if (PPMapViewscopeModeFollow != _scopeMode)
 //    {
@@ -524,7 +524,7 @@ static PPMapView *__instance = nil;
     
     _currentCoordinate = coor;
     
-//    [self doGeoSearch:coor];
+    [self doGeoSearch:coor];
     
 //    if (PPMapViewscopeModeFollow != _scopeMode)
 //    {
@@ -653,31 +653,6 @@ static PPMapView *__instance = nil;
     
     p = [_mapView convertCoordinate:coordinate toPointToView:_mapView];
     return [path containsPoint:p];
-    
-    
-//    int i=0;
-//    
-//    while (coordinates)
-//    {
-//        coor = *coordinates;
-//        
-//        p = [_mapView convertCoordinate:coor toPointToView:_mapView];
-//        
-//        if (0 == i)
-//        {
-//            [path moveToPoint:p];
-//            i++;
-//        }
-//        else
-//        {
-//            [path addLineToPoint:p];
-//        }
-//        
-//        coordinates++;
-//    }
-//    
-//    p = [_mapView convertCoordinate:coordinate toPointToView:_mapView];
-//    return [path containsPoint:p];
 }
 
 @end

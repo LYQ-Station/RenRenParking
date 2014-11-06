@@ -8,8 +8,9 @@
 
 #import "RPMapViewController.h"
 #import "PPMapView.h"
+#import "PPMapSearchTableViewController.h"
 
-@interface RPMapViewController () <PPMapViewDelegate,UIAlertViewDelegate>
+@interface RPMapViewController () <PPMapViewDelegate,UIAlertViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) UIImageView *viewTopBar;
 @property (nonatomic, strong) UILabel *lbAddress;
@@ -22,6 +23,10 @@
 @property (nonatomic, assign) int currentStatus;
 @property (nonatomic, weak) NSDictionary *selectedServicePlace;
 @property (nonatomic, strong) NSMutableArray *servicesPlaceArray;
+
+@property (nonatomic, strong) UIView *viewSearchBar;
+@property (nonatomic, strong) UITextField *tfMapSearch;
+@property (nonatomic, strong) PPMapSearchTableViewController *mapSearchTableViewController;
 
 @end
 
@@ -51,16 +56,13 @@
     
     [self setupLogoTheme];
     
-    UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapNavgatorBar:)];
-    [self.navigationController.navigationBar addGestureRecognizer:g];
-    
         //
     _mapView = [PPMapView mapViewWithFrame:self.view.bounds];
     _mapView.mapView.userInteractionEnabled = YES;
     _mapView.delegate = self;
     [self.view addSubview:_mapView];
     
-        //
+        //center pin
     self.viewCenterPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map-center-pin"]];
     _viewCenterPin.center = CGPointMake(self.view.bounds.size.width*0.5, self.view.bounds.size.height*0.5);
     [self.view addSubview:_viewCenterPin];
@@ -91,6 +93,10 @@
     _lbAddress.text = NSLocalizedString(@"定位中...", nil);
     [_viewTopBar addSubview:_lbAddress];
     
+    UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapAddressBar:)];
+    [_lbAddress addGestureRecognizer:g];
+    _lbAddress.userInteractionEnabled = YES;
+    
     [_viewTopBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[lb_addr]-42-|"
                                                                       options:0
                                                                       metrics:nil
@@ -118,31 +124,95 @@
                                                                         metrics:nil
                                                                           views:@{@"btn_loc":_btnScope}]];
     
-    
-        //bottom bar
-//    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    _viewBottomBar.userInteractionEnabled = YES;
-//    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
-//    _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 0, 0, 0)];
-//    [self.view addSubview:_viewBottomBar];
-//    
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
-//                                                                      options:0
-//                                                                      metrics:nil
-//                                                                        views:@{@"bot_bar":_viewBottomBar}]];
-//    
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bot_bar(81.0)]|"
-//                                                                      options:0
-//                                                                      metrics:nil
-//                                                                        views:@{@"bot_bar":_viewBottomBar}]];
-    
     [_mapView startUpdatingLocation];
+//    [self showSearchView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+
+- (void)showSearchView
+{
+    _lbAddress.hidden = YES;
+    
+    self.viewSearchBar = [[UIView alloc] initWithFrame:CGRectZero];
+    _viewSearchBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewTopBar addSubview:_viewSearchBar];
+    
+    [_viewTopBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[srh_bar]-42-|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:@{@"srh_bar":_viewSearchBar}]];
+    
+    [_viewTopBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[srh_bar(42.0)]"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:@{@"srh_bar":_viewSearchBar}]];
+    
+    UIButton *btn_back = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn_back.translatesAutoresizingMaskIntoConstraints = NO;
+    [btn_back setImage:[UIImage imageNamed:@"idx-search-back"] forState:UIControlStateNormal];
+    [btn_back addTarget:self action:@selector(btnQuitSearchClick) forControlEvents:UIControlEventTouchUpInside];
+    [_viewSearchBar addSubview:btn_back];
+    
+    self.tfMapSearch = [[UITextField alloc] initWithFrame:CGRectZero];
+    _tfMapSearch.translatesAutoresizingMaskIntoConstraints = NO;
+    _tfMapSearch.delegate = self;
+    _tfMapSearch.returnKeyType = UIReturnKeySearch;
+    _tfMapSearch.clearButtonMode = UITextFieldViewModeAlways;
+    [_viewSearchBar addSubview:_tfMapSearch];
+    
+    [_viewSearchBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-17-[btn_back]-15-[tf_srh]|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:@{@"btn_back":btn_back,@"tf_srh":_tfMapSearch}]];
+    
+    [_viewSearchBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[btn_back(42.0)]"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:@{@"btn_back":btn_back}]];
+    
+    [_viewSearchBar addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[tf_srh(42.0)]"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:@{@"tf_srh":_tfMapSearch}]];
+    
+    if (!_mapSearchTableViewController)
+    {
+        self.mapSearchTableViewController = [[PPMapSearchTableViewController alloc] initWithDelegate:self];
+        _mapSearchTableViewController.tableView.frame = self.view.bounds;
+        _mapSearchTableViewController.tableView.contentInset = UIEdgeInsetsMake(42, 0, 0, 0);
+    }
+    
+    [self.view insertSubview:_mapSearchTableViewController.tableView belowSubview:_viewTopBar];
+    
+    [_tfMapSearch becomeFirstResponder];
+}
+
+- (void)hideSearchView
+{
+    _lbAddress.hidden = NO;
+    
+    if ([_tfMapSearch isFirstResponder]) [_tfMapSearch resignFirstResponder];
+    
+    [_tfMapSearch removeFromSuperview];
+    [_viewSearchBar removeFromSuperview];
+    self.tfMapSearch = nil;
+    
+    [_mapSearchTableViewController.view removeFromSuperview];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [_mapSearchTableViewController doMapSDKSearch:textField.text];
+    
+    return YES;
 }
 
 #pragma mark - mapview delegate
@@ -316,9 +386,14 @@
     [_mapView performSelector:@selector(startUpdatingLocation) withObject:nil afterDelay:1.0];
 }
 
-- (void)onTapNavgatorBar:(UITapGestureRecognizer *)gesture
+- (void)btnQuitSearchClick
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self hideSearchView];
+}
+
+- (void)onTapAddressBar:(UITapGestureRecognizer *)gesture
+{
+    [self showSearchView];
 }
 
 #pragma mark - 服务区外

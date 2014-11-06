@@ -132,10 +132,10 @@
         //map view controller
     self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
     _mapViewController.delegate = self;
-    [_mapViewController viewDidLoad];
-    [_mapViewController viewWillAppear:NO];
+//    [_mapViewController viewDidLoad];
+//    [_mapViewController viewWillAppear:NO];
     [self.view addSubview:_mapViewController.view];
-    [_mapViewController viewDidAppear:YES];
+//    [_mapViewController viewDidAppear:YES];
     [_mapViewController showOuterInfo];
 }
 
