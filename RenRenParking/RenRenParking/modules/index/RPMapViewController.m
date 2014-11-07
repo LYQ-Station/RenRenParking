@@ -207,6 +207,20 @@
     [_mapSearchTableViewController.view removeFromSuperview];
 }
 
+- (void)ppMapSearchTableViewContrllerDidSelectSearchResult:(PPMapSearchTableViewController *)controller item:(id)item
+{
+    [self hideSearchView];
+    
+    CLLocationCoordinate2D coor;
+    
+    if (PPMapSearchTableViewControllerModeMapSDKSearch == controller.mode)
+    {
+        coor = ((BMKPoiInfo *)item).pt;
+    }
+    
+    [_mapView updateUserLocation:coor];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
