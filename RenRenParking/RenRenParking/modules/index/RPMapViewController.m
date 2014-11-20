@@ -124,6 +124,12 @@
                                                                         metrics:nil
                                                                           views:@{@"btn_loc":_btnScope}]];
     
+        //bottom bar
+    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _viewBottomBar.userInteractionEnabled = YES;
+    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_viewBottomBar];
+    
     [_mapView startUpdatingLocation];
 //    [self showSearchView];
 }
@@ -298,6 +304,20 @@
 {
     if (!_isAutoUpdateLocation)
     {
+        NSDictionary *d = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
+        
+        if (!d)
+        {
+            [self showOuterInfo];
+        }
+        else
+        {
+            self.selectedServicePlace = d;
+            [self showInnerInfo];
+        }
+        
+        [self.view layoutIfNeeded];
+        
         [self.navigationController setNavigationBarHidden:NO animated:YES];
         
         for (NSLayoutConstraint *lc in self.view.constraints)
@@ -328,31 +348,6 @@
                              if (finished)
                              {
                                  [mapView doGeoSearch:mapView.mapView.centerCoordinate];
-                                 
-//                                 self.selectedServicePlace = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
-//                                 if (!_selectedServicePlace)
-//                                 {
-//                                     [self showOuterInfo];
-//                                 }
-//                                 else
-//                                 {
-//                                     [self showInnerInfo];
-//                                 }
-                                 
-                                 NSDictionary *d = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
-                                 
-                                 if (!d)
-                                 {
-                                     [self showOuterInfo];
-                                 }
-                                 else
-                                 {
-                                     if ([d[@"id"] intValue] != [_selectedServicePlace[@"id"] intValue])
-                                     {
-                                         self.selectedServicePlace = d;
-                                         [self showInnerInfo];
-                                     }
-                                 }
                              }
                          }];
     }
@@ -421,14 +416,17 @@
     
     _currentStatus = RPMapViewControllerStatusOuterInfo;
     
-    [_viewBottomBar removeFromSuperview];
-    self.viewBottomBar = nil;
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstItem == _viewBottomBar || lc.secondItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+        }
+    }
     
-    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _viewBottomBar.userInteractionEnabled = YES;
-    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewBottomBar removeConstraints:_viewBottomBar.constraints];
+    [_viewBottomBar.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 0, 0, 0)];
-    [self.view addSubview:_viewBottomBar];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
                                                                       options:0
@@ -476,14 +474,17 @@
 {
     _currentStatus = RPMapViewControllerStatusInnerInfo;
     
-    [_viewBottomBar removeFromSuperview];
-    self.viewBottomBar = nil;
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstItem == _viewBottomBar || lc.secondItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+        }
+    }
     
-    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _viewBottomBar.userInteractionEnabled = YES;
-    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewBottomBar removeConstraints:_viewBottomBar.constraints];
+    [_viewBottomBar.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 0, 0, 0)];
-    [self.view addSubview:_viewBottomBar];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
                                                                       options:0
@@ -633,14 +634,17 @@
     
     _currentStatus = RPMapViewControllerStatusDriverInfo;
     
-    [_viewBottomBar removeFromSuperview];
-    self.viewBottomBar = nil;
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstItem == _viewBottomBar || lc.secondItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+        }
+    }
     
-    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _viewBottomBar.userInteractionEnabled = YES;
-    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewBottomBar removeConstraints:_viewBottomBar.constraints];
+    [_viewBottomBar.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 125.0, 0, 10.0)];
-    [self.view addSubview:_viewBottomBar];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
                                                                       options:0
@@ -800,14 +804,17 @@
     
     _currentStatus = RPMapViewControllerStatusFetchCarInfo;
     
-    [_viewBottomBar removeFromSuperview];
-    self.viewBottomBar = nil;
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstItem == _viewBottomBar || lc.secondItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+        }
+    }
     
-    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _viewBottomBar.userInteractionEnabled = YES;
-    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewBottomBar removeConstraints:_viewBottomBar.constraints];
+    [_viewBottomBar.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 0, 0, 0)];
-    [self.view addSubview:_viewBottomBar];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
                                                                       options:0
@@ -929,14 +936,17 @@
     
     _currentStatus = RPMapViewControllerStatusPaymentInfo;
     
-    [_viewBottomBar removeFromSuperview];
-    self.viewBottomBar = nil;
+    for (NSLayoutConstraint *lc in self.view.constraints)
+    {
+        if (lc.firstItem == _viewBottomBar || lc.secondItem == _viewBottomBar)
+        {
+            [self.view removeConstraint:lc];
+        }
+    }
     
-    self.viewBottomBar = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _viewBottomBar.userInteractionEnabled = YES;
-    _viewBottomBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewBottomBar removeConstraints:_viewBottomBar.constraints];
+    [_viewBottomBar.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _viewBottomBar.image = [[UIImage imageNamed:@"map-bottom-bar-bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 125.0, 0, 10.0)];
-    [self.view addSubview:_viewBottomBar];
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[bot_bar]|"
                                                                       options:0
