@@ -11,8 +11,6 @@
 
 @interface RPFetchCarViewController ()
 
-@property (nonatomic, assign) id delegate;
-
 @property (weak, nonatomic) IBOutlet UILabel *lbTitle1;
 @property (weak, nonatomic) IBOutlet UILabel *lbTitle2;
 @property (weak, nonatomic) IBOutlet UIImageView *ivCar;
@@ -21,20 +19,15 @@
 
 @implementation RPFetchCarViewController
 
-+ (UINavigationController *)navController
-{
-    RPFetchCarViewController *c = [[RPFetchCarViewController alloc] initWithNibName:nil bundle:nil];
-    
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
-    return nc;
-}
-
 + (UINavigationController *)navController:(id)delegate
 {
     RPFetchCarViewController *c = [[RPFetchCarViewController alloc] initWithNibName:nil bundle:nil];
     c.delegate = delegate;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
+    nc.view.frame = CGRectMake(0, 0, 320, 506);
+    [nc setNavigationBarHidden:YES animated:NO];
+    
     return nc;
 }
 
@@ -100,8 +93,8 @@
 {
     RPMapViewController *c = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
     c.delegate = _delegate;
+    c.mode = RPMapViewControllerModeFetchCar;
     [self.navigationController pushViewController:c animated:YES];
-    [c showFetchCarInfo];
 }
 
 

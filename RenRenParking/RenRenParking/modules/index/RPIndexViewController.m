@@ -73,7 +73,10 @@
 @interface RPIndexViewController () <UITableViewDataSource, UITableViewDelegate, RPMapViewControllerDelegate, RPDragGestureRecognizerDelegate>
 
 @property (nonatomic, strong) RPMapViewController *mapViewController;
+@property (nonatomic, strong) RPFetchCarViewController *fetchCarViewController;
+@property (nonatomic, strong) UINavigationController *fetchCarNavViewController;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) UIView *currentPullView;
 
 @end
 
@@ -132,11 +135,14 @@
         //map view controller
     self.mapViewController = [[RPMapViewController alloc] initWithNibName:nil bundle:nil];
     _mapViewController.delegate = self;
-//    [_mapViewController viewDidLoad];
-//    [_mapViewController viewWillAppear:NO];
+    _mapViewController.mode = RPMapViewControllerModeParking;
+    _mapViewController.navController = self.navigationController;
+    [_mapViewController viewWillAppear:NO];
     [self.view addSubview:_mapViewController.view];
-//    [_mapViewController viewDidAppear:YES];
+    [_mapViewController viewDidAppear:YES];
     [_mapViewController showOuterInfo];
+    
+    self.currentPullView = _mapViewController.view;
 }
 
 - (void)didReceiveMemoryWarning
@@ -249,26 +255,11 @@
 
 - (void)onTapNavgatorBar:(UITapGestureRecognizer *)gesture
 {
-//    UINavigationController *mc = [RPMapViewController navController:self];
-//    [self presentViewController:mc animated:YES completion:nil];
-//    
-//    RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-//    [c showOuterInfo];
-    
-//    if (_mapViewController.view.superview)
-//    {
-//        [_mapViewController.view removeFromSuperview];
-//    }
-//    else
-//    {
-//        [self.view addSubview:_mapViewController.view];
-//    }
-    
     [UIView animateWithDuration:0.35
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         CGPoint center = _mapViewController.view.center;
+                         CGPoint center = _currentPullView.center;
                          
                          if (center.y >= self.view.bounds.size.height)
                          {
@@ -276,32 +267,78 @@
                          }
                          else
                          {
-                             center.y = self.view.bounds.size.height + _mapViewController.view.bounds.size.height/2;
+                             center.y = self.view.bounds.size.height + _currentPullView.bounds.size.height/2;
                          }
                          
-                         _mapViewController.view.center = center;
+                         _currentPullView.center = center;
                      }
                      completion:nil];
 }
 
 #pragma mark -
 
+- (void)showPullView:(BOOL)animated
+{
+    if (animated)
+    {
+        [UIView animateWithDuration:0.35
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             CGPoint center = _mapViewController.view.center;
+                             center.y = self.view.bounds.size.height + _mapViewController.view.bounds.size.height/2;
+                             _mapViewController.view.center = center;
+                         }
+                         completion:nil];
+    }
+    else
+    {
+        CGPoint center = _mapViewController.view.center;
+        center.y = self.view.bounds.size.height + _mapViewController.view.bounds.size.height/2;
+        _mapViewController.view.center = center;
+    }
+}
+
+- (void)hidePullView:(BOOL)animated
+{
+    if (animated)
+    {
+        [UIView animateWithDuration:0.35
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             CGPoint center = _mapViewController.view.center;
+                             center.y = self.view.center.y-64.0f;
+                             _mapViewController.view.center = center;
+                         }
+                         completion:nil];
+    }
+    else
+    {
+        CGPoint center = _mapViewController.view.center;
+        center.y = self.view.center.y-64.0f;
+        _mapViewController.view.center = center;
+    }
+}
+
+#pragma mark -
+
 - (void)dragGestureGRecognizerBegan:(RPDragGestureRecognizer *)gesture
 {
-    _mapViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    _mapViewController.view.layer.shadowOpacity = 0.4;
-    _mapViewController.view.layer.shadowOffset = CGSizeMake(0, -3);
-    _mapViewController.view.layer.shadowRadius = 3;
-    _mapViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:_mapViewController.view.bounds].CGPath;
+    _currentPullView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _currentPullView.layer.shadowOpacity = 0.4;
+    _currentPullView.layer.shadowOffset = CGSizeMake(0, -3);
+    _currentPullView.layer.shadowRadius = 3;
+    _currentPullView.layer.shadowPath = [UIBezierPath bezierPathWithRect:_mapViewController.view.bounds].CGPath;
     
-    CGPoint center = _mapViewController.view.center;
+    CGPoint center = _currentPullView.center;
     center.y -= 45;
     
     [UIView animateWithDuration:0.15
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         _mapViewController.view.center = center;
+                         _currentPullView.center = center;
                      }
                      completion:nil];
 }
@@ -313,7 +350,7 @@
     
     if (0 == center.x && 0 == center.y)
     {
-        center = _mapViewController.view.center;
+        center = _currentPullView.center;
     }
     
     p.x = center.x;
@@ -325,17 +362,17 @@
         return;
     }
     
-    _mapViewController.view.center = p;
+    _currentPullView.center = p;
 }
 
 - (void)dragGestureGRecognizerEnded:(RPDragGestureRecognizer *)gesture
 {
-    _mapViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    _mapViewController.view.layer.shadowOpacity = 0.0;
-    _mapViewController.view.layer.shadowOffset = CGSizeZero;
-    _mapViewController.view.layer.shadowRadius = 0;
+    _currentPullView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _currentPullView.layer.shadowOpacity = 0.0;
+    _currentPullView.layer.shadowOffset = CGSizeZero;
+    _currentPullView.layer.shadowRadius = 0;
     
-    CGPoint center = _mapViewController.view.center;
+    CGPoint center = _currentPullView.center;
     
     if (abs(gesture.offsetY) > self.view.bounds.size.height/2)
     {
@@ -343,14 +380,14 @@
     }
     else
     {
-        center.y = self.view.bounds.size.height + _mapViewController.view.bounds.size.height/2;
+        center.y = self.view.bounds.size.height + _currentPullView.bounds.size.height/2;
     }
     
     [UIView animateWithDuration:0.25
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         _mapViewController.view.center = center;
+                         _currentPullView.center = center;
                      }
                      completion:nil];
 }
@@ -369,23 +406,29 @@
 
 - (void)mapViewControllerDidDriverReceiveCar:(RPMapViewController *)controller
 {
-    [controller dismissViewControllerAnimated:NO completion:nil];
+    [_currentPullView removeFromSuperview];
+    self.currentPullView = nil;
     
-    UINavigationController *mc = [RPFetchCarViewController navController:self];
-    [self presentViewController:mc animated:NO completion:nil];
+    self.fetchCarNavViewController = [RPFetchCarViewController navController:self];
+    self.fetchCarViewController = (RPFetchCarViewController *)[[_fetchCarNavViewController viewControllers] objectAtIndex:_fetchCarNavViewController.viewControllers.count-1];
+    
+    [_fetchCarViewController viewWillAppear:NO];
+    [self.view addSubview:_fetchCarNavViewController.view];
+    [_fetchCarViewController viewDidAppear:YES];
+    
+    self.currentPullView = _fetchCarNavViewController.view;
 }
 
 - (void)mapViewControllerDidPaymentSuccess:(RPMapViewController *)controller
 {
-    [controller dismissViewControllerAnimated:NO completion:^{
-//        UINavigationController *mc = [RPMapViewController navController];
-//        [self presentViewController:mc animated:NO completion:nil];
-//        
-//        RPMapViewController *c = (RPMapViewController *)[mc.viewControllers lastObject];
-//        [c showOuterInfo];
-        
-        [_mapViewController showOuterInfo];
-    }];
+    [self.fetchCarNavViewController popToRootViewControllerAnimated:NO];
+    [_currentPullView removeFromSuperview];
+    self.fetchCarNavViewController = nil;
+    
+    [self.view addSubview:_mapViewController.view];
+    [_mapViewController updateLocation];
+    
+    self.currentPullView = _mapViewController.view;
 }
 
 @end

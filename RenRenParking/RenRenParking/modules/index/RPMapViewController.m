@@ -17,7 +17,7 @@
 @property (nonatomic, strong) UIButton *btnScope;
 @property (nonatomic, strong) UIImageView *viewBottomBar;
 @property (nonatomic, strong) UIImageView *viewCenterPin;
-@property (nonatomic, assign) PPMapView *mapView;
+@property (nonatomic, strong) PPMapView *mapView;
 
 @property (nonatomic, assign) BOOL isAutoUpdateLocation;
 @property (nonatomic, assign) int currentStatus;
@@ -43,7 +43,9 @@
 
 - (void)dealloc
 {
-    _mapView.delegate = nil;
+    [_mapView removeFromSuperview];
+    [_mapView clear];
+    self.mapView = nil;
 }
 
 - (void)viewDidLoad
@@ -57,7 +59,7 @@
     [self setupLogoTheme];
     
         //
-    _mapView = [PPMapView mapViewWithFrame:self.view.bounds];
+    self.mapView = [[PPMapView alloc] initWithFrame:self.view.bounds];
     _mapView.mapView.userInteractionEnabled = YES;
     _mapView.delegate = self;
     [self.view addSubview:_mapView];
@@ -131,7 +133,20 @@
     [self.view addSubview:_viewBottomBar];
     
     [_mapView startUpdatingLocation];
-//    [self showSearchView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [_mapView.mapView viewWillAppear];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [_mapView.mapView viewWillDisappear];
 }
 
 - (void)didReceiveMemoryWarning
@@ -267,7 +282,7 @@
 {
     if (!_isAutoUpdateLocation)
     {
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navController setNavigationBarHidden:YES animated:YES];
         
         for (NSLayoutConstraint *lc in self.view.constraints)
         {
@@ -302,6 +317,8 @@
 
 - (void)ppMapViewRegionDidChange:(PPMapView *)mapView
 {
+    [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+    
     if (!_isAutoUpdateLocation)
     {
         NSDictionary *d = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
@@ -313,12 +330,20 @@
         else
         {
             self.selectedServicePlace = d;
-            [self showInnerInfo];
+            
+            if (RPMapViewControllerModeParking == _mode)
+            {
+                [self showInnerInfo];
+            }
+            else
+            {
+                [self showFetchCarInfo];
+            }
         }
         
         [self.view layoutIfNeeded];
         
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        [self.navController setNavigationBarHidden:NO animated:YES];
         
         for (NSLayoutConstraint *lc in self.view.constraints)
         {
@@ -329,31 +354,31 @@
             }
         }
         
+        NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
+                                                             attribute:NSLayoutAttributeBottom
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:self.view
+                                                             attribute:NSLayoutAttributeBottom
+                                                            multiplier:1
+                                                              constant:0];
+        
+        [self.view addConstraint:c];
+        
         [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
                          animations:^{
-                             NSLayoutConstraint *c = [NSLayoutConstraint constraintWithItem:_viewBottomBar
-                                                                                  attribute:NSLayoutAttributeBottom
-                                                                                  relatedBy:NSLayoutRelationEqual
-                                                                                     toItem:self.view
-                                                                                  attribute:NSLayoutAttributeBottom
-                                                                                 multiplier:1
-                                                                                   constant:0];
-                             
-                             [self.view addConstraint:c];
-                             
                              [self.view layoutIfNeeded];
                          }
                          completion:^(BOOL finished) {
                              
-                             if (finished)
-                             {
-                                 [mapView doGeoSearch:mapView.mapView.centerCoordinate];
-                             }
+//                             if (finished)
+//                             {
+//                                 [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+//                             }
                          }];
     }
     else
     {
-        [mapView doGeoSearch:mapView.mapView.centerCoordinate];
+//        [mapView doGeoSearch:mapView.mapView.centerCoordinate];
         
         NSDictionary *d = [self servicePlaceForCoordinate:mapView.mapView.centerCoordinate];
         
@@ -366,7 +391,15 @@
             if ([d[@"id"] intValue] != [_selectedServicePlace[@"id"] intValue])
             {
                 self.selectedServicePlace = d;
-                [self showInnerInfo];
+                
+                if (RPMapViewControllerModeParking == _mode)
+                {
+                    [self showInnerInfo];
+                }
+                else
+                {
+                    [self showFetchCarInfo];
+                }
             }
         }
     }
@@ -403,6 +436,13 @@
 - (void)onTapAddressBar:(UITapGestureRecognizer *)gesture
 {
     [self showSearchView];
+}
+
+#pragma mark -
+
+- (void)updateLocation
+{
+    [_mapView startUpdatingLocation];
 }
 
 #pragma mark - 服务区外
@@ -748,10 +788,11 @@
     
     
         //TODO: receive car ---------------------
+    __weak RPMapViewController *myself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidDriverReceiveCar:)])
+        if (myself.delegate && [myself.delegate respondsToSelector:@selector(mapViewControllerDidDriverReceiveCar:)])
         {
-            [_delegate performSelector:@selector(mapViewControllerDidDriverReceiveCar:) withObject:self];
+            [myself.delegate performSelector:@selector(mapViewControllerDidDriverReceiveCar:) withObject:self];
         }
     });
 }
@@ -781,14 +822,15 @@
     [self.view addSubview:hud];
     [hud show:YES];
     
+    __weak RPMapViewController *myself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [hud hide:YES];
         
-        [self showInnerInfo];
+        [myself showInnerInfo];
         
-        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidOrderCancel:)])
+        if (myself.delegate && [myself.delegate respondsToSelector:@selector(mapViewControllerDidOrderCancel:)])
         {
-            [_delegate performSelector:@selector(mapViewControllerDidOrderCancel:) withObject:self];
+            [myself.delegate performSelector:@selector(mapViewControllerDidOrderCancel:) withObject:self];
         }
     });
 }
@@ -797,11 +839,6 @@
 
 - (void)showFetchCarInfo
 {
-    if (_currentStatus == RPMapViewControllerStatusFetchCarInfo)
-    {
-        return;
-    }
-    
     _currentStatus = RPMapViewControllerStatusFetchCarInfo;
     
     for (NSLayoutConstraint *lc in self.view.constraints)
@@ -884,7 +921,7 @@
     [_viewBottomBar addSubview:lb2];
     
         //
-    NSMutableAttributedString *time_str = [[NSMutableAttributedString alloc] initWithString:@"15"
+    NSMutableAttributedString *time_str = [[NSMutableAttributedString alloc] initWithString:_selectedServicePlace[@"wait_time"]
                                                                                  attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                                               NSFontAttributeName:[UIFont systemFontOfSize:25.0]}];
     
@@ -1099,12 +1136,14 @@
         [self.view addSubview:hud];
         [hud show:YES];
         
+        __weak RPMapViewController *myself = self;
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [hud hide:YES];
             
-            if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidPaymentSuccess:)])
+            if (myself.delegate && [myself.delegate respondsToSelector:@selector(mapViewControllerDidPaymentSuccess:)])
             {
-                [_delegate performSelector:@selector(mapViewControllerDidPaymentSuccess:) withObject:self];
+                [myself.delegate performSelector:@selector(mapViewControllerDidPaymentSuccess:) withObject:self];
             }
         });
     }

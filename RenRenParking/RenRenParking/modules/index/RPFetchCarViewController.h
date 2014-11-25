@@ -10,8 +10,9 @@
 
 @interface RPFetchCarViewController : UIViewController
 
-+ (UINavigationController *)navController;
-
 + (UINavigationController *)navController:(id)delegate;
+
+//@property (nonatomic, readwrite) UINavigationController *navigationController;
+@property (nonatomic, assign) id delegate;
 
 @end

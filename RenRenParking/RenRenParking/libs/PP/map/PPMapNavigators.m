@@ -20,7 +20,7 @@
 {
     if (0 == type)
     {
-        if (LESS_THAN_IOS6)
+        if (IS_LESS_THAN_IOS6)
         {
                 //from Baidu to GPS
             from.latitude -= 0.0060f;

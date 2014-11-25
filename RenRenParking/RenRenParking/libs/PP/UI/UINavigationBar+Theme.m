@@ -14,7 +14,7 @@
 {
     if ([self respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
     {
-        if (IS_IOS7)
+        if (IS_UP_THAN_IOS7)
         {
             [self setBackgroundImage:[UIImage imageNamed:@"nav-bar-full-bg"] forBarPosition:UIBarPositionTop barMetrics:UIBarMetricsDefault];
         }

@@ -9,8 +9,9 @@
 #pragma mark - device
 
 #define IS_SCREEN568        (568.0f==[UIScreen mainScreen].bounds.size.height)
-#define IS_IOS7             ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
-#define LESS_THAN_IOS6      ([[[UIDevice currentDevice] systemVersion] floatValue] < 6.0)
+#define IS_UP_THAN_IOS8     ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+#define IS_UP_THAN_IOS7     ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+#define IS_LESS_THAN_IOS6   ([[[UIDevice currentDevice] systemVersion] floatValue] <= 6.0)
 
 #pragma mark - UI elements
 

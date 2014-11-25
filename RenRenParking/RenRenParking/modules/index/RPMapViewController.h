@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
+    RPMapViewControllerModeParking,
+    RPMapViewControllerModeFetchCar
+} RPMapViewControllerMode;
+
+typedef enum {
     RPMapViewControllerStatusNone,
     RPMapViewControllerStatusOuterInfo,
     RPMapViewControllerStatusInnerInfo,
@@ -19,9 +24,14 @@ typedef enum {
 
 @interface RPMapViewController : UIViewController
 
+//@property (nonatomic, readwrite) UINavigationController *navigationController;
+@property (nonatomic, readwrite) UINavigationController *navController;
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) RPMapViewControllerMode mode;
 
 + (UINavigationController *)navController:(id)delegate;
+
+- (void)updateLocation;
 
 - (void)showOuterInfo;
 

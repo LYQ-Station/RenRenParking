@@ -38,15 +38,17 @@ static PPMapView *__instance = nil;
 
 + (PPMapView *)mapViewWithFrame:(CGRect)frame
 {
-    if (!__instance)
-    {
-        __instance = [[PPMapView alloc] initWithFrame:frame];
-    }
+    return [[PPMapView alloc] initWithFrame:frame];
     
-    __instance.frame = frame;
-    __instance.mapView.frame = __instance.bounds;
-    
-    return __instance;
+//    if (!__instance)
+//    {
+//        __instance = [[PPMapView alloc] initWithFrame:frame];
+//    }
+//    
+//    __instance.frame = frame;
+//    __instance.mapView.frame = __instance.bounds;
+//    
+//    return __instance;
 }
 
 + (void)navigateFrom:(CLLocationCoordinate2D)from to:(CLLocationCoordinate2D)to
@@ -66,7 +68,7 @@ static PPMapView *__instance = nil;
 //        NSLog(@"%d", x);
 //    }
     
-    if (LESS_THAN_IOS6)
+    if (IS_LESS_THAN_IOS6)
     {
         NSString *url_str = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
                              from.latitude, from.longitude, to.latitude, to.longitude];
@@ -119,6 +121,11 @@ static PPMapView *__instance = nil;
 
 - (void)dealloc
 {
+    
+}
+
+- (void)clear
+{
     _mapView.delegate = nil;
     _routeSearch.delegate = nil;
     _geoCodeSearch.delegate = nil;
@@ -139,7 +146,7 @@ static PPMapView *__instance = nil;
         
         self.routeSearch = [[BMKRouteSearch alloc] init];
         _routeSearch.delegate = self;
-        
+
         self.locationManager = [[CLLocationManager alloc] init];
         [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         [_locationManager setDistanceFilter:300.0f];
