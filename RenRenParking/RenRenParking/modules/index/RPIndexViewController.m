@@ -143,6 +143,13 @@
     [_mapViewController showOuterInfo];
     
     self.currentPullView = _mapViewController.view;
+    
+    if (IS_LESS_THAN_IOS6)
+    {
+        CGRect r = _currentPullView.frame;
+        r.origin.y = 0.0f;
+        _currentPullView.frame = r;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -204,10 +211,10 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (3 == indexPath.row)
-    {
-        return;
-    }
+//    if (3 == indexPath.row)
+//    {
+//        return;
+//    }
     
     UIImageView *iv = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"table-cell-bg0"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     cell.backgroundView = iv;
@@ -263,7 +270,7 @@
                          
                          if (center.y >= self.view.bounds.size.height)
                          {
-                             center.y = self.view.center.y-64.0f;
+                             center.y = self.view.center.y-(IS_LESS_THAN_IOS6?0.0f:64.0f);
                          }
                          else
                          {
@@ -308,7 +315,7 @@
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              CGPoint center = _mapViewController.view.center;
-                             center.y = self.view.center.y-64.0f;
+                             center.y = self.view.center.y-(IS_LESS_THAN_IOS6?0.0f:64.0f);
                              _mapViewController.view.center = center;
                          }
                          completion:nil];
@@ -316,7 +323,7 @@
     else
     {
         CGPoint center = _mapViewController.view.center;
-        center.y = self.view.center.y-64.0f;
+        center.y = self.view.center.y-(IS_LESS_THAN_IOS6?0.0f:64.0f);
         _mapViewController.view.center = center;
     }
 }
@@ -356,7 +363,7 @@
     p.x = center.x;
     p.y = center.y + gesture.offsetY;
     
-    if (p.y <= self.view.center.y-64.0f)
+    if (p.y <= self.view.center.y-(IS_LESS_THAN_IOS6?0.0f:64.0f))
     {
         gesture.state = UIGestureRecognizerStateCancelled;
         return;
@@ -376,7 +383,7 @@
     
     if (abs(gesture.offsetY) > self.view.bounds.size.height/2)
     {
-        center.y = self.view.center.y-64.0f;
+        center.y = self.view.center.y-(IS_LESS_THAN_IOS6?0.0f:64.0f);
     }
     else
     {
