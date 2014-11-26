@@ -10,9 +10,15 @@
 
 @interface PPBaseModel : NSObject
 
+@property (nonatomic, strong) AFHTTPRequestOperation *opeartion;
+
 + (id)model;
 
-+ (NSDictionary *)makeJSONParam:(NSDictionary *)params;
++ (NSMutableURLRequest *)requestWithJsonParam:(NSDictionary *)jsonDict;
+
++ (id)parseResponseData:(NSData *)data error:(NSError *__autoreleasing *)error;
+
+- (void)cancel;
 
 - (id)parseResponseData:(NSData *)data error:(NSError **)error;
 

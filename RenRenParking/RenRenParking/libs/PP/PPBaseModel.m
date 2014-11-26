@@ -15,15 +15,32 @@
     return [[[self class] alloc] init];
 }
 
-+ (NSDictionary *)makeJSONParam:(NSDictionary *)params
++ (NSMutableURLRequest *)requestWithJsonParam:(NSDictionary *)jsonDict
 {
-    NSData *d = [NSJSONSerialization dataWithJSONObject:params options:0 error:NULL];
-    NSString *json = [[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding];
+    NSError *parseError;
+    NSData* jsonData = nil;
     
-    return @{@"V": json};
+    if (jsonDict)
+    {
+        jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONWritingPrettyPrinted error:&parseError];
+    }
+    
+    NSMutableURLRequest *re = [[NSMutableURLRequest alloc] init];
+    if (jsonData)
+    {
+        [re setHTTPBody:jsonData];
+    }
+    
+    UIDevice *iDevice = [UIDevice currentDevice];
+    
+    [re setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [re setValue:iDevice.localizedModel forHTTPHeaderField:@"User-Agent"];
+    [re setHTTPMethod:@"POST"];
+    
+    return re;
 }
 
-- (id)parseResponseData:(NSData *)data error:(NSError *__autoreleasing *)error
++ (id)parseResponseData:(NSData *)data error:(NSError *__autoreleasing *)error
 {
     if (!data)
     {
@@ -34,15 +51,20 @@
         return nil;
     }
     
+    NSData *d = nil;
+    
+#ifdef PP_ENCRYPT
     NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSData *d = [str base64DecodedData];
+    d = [str base64DecodedData];
     d = [d DESDecryptWithKey:PP_SECRET_KEY];
     
-        //if cloud not decrypt data restore it!
     if (!d)
     {
         d = data;
     }
+#else
+    d = data;
+#endif
     
     *error = nil;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:d
@@ -91,6 +113,16 @@
     }
     
     return result;
+}
+
+- (void)cancel
+{
+    [self.opeartion cancel];
+}
+
+- (id)parseResponseData:(NSData *)data error:(NSError *__autoreleasing *)error
+{
+    return [PPBaseModel parseResponseData:data error:error];
 }
 
 @end

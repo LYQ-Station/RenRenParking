@@ -9,6 +9,7 @@
 #import "RPLoginViewController.h"
 #import "RPFindPwdViewController.h"
 #import "RPRegisterViewController.h"
+#import "RPLoginModel.h"
 
 @interface RPLoginViewController ()
 
@@ -20,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnRegister;
 
 @property (nonatomic, strong) void(^completeBlock)(id user, BOOL isCancelled);
+
+@property (nonatomic, strong) RPLoginModel *model;
 
 @end
 
@@ -41,6 +44,11 @@
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:c];
     return nc;
+}
+
+- (void)dealloc
+{
+    [_model cancel];
 }
 
 - (void)viewDidLoad
@@ -89,10 +97,17 @@
 
 - (IBAction)btnLoginClick:(id)sender
 {
-    if (_completeBlock)
+    if (!_model)
     {
-        _completeBlock(nil, NO);
+        self.model = [RPLoginModel model];
     }
+    
+    __weak RPLoginViewController *myself = self;
+    
+    [_model doLogin:nil
+           complete:^(id json, NSError *error) {
+               myself.completeBlock(nil, NO);
+           }];
 }
 
 - (IBAction)btnFindPwdClick:(id)sender

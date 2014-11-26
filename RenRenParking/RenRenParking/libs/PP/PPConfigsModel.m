@@ -17,36 +17,23 @@
                         @"brand":@"apple",
                         @"phoneType":@"ios",
                         @"appVer":@"1.0",
-                        @"sdkVer":@"1.0",
-                        @"width":@"320",
-                        @"height":@"480"
+                        @"sdkVer":@"1.0"
                         };
     
-    NSData *jd = [AFQueryStringFromParametersWithEncoding(p, NSUTF8StringEncoding) dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableURLRequest *re = [PPBaseModel requestWithJsonParam:p];
+    re.URL = [NSURL URLWithString:[PPBaseService apiForKey:kApiInitDevice]];
     
-    NSString *url = [PPBaseService apiForKey:kApiUploadUserInfo];
-    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    [req setHTTPMethod:@"POST"];
-    [req setHTTPBody:jd];
+    self.opeartion = [[AFHTTPRequestOperation alloc]initWithRequest:re];
     
-    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.opeartion setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *err = nil;
-        NSDictionary *j = [self parseResponseData:responseObject error:&err];
-        
-        if (err)
-        {
-            complete(nil, err);
-            return ;
-        }
-        
-        complete(j, nil);
-    }
-                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                  complete(nil, error);
-                              }];
+        id json = [PPBaseModel parseResponseData:responseObject error:&err];
+        if (complete) complete(json, err);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        complete(nil, error);
+    }];
     
-    [op start];
+    [self.opeartion start];
 }
 
 @end

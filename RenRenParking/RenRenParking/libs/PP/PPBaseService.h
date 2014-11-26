@@ -8,12 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - * login/register
+
 static const NSString *kApiInitDevice = @"InitDevice";
 static const NSString *kApiUploadUserInfo = @"uploadUserInfo";
 static const NSString *kApiQueryPoint = @"queryPoint";
 static const NSString *kApiSuggest = @"suggest";
 static const NSString *kApiParkingDetails = @"parkingDetail";
 static const NSString *kApiSearch = @"search";
+
+#pragma mark - * user profiles
+
+#pragma mark - * map service
 
 @interface PPBaseService : NSObject
 
