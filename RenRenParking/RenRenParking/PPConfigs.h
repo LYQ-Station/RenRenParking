@@ -38,7 +38,7 @@
 #define PP_SECRET_KEY       @"123#$%zz"
 
 #define PP_BASE_DOMAIN      @"pig-parking.com"
-#define PP_API_URL          @"http://www.sanxinba.cn/zz_manage/index.php?r=interface"
+#define PP_API_URL          @"http://www.starnet007.com/index.php"
 
 #pragma mark - DIRs
 

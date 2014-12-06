@@ -7,15 +7,23 @@
 //
 
 #import "RPNewPasswordViewController.h"
+#import "RPLoginModel.h"
 
 @interface RPNewPasswordViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *tfNewPassword;
 @property (weak, nonatomic) IBOutlet UIButton *btnSubmit;
 
+@property (nonatomic, strong) RPLoginModel *model;
+
 @end
 
 @implementation RPNewPasswordViewController
+
+- (void)dealloc
+{
+    [_model cancel];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -24,6 +32,8 @@
     {
         self.title = NSLocalizedString(@"忘记密码", nil);
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"取消", nil) target:self action:@selector(btnBackClick)];
+        
+        self.model = [RPLoginModel model];
     }
     return self;
 }
@@ -49,6 +59,24 @@
 - (void)btnBackClick
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -
+
+- (void)doResetPwd
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    [_model fetchSMSCode:@{@"phone":_mobile,@"password":_tfNewPassword.text}
+                complete:^(id json, NSError *error) {
+                    [hud hide:YES];
+                    if (error)
+                    {
+                        MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
+                        [hue_e hide:YES afterDelay:1.5];
+                        return;
+                    }
+                }];
 }
 
 @end

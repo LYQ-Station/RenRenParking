@@ -21,6 +21,7 @@
     #import "FMDatabase.h"
     #import "BMapKit.h"
     #import "MBProgressHUD.h"
+    #import "MBProgressHUD+Add.h"
     #import "Base64.h"
 
     #import "PPConfigs.h"

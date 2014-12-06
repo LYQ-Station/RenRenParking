@@ -8,6 +8,7 @@
 
 #import "RPFindPwdViewController.h"
 #import "RPNewPasswordViewController.h"
+#import "RPLoginModel.h"
 
 @interface RPFindPwdViewController ()
 
@@ -16,9 +17,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnNextStep;
 @property (weak, nonatomic) IBOutlet UIButton *btnVcode;
 
+@property (nonatomic, strong) RPLoginModel *model;
+
 @end
 
 @implementation RPFindPwdViewController
+
+- (void)dealloc
+{
+    [_model cancel];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +35,8 @@
     {
         self.title = NSLocalizedString(@"忘记密码", nil);
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"取消", nil) target:self action:@selector(btnBackClick)];
+        
+        self.model = [RPLoginModel model];
     }
     return self;
 }
@@ -59,12 +69,21 @@
 
 - (IBAction)btnVcodeClick:(id)sender
 {
-    
+    [_model fetchSMSCode:@{@"phone":_tfMobile.text}
+                complete:^(id json, NSError *error) {
+                    if (error)
+                    {
+                        MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
+                        [hue_e hide:YES afterDelay:1.5];
+                        return;
+                    }
+                }];
 }
 
 - (IBAction)btnNextStepClick:(id)sender
 {
     RPNewPasswordViewController *c = [[RPNewPasswordViewController alloc] initWithNibName:nil bundle:nil];
+    c.mobile = _tfMobile.text;
     [self.navigationController pushViewController:c animated:YES];
 }
 

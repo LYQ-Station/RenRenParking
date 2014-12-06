@@ -10,4 +10,6 @@
 
 @interface RPNewPasswordViewController : UIViewController
 
+@property (nonatomic, copy) NSString *mobile;
+
 @end

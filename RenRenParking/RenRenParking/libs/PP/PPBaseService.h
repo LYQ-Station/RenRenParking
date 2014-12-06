@@ -17,6 +17,15 @@ static const NSString *kApiSuggest = @"suggest";
 static const NSString *kApiParkingDetails = @"parkingDetail";
 static const NSString *kApiSearch = @"search";
 
+static const NSString *kApiGetSMSCode = @"GetSMSCode";
+static const NSString *kApiCheckSMSCode = @"CheckSMSCode";
+
+static const NSString *kApiLogin = @"login";
+static const NSString *kApiRegister = @"register";
+static const NSString *kApiResetPwd = @"reset-pwd";
+
+static const NSString *kApiUpdateUserProfile = @"update-user-profile";
+
 #pragma mark - * user profiles
 
 #pragma mark - * map service

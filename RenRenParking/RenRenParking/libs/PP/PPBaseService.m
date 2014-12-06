@@ -17,16 +17,16 @@
     if (!apis)
     {
         apis = @{
-                 kApiInitDevice:                @"/InitDevice",
-                 kApiUploadUserInfo :           @"/uploadUserInfo", //imei=123456&brand=brand&os_version=IOS
-                 kApiQueryPoint :               @"/queryPoint", //lat=2254812&lng=11402238 //查周边
-                 kApiSuggest :                  @"/suggest", //qq=34862010&phone=123456789&content=content&lables=lables&uid=1
-                 kApiParkingDetails :           @"/parkingDetail", //id=6// 详细情
-                 kApiSearch :                   @"/search" //keyWorld=k&distance=1000// 详细情
+                 kApiGetSMSCode:@"AppComm/get_code",
+                 kApiCheckSMSCode:@"AppComm/check_code",
+                 kApiLogin:@"AppUser/login",
+                 kApiRegister:@"AppUser/regist",
+                 kApiResetPwd:@"AppUser/resetpwd",
+                 kApiUpdateUserProfile:@"AppUser/change_user_info",
                  };
     }
     
-    return [NSString stringWithFormat:@"%@%@", PP_API_URL, [apis objectForKey:key]];
+    return [NSString stringWithFormat:@"%@/Home/%@", PP_API_URL, [apis objectForKey:key]];
 }
 
 @end

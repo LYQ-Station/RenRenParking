@@ -14,7 +14,9 @@
 
 - (void)doRegister:(id)params complete:(void(^)(id json, NSError *error))complete;
 
-- (void)sendVcode:(id)params complete:(void(^)(NSError *error))complete;
+- (void)fetchSMSCode:(id)params complete:(void(^)(id json, NSError *error))complete;
+
+- (void)checkVcode:(id)params complete:(void(^)(id json, NSError *error))complete;
 
 - (void)doFindPassword:(id)params complete:(void(^)(NSError *error))complete;
 

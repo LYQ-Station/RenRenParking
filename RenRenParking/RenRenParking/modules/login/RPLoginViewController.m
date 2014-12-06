@@ -102,12 +102,7 @@
         self.model = [RPLoginModel model];
     }
     
-    __weak RPLoginViewController *myself = self;
-    
-    [_model doLogin:nil
-           complete:^(id json, NSError *error) {
-               myself.completeBlock(nil, NO);
-           }];
+    [self doLogin];
 }
 
 - (IBAction)btnFindPwdClick:(id)sender
@@ -121,6 +116,29 @@
     RPRegisterViewController *c = [[RPRegisterViewController alloc] initWithNibName:nil bundle:nil];
     [c setupTheme];
     [self.navigationController pushViewController:c animated:YES];
+}
+
+#pragma mark -
+
+- (void)doLogin
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    __weak RPLoginViewController *myself = self;
+    
+    [_model doLogin:@{@"phone":_tfMobile.text,@"password":_tfPassword.text,@"app_ver":@"1.0",@"phone_type":@"1"}
+           complete:^(id json, NSError *error) {
+               [hud hide:YES];
+               
+               if (error)
+               {
+                   MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
+                   [hue_e hide:YES afterDelay:1.5];
+                   return;
+               }
+               
+               myself.completeBlock(nil, NO);
+           }];
 }
 
 @end
