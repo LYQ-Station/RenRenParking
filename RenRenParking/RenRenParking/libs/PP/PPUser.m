@@ -81,6 +81,11 @@ static NSMutableDictionary *__users = nil;
     return _userInfo[@"uid"];
 }
 
+- (NSString *)token
+{
+    return _userInfo[@"token"];
+}
+
 - (BOOL)logined
 {
     return [_userInfo[@"logined"] boolValue];

@@ -7,6 +7,7 @@
 //
 
 #import "RPFeedbackViewController.h"
+#import "RPFeedbackModel.h"
 
 @interface RPFeedbackViewController () <UITextFieldDelegate, UITextViewDelegate>
 
@@ -21,9 +22,16 @@
 
 @property (nonatomic, strong) NSMutableDictionary *labelsDict;
 
+@property (nonatomic, strong) RPFeedbackModel *model;
+
 @end
 
 @implementation RPFeedbackViewController
+
+- (void)dealloc
+{
+    [_model cancel];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +40,9 @@
     {
         self.title = NSLocalizedString(@"意见反馈", nil);
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonThemeItem:UIBarButtonThemeItemBack target:self action:@selector(btnBackClick)];
+        
+        self.labelsDict = [NSMutableDictionary dictionary];
+        self.model = [RPFeedbackModel model];
     }
     return self;
 }
@@ -158,21 +169,31 @@
         
         if (101 == sender.tag)
         {
-            [_labelsDict setObject:@"101" forKey:@"地址错误"];
+            [_labelsDict setObject:@"地址错误" forKey:@"101"];
         }
         else if (102 == sender.tag)
         {
-            [_labelsDict setObject:@"102" forKey:@"找不到地点"];
+            [_labelsDict setObject:@"找不到地点" forKey:@"102"];
         }
         else if (103 == sender.tag)
         {
-            [_labelsDict setObject:@"103" forKey:@"软件不稳定"];
+            [_labelsDict setObject:@"软件不稳定" forKey:@"103"];
         }
         else if (104 == sender.tag)
         {
-            [_labelsDict setObject:@"104" forKey:@"改进建议"];
+            [_labelsDict setObject:@"改进建议" forKey:@"104"];
         }
     }
+}
+
+- (IBAction)btnSubmitClick
+{
+    if (![self validateParams])
+    {
+        return;
+    }
+    
+    [self doFeedback];
 }
 
 - (void)onTapGesture:(UITapGestureRecognizer *)g
@@ -181,6 +202,47 @@
     
     [_tvContent resignFirstResponder];
     [_tfContact resignFirstResponder];
+}
+
+#pragma mark -
+
+- (BOOL)validateParams
+{
+    NSString *err_txt = nil;
+    
+    if (!_tvContent.text.length)
+    {
+        err_txt = @"请填写反馈的内容.";
+    }
+    
+    if (err_txt)
+    {
+        [MBProgressHUD showError:err_txt toView:self.view];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)doFeedback
+{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"发送中..." toView:self.view];
+    
+    NSString *tags = _labelsDict.count ? [[_labelsDict allValues] componentsJoinedByString:@","] : @"";
+    NSString *contact = _tfContact.text.length ? _tfContact.text : @"";
+    
+    [_model doFeedback:@{@"user_token":[PPUser currentUser].token,@"content":_tvContent.text,@"tags":tags,@"link_text":contact}
+              complete:^(NSError *error) {
+                  [hud hide:NO];
+                  
+                  if (error)
+                  {
+                      [MBProgressHUD showError:error.localizedDescription toView:nil];
+                      return ;
+                  }
+                  
+                  [MBProgressHUD showSuccess:@"发送成功！" toView:nil];
+              }];
 }
 
 @end

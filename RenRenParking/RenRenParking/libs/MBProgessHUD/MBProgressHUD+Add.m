@@ -52,4 +52,14 @@
     hud.dimBackground = YES;
     return hud;
 }
+
++ (MBProgressHUD *)showLoadingMessage:(NSString *)message toView:(UIView *)view {
+    if (view == nil) view = [UIApplication sharedApplication].keyWindow;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.labelText = message;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.dimBackground = YES;
+    return hud;
+}
+
 @end

@@ -73,18 +73,42 @@
                 complete:^(id json, NSError *error) {
                     if (error)
                     {
-                        MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
-                        [hue_e hide:YES afterDelay:1.5];
-                        return;
+                        [MBProgressHUD showError:error.localizedDescription toView:nil];
+                        return ;
                     }
                 }];
 }
 
 - (IBAction)btnNextStepClick:(id)sender
 {
-    RPNewPasswordViewController *c = [[RPNewPasswordViewController alloc] initWithNibName:nil bundle:nil];
-    c.mobile = _tfMobile.text;
-    [self.navigationController pushViewController:c animated:YES];
+    if (0 == _tfMobile.text.length || 0 == _tfPassword.text.length)
+    {
+        [MBProgressHUD showError:@"请填写手机号码和验证码." toView:nil];
+        return;
+    }
+    
+    [self doValidateVcode];
+}
+
+#pragma mark -
+
+- (void)doValidateVcode
+{
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"验证中..." toView:self.view];
+    
+    [_model checkVcode:@{@"phone":_tfMobile.text,@"code":_tfPassword.text}
+              complete:^(id json, NSError *error) {
+                  [hud hide:NO];
+                  if (error)
+                  {
+                      [MBProgressHUD showError:error.localizedDescription toView:nil];
+                      return ;
+                  }
+                  
+                  RPNewPasswordViewController *c = [[RPNewPasswordViewController alloc] initWithNibName:nil bundle:nil];
+                  c.token = json;
+                  [self.navigationController pushViewController:c animated:YES];
+              }];
 }
 
 @end

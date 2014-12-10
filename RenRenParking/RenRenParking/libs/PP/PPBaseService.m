@@ -23,6 +23,7 @@
                  kApiRegister:@"AppUser/regist",
                  kApiResetPwd:@"AppUser/resetpwd",
                  kApiUpdateUserProfile:@"AppUser/change_user_info",
+                 kApiFeedback:@"AppService/advice"
                  };
     }
     

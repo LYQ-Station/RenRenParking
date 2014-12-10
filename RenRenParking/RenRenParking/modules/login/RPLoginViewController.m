@@ -122,19 +122,18 @@
 
 - (void)doLogin
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"登录中..." toView:self.view];
     
     __weak RPLoginViewController *myself = self;
     
     [_model doLogin:@{@"phone":_tfMobile.text,@"password":_tfPassword.text,@"app_ver":@"1.0",@"phone_type":@"1"}
            complete:^(id json, NSError *error) {
-               [hud hide:YES];
+               [hud hide:NO];
                
                if (error)
                {
-                   MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
-                   [hue_e hide:YES afterDelay:1.5];
-                   return;
+                   [MBProgressHUD showError:error.localizedDescription toView:nil];
+                   return ;
                }
                
                myself.completeBlock(nil, NO);

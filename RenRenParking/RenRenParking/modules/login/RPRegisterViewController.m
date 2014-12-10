@@ -104,7 +104,7 @@
 
 - (void)doRegister
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"注册中..." toView:self.view];
     
     [_model checkVcode:@{@"phone":_tfMobile.text,@"vcode":_tfVcode.text}
               complete:^(id json, NSError *error) {
@@ -112,18 +112,16 @@
                   
                   if (error)
                   {
-                      MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
-                      [hue_e hide:YES afterDelay:1.5];
-                      return;
+                      [MBProgressHUD showError:error.localizedDescription toView:nil];
+                      return ;
                   }
                   
                   [_model doRegister:@{@"phone":_tfMobile.text,@"":_tfVcode,@"car_no":_tfCarNumber.text}
                             complete:^(id json, NSError *error) {
                                 if (error)
                                 {
-                                    MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
-                                    [hue_e hide:YES afterDelay:1.5];
-                                    return;
+                                    [MBProgressHUD showError:error.localizedDescription toView:nil];
+                                    return ;
                                 }
                             }];
               }];

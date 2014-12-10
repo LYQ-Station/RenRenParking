@@ -65,18 +65,20 @@
 
 - (void)doResetPwd
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"重置密码中..." toView:nil];
     
-    [_model fetchSMSCode:@{@"phone":_mobile,@"password":_tfNewPassword.text}
-                complete:^(id json, NSError *error) {
-                    [hud hide:YES];
-                    if (error)
-                    {
-                        MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
-                        [hue_e hide:YES afterDelay:1.5];
-                        return;
-                    }
-                }];
+    [_model doResetNewPassword:@{@"user_token":_token,@"password":_tfNewPassword.text}
+                      complete:^(NSError *error) {
+                          [hud hide:NO];
+                          
+                          if (error)
+                          {
+                              [MBProgressHUD showError:error.localizedDescription toView:nil];
+                              return ;
+                          }
+                          
+                          [self btnBackClick];
+                      }];
 }
 
 @end
