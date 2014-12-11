@@ -9,6 +9,7 @@
 #import "RPMapViewController.h"
 #import "PPMapView.h"
 #import "PPMapSearchTableViewController.h"
+#import "RPMapModel.h"
 
 @interface RPMapViewController () <PPMapViewDelegate,UIAlertViewDelegate, UITextFieldDelegate>
 
@@ -28,6 +29,8 @@
 @property (nonatomic, strong) UITextField *tfMapSearch;
 @property (nonatomic, strong) PPMapSearchTableViewController *mapSearchTableViewController;
 
+@property (nonatomic, strong) RPMapModel *model;
+
 @end
 
 @implementation RPMapViewController
@@ -43,6 +46,7 @@
 
 - (void)dealloc
 {
+    [_model cancel];
     [_mapView removeFromSuperview];
     [_mapView clear];
     self.mapView = nil;
@@ -53,6 +57,7 @@
     [super viewDidLoad];
     
     _currentStatus = RPMapViewControllerStatusNone;
+    self.model = [RPMapModel model];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectZero]];
     
@@ -501,11 +506,37 @@
 {
     _isAutoUpdateLocation = YES;
     
-    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.58028, 113.87549);
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:NSLocalizedString(@"查询服务区中...", nil) toView:self.view];
     
-    [self loadServicePlace:coor];
-    [_mapView updateUserLocation:coor];
-//    [self showInnerInfo];
+    [_model doFetchServicePlaceNearnest:nil
+                               complete:^(id json, NSError *error) {
+                                   if (error)
+                                   {
+                                       [MBProgressHUD showError:error.localizedDescription toView:nil];
+                                       return ;
+                                   }
+                                   
+                                   [_model doFetchServicePlaceAround:nil
+                                                            complete:^(id json, NSError *error) {
+                                                                [hud hide:YES];
+                                                                
+                                                                if (error)
+                                                                {
+                                                                    [MBProgressHUD showError:error.localizedDescription toView:nil];
+                                                                    return ;
+                                                                }
+                                                                
+                                                                [_servicesPlaceArray addObjectsFromArray:json];
+                                                                [_mapView showAroundServicePlace:_servicesPlaceArray];
+                                                                
+                                                                [_mapView updateUserLocation:CLLocationCoordinate2DMake(22.58028, 113.87549)];
+                                                            }];
+                               }];
+    
+//    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(22.58028, 113.87549);
+//    
+//    [self loadServicePlace:coor];
+//    [_mapView updateUserLocation:coor];
 }
 
 #pragma mark - 服务区内
@@ -645,22 +676,44 @@
 
 - (void)btnGetService:(UIButton *)sender
 {
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = NSLocalizedString(@"正在寻找司机，请等待...", nil);
-    [self.view addSubview:hud];
-    [hud show:YES];
+//    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+//    hud.mode = MBProgressHUDModeText;
+//    hud.labelText = NSLocalizedString(@"正在寻找司机，请等待...", nil);
+//    [self.view addSubview:hud];
+//    [hud show:YES];
+//    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [hud hide:YES];
+//        
+//        [self showDriverInfo];
+//        
+//        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidOrderSubmit:)])
+//        {
+//            [_delegate performSelector:@selector(mapViewControllerDidOrderSubmit:) withObject:self];
+//        }
+//    });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [hud hide:YES];
-        
-        [self showDriverInfo];
-        
-        if (_delegate && [_delegate respondsToSelector:@selector(mapViewControllerDidOrderSubmit:)])
-        {
-            [_delegate performSelector:@selector(mapViewControllerDidOrderSubmit:) withObject:self];
-        }
-    });
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:NSLocalizedString(@"正在寻找司机，请等待...", nil) toView:self.view];
+    
+    __weak RPMapViewController *myself = self;
+    
+    [_model doMakeOrder:nil
+               complete:^(id json, NSError *error) {
+                   [hud hide:YES];
+                   
+                   if (error)
+                   {
+                       [MBProgressHUD showError:error.localizedDescription toView:nil];
+                       return ;
+                   }
+                   
+                   [myself showDriverInfo];
+                   
+                   if (myself.delegate && [myself.delegate respondsToSelector:@selector(mapViewControllerDidOrderSubmit:)])
+                   {
+                       [myself.delegate performSelector:@selector(mapViewControllerDidOrderSubmit:) withObject:myself];
+                   }
+               }];
 }
 
 #pragma mark - 等待接车
@@ -1153,41 +1206,27 @@
 
 - (void)loadServicePlace:(CLLocationCoordinate2D)userCoordinate
 {
-    self.servicesPlaceArray = [NSMutableArray array];
+    if (!_servicesPlaceArray)
+    {
+        self.servicesPlaceArray = [NSMutableArray array];
+    }
     
-    [_servicesPlaceArray addObject:@{@"id":@"1",
-                                     @"wait_time":@"10",
-                                     @"charge":@"15",
-                                     @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.590291,113.871609)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.586019,113.876819)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.58335,113.873909)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.585085,113.869669)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.584618,113.866686)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.586453,113.864207)]
-                                                      ]
-                                     }];
-    
-    [_servicesPlaceArray addObject:@{@"id":@"2",
-                                     @"wait_time":@"16",
-                                     @"charge":@"13",
-                                     @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.582516,113.86065)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.578711,113.865249)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.575608,113.861907)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.579145,113.85756)]
-                                                      ]
-                                     }];
-    
-    [_servicesPlaceArray addObject:@{@"id":@"3",
-                                     @"wait_time":@"20",
-                                     @"charge":@"18",
-                                     @"coordinates":@[[NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.583483,113.871609)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.579379,113.879838)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.576142,113.876927)],
-                                                      [NSValue valueWithMKCoordinate:CLLocationCoordinate2DMake(22.580146,113.871753)]
-                                                      ]
-                                     }];
-    
-    [_mapView showAroundServicePlace:_servicesPlaceArray];
+    [_model doFetchServicePlaceAround:nil
+                             complete:^(id json, NSError *error) {
+                                 if (error)
+                                 {
+                                     [MBProgressHUD showError:error.localizedDescription toView:nil];
+                                     return ;
+                                 }
+                                 
+                                 if (!json || ![json count])
+                                 {
+                                     return;
+                                 }
+                                 
+                                 [_servicesPlaceArray addObjectsFromArray:json];
+                                 [_mapView showAroundServicePlace:_servicesPlaceArray];
+                             }];
 }
 
 #pragma mark -

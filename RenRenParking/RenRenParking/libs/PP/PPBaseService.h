@@ -33,6 +33,13 @@ static const NSString *kApiFeedback = @"feedback";
 
 #pragma mark - * map service
 
+static const NSString *kApiServicePlaceAround = @"service-place-around";
+static const NSString *kApiServicePlaceNearnest = @"service-place-nearnest";
+
+static const NSString *kApiSubmitOrder = @"submit-order";
+
+#pragma mark -
+
 @interface PPBaseService : NSObject
 
 + (NSString *)apiForKey:(const NSString *)key;

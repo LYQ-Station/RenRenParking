@@ -148,6 +148,7 @@ static PPMapView *__instance = nil;
         _routeSearch.delegate = self;
 
         self.locationManager = [[CLLocationManager alloc] init];
+        [_locationManager requestWhenInUseAuthorization];
         [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         [_locationManager setDistanceFilter:300.0f];
         [_locationManager setDelegate:self];

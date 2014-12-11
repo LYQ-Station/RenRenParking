@@ -23,7 +23,10 @@
                  kApiRegister:@"AppUser/regist",
                  kApiResetPwd:@"AppUser/resetpwd",
                  kApiUpdateUserProfile:@"AppUser/change_user_info",
-                 kApiFeedback:@"AppService/advice"
+                 kApiFeedback:@"AppService/advice",
+                 kApiServicePlaceAround:@"AppService/field_list",
+                 kApiServicePlaceNearnest:@"",
+                 kApiSubmitOrder:@"AppService/park_car"
                  };
     }
     
