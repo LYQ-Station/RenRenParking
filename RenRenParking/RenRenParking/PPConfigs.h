@@ -13,6 +13,11 @@
 #define IS_UP_THAN_IOS7     ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 #define IS_LESS_THAN_IOS6   ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0)
 
+#pragma mark - unities
+
+#define APP_SHOW_NETWORK_ACTIVITY   ([UIApplication sharedApplication].networkActivityIndicatorVisible = YES)
+#define APP_HIDE_NETWORK_ACTIVITY   ([UIApplication sharedApplication].networkActivityIndicatorVisible = NO)
+
 #pragma mark - UI elements
 
 #define COLOR_MAIN_BG_GRAY  ([UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.0f])
@@ -34,11 +39,11 @@
 
 #pragma mark - URLs
 
-#define PP_ENCRYPT
+//#define PP_ENCRYPT
 #define PP_SECRET_KEY       @"123#$%zz"
 
 #define PP_BASE_DOMAIN      @"pig-parking.com"
-#define PP_API_URL          @"http://www.starnet007.com/index.php"
+#define PP_API_URL          @"http://starnet007.com/"
 
 #pragma mark - DIRs
 

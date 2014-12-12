@@ -64,7 +64,7 @@
                         <constraint firstAttribute="height" constant="30" id="QBO-s8-ZCO"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="cDI-K0-qVy"/>
                     </connections>
@@ -97,7 +97,7 @@
                         <constraint firstAttribute="height" constant="30" id="CoV-YY-Kxs"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="NjJ-Ms-EEm"/>
                     </connections>

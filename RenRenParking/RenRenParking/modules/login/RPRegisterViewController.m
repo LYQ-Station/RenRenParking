@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnVcode;
 
 @property (nonatomic, assign) UIScrollView *scrollView;
+@property (nonatomic, assign) CGFloat viewOffsetY;
 
 @property (nonatomic, strong) RPLoginModel *model;
 
@@ -60,6 +61,24 @@
     _btnSubmit.backgroundColor = COLOR_BTN_BG_DARK_GRAY;
     _btnSubmit.titleLabel.font = FONT_NORMAL;
     [_btnSubmit setTitleColor:COLOR_TEXT_GREEN forState:UIControlStateHighlighted];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      if (_viewOffsetY != 0.0)
+                                                      {
+                                                          CGPoint p = self.view.center;
+                                                          p.y += -1.0 * _viewOffsetY;
+                                                          
+                                                          [UIView animateWithDuration:0.25
+                                                                           animations:^{
+                                                                               self.view.center = p;
+                                                                           } completion:^(BOOL finished) {
+                                                                               _viewOffsetY = 0.0;
+                                                                           }];
+                                                      }
+                                                  }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,6 +88,38 @@
 }
 
 #pragma mark -
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (_tfPassword == textField && _viewOffsetY == 0.0)
+    {
+        _viewOffsetY = -30.0;
+        
+        CGPoint p = self.view.center;
+        p.y += _viewOffsetY;
+        
+        [UIView animateWithDuration:0.25
+                         animations:^{
+                             self.view.center = p;
+                         } completion:^(BOOL finished) {
+                             
+                         }];
+        return;
+    }
+    
+    if (_tfPassword != textField && _viewOffsetY != 0.0)
+    {
+        CGPoint p = self.view.center;
+        p.y += -1.0 * _viewOffsetY;
+        
+        [UIView animateWithDuration:0.25
+                         animations:^{
+                             self.view.center = p;
+                         } completion:^(BOOL finished) {
+                             _viewOffsetY = 0.0;
+                         }];
+    }
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -86,14 +137,26 @@
 
 - (IBAction)btnVcodeClick:(UIButton *)sender
 {
-    [_model fetchSMSCode:@{@"phone":_tfMobile.text}
-                complete:^(id json, NSError *error) {
+    NSString *err_txt = [RPLoginModel validateMobile:_tfMobile.text];
+    if (err_txt)
+    {
+        [MBProgressHUD showError:err_txt toView:nil];
+        return;
+    }
+    
+    MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"获取验证码中..." toView:self.view];
+    
+    [_model fetchSMSCode:@{@"phone":_tfMobile.text,@"access_token":@"vincentstation"}
+                complete:^(NSError *error) {
+                    [hud hide:YES];
+                    
                     if (error)
                     {
-                        MBProgressHUD *hue_e = [MBProgressHUD showMessag:error.localizedDescription toView:nil];
-                        [hue_e hide:YES afterDelay:1.5];
+                        [MBProgressHUD showError:error.localizedDescription toView:nil];
                         return;
                     }
+                    
+                    [MBProgressHUD showSuccess:NSLocalizedString(@"验证码已发送", nil) toView:nil];
                 }];
 }
 
@@ -104,27 +167,65 @@
 
 - (void)doRegister
 {
+    NSString *err_txt = [RPLoginModel validateMobile:_tfMobile.text];
+    if (err_txt)
+    {
+        [MBProgressHUD showError:err_txt toView:nil];
+        return;
+    }
+    
+    err_txt = [RPLoginModel validateVCode:_tfVcode.text];
+    if (err_txt)
+    {
+        [MBProgressHUD showError:err_txt toView:nil];
+        return;
+    }
+    
+    err_txt = [RPLoginModel validatePassword:_tfPassword.text];
+    if (err_txt)
+    {
+        [MBProgressHUD showError:err_txt toView:nil];
+        return;
+    }
+    
+    __weak RPRegisterViewController *myself = self;
     MBProgressHUD *hud = [MBProgressHUD showLoadingMessage:@"注册中..." toView:self.view];
     
-    [_model checkVcode:@{@"phone":_tfMobile.text,@"vcode":_tfVcode.text}
+    [_model doRegister:@{@"phone":_tfMobile.text,@"password":_tfPassword.text,@"car_no":_tfCarNumber.text,@"vcode":_tfVcode.text}
               complete:^(id json, NSError *error) {
                   [hud hide:YES];
-                  
                   if (error)
                   {
                       [MBProgressHUD showError:error.localizedDescription toView:nil];
                       return ;
                   }
                   
-                  [_model doRegister:@{@"phone":_tfMobile.text,@"":_tfVcode,@"car_no":_tfCarNumber.text}
-                            complete:^(id json, NSError *error) {
-                                if (error)
-                                {
-                                    [MBProgressHUD showError:error.localizedDescription toView:nil];
-                                    return ;
-                                }
-                            }];
+                  [MBProgressHUD showSuccess:NSLocalizedString(@"注册成功！", nil) toView:nil];
+                  
+                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                      [myself btnBackClick];
+                  });
               }];
+    
+//    [_model checkVcode:@{@"phone":_tfMobile.text,@"vcode":_tfVcode.text}
+//              complete:^(id json, NSError *error) {
+//                  [hud hide:YES];
+//                  
+//                  if (error)
+//                  {
+//                      [MBProgressHUD showError:error.localizedDescription toView:nil];
+//                      return ;
+//                  }
+//                  
+//                  [_model doRegister:@{@"phone":_tfMobile.text,@"password":_tfPassword.text,@"car_no":_tfCarNumber.text,@"vcode":_tfVcode.text}
+//                            complete:^(id json, NSError *error) {
+//                                if (error)
+//                                {
+//                                    [MBProgressHUD showError:error.localizedDescription toView:nil];
+//                                    return ;
+//                                }
+//                            }];
+//              }];
 }
 
 @end

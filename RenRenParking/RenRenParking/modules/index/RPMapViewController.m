@@ -1211,17 +1211,15 @@
         self.servicesPlaceArray = [NSMutableArray array];
     }
     
+    APP_SHOW_NETWORK_ACTIVITY;
+    
     [_model doFetchServicePlaceAround:nil
                              complete:^(id json, NSError *error) {
-                                 if (error)
-                                 {
-                                     [MBProgressHUD showError:error.localizedDescription toView:nil];
-                                     return ;
-                                 }
+                                 APP_HIDE_NETWORK_ACTIVITY;
                                  
-                                 if (!json || ![json count])
+                                 if (error || !json || ![json count])
                                  {
-                                     return;
+                                     return ;
                                  }
                                  
                                  [_servicesPlaceArray addObjectsFromArray:json];

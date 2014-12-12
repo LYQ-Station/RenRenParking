@@ -46,10 +46,20 @@
                                       ]
                      }];
     
-    if (complete)
-    {
-        complete(arr, nil);
-    }
+    NSMutableURLRequest *re = [PPBaseModel requestWithJsonParam:params];
+    re.URL = [NSURL URLWithString:[PPBaseService apiForKey:kApiServicePlaceAround]];
+    
+    self.opeartion = [[AFHTTPRequestOperation alloc]initWithRequest:re];
+    
+    [self.opeartion setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *err = nil;
+        id json = [PPBaseModel parseResponseData:responseObject error:&err];
+        if (complete) complete(arr, err);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        complete(nil, error);
+    }];
+    
+    [self.opeartion start];
 }
 
 - (void)doFetchServicePlaceNearnest:(id)params complete:(void(^)(id json, NSError *error))complete
@@ -59,7 +69,20 @@
 
 - (void)doMakeOrder:(id)params complete:(void(^)(id json, NSError *error))complete
 {
-    //需要返回订单号、司机信息
+    NSMutableURLRequest *re = [PPBaseModel requestWithJsonParam:params];
+    re.URL = [NSURL URLWithString:[PPBaseService apiForKey:kApiSubmitOrder]];
+    
+    self.opeartion = [[AFHTTPRequestOperation alloc]initWithRequest:re];
+    
+    [self.opeartion setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *err = nil;
+        id json = [PPBaseModel parseResponseData:responseObject error:&err];
+        if (complete) complete(json, err);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        complete(nil, error);
+    }];
+    
+    [self.opeartion start];
 }
 
 @end

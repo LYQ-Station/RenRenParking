@@ -89,14 +89,14 @@
         return nil;
     }
     
-    int code = [json[@"retcode"] intValue];
+    int code = [json[@"code"] intValue];
     if (code)
     {
         id msg = nil;
         
-        if ([json objectForKey:@"retmsg"])
+        if ([json objectForKey:@"msg"])
         {
-            msg = json[@"retmsg"];
+            msg = json[@"msg"];
         }
         
         *error = [NSError errorWithDomain:PP_BASE_DOMAIN

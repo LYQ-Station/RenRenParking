@@ -10,11 +10,17 @@
 
 @interface RPLoginModel : PPBaseModel
 
++ (NSString *)validateMobile:(NSString *)mobile;
+
++ (NSString *)validatePassword:(NSString *)pwd;
+
++ (NSString *)validateVCode:(NSString *)vcode;
+
 - (void)doLogin:(id)params complete:(void(^)(id json, NSError *error))complete;
 
 - (void)doRegister:(id)params complete:(void(^)(id json, NSError *error))complete;
 
-- (void)fetchSMSCode:(id)params complete:(void(^)(id json, NSError *error))complete;
+- (void)fetchSMSCode:(id)params complete:(void(^)(NSError *error))complete;
 
 - (void)checkVcode:(id)params complete:(void(^)(id json, NSError *error))complete;
 

@@ -70,7 +70,7 @@
 - (IBAction)btnVcodeClick:(id)sender
 {
     [_model fetchSMSCode:@{@"phone":_tfMobile.text}
-                complete:^(id json, NSError *error) {
+                complete:^(NSError *error) {
                     if (error)
                     {
                         [MBProgressHUD showError:error.localizedDescription toView:nil];
